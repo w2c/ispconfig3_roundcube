@@ -1,0 +1,12 @@
+#slider {
+	width:400px;	
+}
+
+#numbers {
+	list-style-type:none;
+	margin-left:25px;
+}
+
+#numbers li {
+	float:left;
+}
