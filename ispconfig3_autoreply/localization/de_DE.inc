@@ -1,5 +1,4 @@
 <?php
-
 $labels = array();
 $labels['autoreply'] = 'Automatische Nachricht';
 $labels['autoreplymessage'] = 'Nachricht';
