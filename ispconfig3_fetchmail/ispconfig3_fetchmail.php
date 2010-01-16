@@ -327,11 +327,6 @@ class ispconfig3_fetchmail extends rcube_plugin
 	function gen_table($attrib)
 	{
 		$rcmail = rcmail::get_instance();
-	
-    $rcmail->output->add_label(
-      'ispconfig3_filter.deleteconfirm'
-    );
-
     $rcmail->output->set_env('framed', true);
 		
 		$out = '<fieldset><legend>'.$this->gettext('fetchmail').' ::: ' . $rcmail->user->data['username'] . '</legend>' . "\n";
