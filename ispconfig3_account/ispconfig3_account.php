@@ -13,6 +13,7 @@ class ispconfig3_account extends rcube_plugin
 	$this->sections = array(
 		  'general' => array('id' => 'general', 'section' => $this->gettext('isp_general')),
 		  'pass' => array('id' => 'pass', 'section' => $this->gettext('isp_pass')),
+			'fetchmail' => array('id' => 'fetchmail','section' => $this->gettext('isp_fetchmail')),
 		  'forward' => array('id' => 'forward', 'section' => $this->gettext('isp_forward')),
 		  'autoreply' => array('id' => 'autoreply', 'section' => $this->gettext('isp_autoreply')),
 		  'filter' => array('id' => 'filter','section' => $this->gettext('isp_filter')),
@@ -70,6 +71,9 @@ class ispconfig3_account extends rcube_plugin
 	  if (isset($plugins['ispconfig3_pass'])) {
 		  array_push($array,'pass');
 	  } 
+		if (isset($plugins['ispconfig3_fetchmail'])) {
+		  array_push($array,'fetchmail');
+	  }
 	  if (isset($plugins['ispconfig3_forward'])) {
 		  array_push($array,'forward');
 	  }
