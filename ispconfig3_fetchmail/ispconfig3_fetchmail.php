@@ -200,7 +200,8 @@ class ispconfig3_fetchmail extends rcube_plugin
 
     // add some labels to client
     $rcmail->output->add_label(
-			'ispconfig3_fetchmail.fetchmaildelconfirm'
+			'ispconfig3_fetchmail.fetchmaildelconfirm',
+			'ispconfig3_fetchmail.textempty'
     ); 
 		if ($id != '' || $id != 0) {
 			/*auslesen start*/
@@ -329,7 +330,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 		$rcmail = rcmail::get_instance();
     $rcmail->output->set_env('framed', true);
 		
-		$out = '<fieldset><legend>'.$this->gettext('fetchmail').' ::: ' . $rcmail->user->data['username'] . '</legend>' . "\n";
+		$out = '<fieldset><legend>'.$this->gettext('fetchmail_entries').' ::: ' . $rcmail->user->data['username'] . '</legend>' . "\n";
     $out .= '<br />' . "\n";
 		
 		$fetch_table = new html_table(array('id' => 'fetch-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 3));
