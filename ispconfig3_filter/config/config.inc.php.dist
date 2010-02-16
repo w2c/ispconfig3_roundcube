@@ -1,0 +1,3 @@
+<?php
+$rcmail_config['filter_limit'] = 15;
+?>
