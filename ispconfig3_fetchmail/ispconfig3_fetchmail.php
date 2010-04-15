@@ -176,8 +176,8 @@ class ispconfig3_fetchmail extends rcube_plugin
 									'source_delete' => $delete,
 									'destination' => $destination,
 									'active' => $enabled);
-					
-					$add = $client->mail_fetchmail_update($session_id, $id, $mail_fetchmail['sys_userid'], $params);
+					$uid = $client->client_get_id($session_id, $mail_fetchmail['sys_userid']);
+					$add = $client->mail_fetchmail_update($session_id, $id, $uid, $params);
 				
 					$client->logout($session_id);
 					$rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');

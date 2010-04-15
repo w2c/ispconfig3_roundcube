@@ -172,8 +172,8 @@ class ispconfig3_filter extends rcube_plugin
 						  'action' => $action,
 						  'target' => $target,
 						  'active' => $enabled);
-					
-					$update = $client->mail_user_filter_update($session_id, $mail_user[0]['mailuser_id'], $id, $params);
+					$uid = $client->client_get_id($session_id, $mail_user[0]['sys_userid']);
+					$update = $client->mail_user_filter_update($session_id, $uid, $id, $params);
 				
 					$client->logout($session_id);
 					$rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');

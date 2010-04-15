@@ -78,8 +78,9 @@ class ispconfig3_pass extends rcube_plugin
 						'autoresponder' => $mail_user[0]['autoresponder'],
 						'autoresponder_text' => $mail_user[0]['autoresponder_text'],
 						'password' => $newpwd);
-			 
-			$update = $client->mail_user_update($session_id, $mail_user[0]['sys_userid'], $mail_user[0]['mailuser_id'], $params);
+			
+			$uid = $client->client_get_id($session_id, $mail_user[0]['sys_userid']);
+			$update = $client->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
 		
 			$client->logout($session_id);
 			$rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
