@@ -23,7 +23,7 @@ rcmail.register_command('plugin.ispconfig3_filter.del', function(id){
 				return false;
 			}, true);
 
-function edit(id){
+function filter_edit(id){
 	window.location.href = '?_task=settings&_action=plugin.ispconfig3_filter&_id='+id;
 }
 

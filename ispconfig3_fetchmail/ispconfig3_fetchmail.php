@@ -379,7 +379,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 	
 	private function _fetch_row($fetch_table,$name,$active,$id,$attrib)
   {
-	  $fetch_table->add(array('class' => 'fetch','onclick' => 'edit('.$id.');'), $name);
+	  $fetch_table->add(array('class' => 'fetch','onclick' => 'fetchmail_edit('.$id.');'), $name);
 	  
 	  $enable_button = html::img(array('src' => $attrib['enableicon'], 'alt' => $this->gettext('enabled'), 'border' => 0));
 	  $disable_button = html::img(array('src' => $attrib['disableicon'], 'alt' => $this->gettext('disabled'), 'border' => 0));

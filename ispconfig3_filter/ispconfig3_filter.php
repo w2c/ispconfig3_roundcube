@@ -364,7 +364,7 @@ class ispconfig3_filter extends rcube_plugin
 	
 	private function _rule_row($rule_table,$name,$active,$id,$attrib)
   {
-	  $rule_table->add(array('class' => 'rule','onclick' => 'edit('.$id.');'), $name);
+	  $rule_table->add(array('class' => 'rule','onclick' => 'filter_edit('.$id.');'), $name);
 	  
 	  $enable_button = html::img(array('src' => $attrib['enableicon'], 'alt' => $this->gettext('enabled'), 'border' => 0));
 	  $disable_button = html::img(array('src' => $attrib['disableicon'], 'alt' => $this->gettext('disabled'), 'border' => 0));
