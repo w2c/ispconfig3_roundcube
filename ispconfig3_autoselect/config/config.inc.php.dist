@@ -1,0 +1,6 @@
+<?php
+$rcmail_config['remote_soap_user'] = 'roundcube';
+$rcmail_config['remote_soap_pass'] = 'roundcube';
+$rcmail_config['soap_url'] = 'http://192.177.167.44:8080/remote/';
+
+?>
