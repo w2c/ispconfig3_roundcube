@@ -225,7 +225,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 	    if ($mail_fetchmail['destination'] != $rcmail->user->data['username']) {
 				$rcmail->output->command('display_message', 'Error: '.$this->gettext('opnotpermitted'), 'error');	
 				
-				$enable = 'n';
+				$enabled = 'n';
 				$delete = 'n';
 				$mail_fetchmail['mailget_id'] = '';
 				$mail_fetchmail['server_id'] = '';
