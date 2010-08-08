@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Pobieranie poczty z zewnetrznych serwerów';
+$labels['acc_fetchmail'] = 'Pobieranie poczty';
 $labels['fetchmailtyp'] = 'Typ';
 $labels['fetchmailserver'] = 'Serwer POP3/IMAP';
 $labels['fetchmaildelete'] = 'Usun wiadomosci z serwera po pobraniu';

@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Mailnerladdning';
+$labels['acc_fetchmail'] = 'Extern mailserver';
 $labels['fetchmailtyp'] = 'Typ';
 $labels['fetchmailserver'] = 'POP3/IMAP-server';
 $labels['fetchmaildelete'] = 'Radera mail p&aring; servern';

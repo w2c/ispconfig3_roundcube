@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Fetchmail';
+$labels['acc_fetchmail'] = 'Fetchmail';
 $labels['fetchmailtyp'] = 'Typ';
 $labels['fetchmailserver'] = 'POP3/IMAP Server';
 $labels['fetchmaildelete'] = 'Mails nach Empfang l&ouml;schen';

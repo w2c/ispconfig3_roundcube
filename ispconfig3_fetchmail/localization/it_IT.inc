@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Recupero posta';
+$labels['acc_fetchmail'] = 'Recupero posta';
 $labels['fetchmailtyp'] = 'Tipo';
 $labels['fetchmailserver'] = 'Server di posta POP3/IMAP';
 $labels['fetchmaildelete'] = 'Rimuovi i messaggi dal server';

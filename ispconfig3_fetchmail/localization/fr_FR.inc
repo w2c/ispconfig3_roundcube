@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Récupération de compte externe';
+$labels['acc_fetchmail'] = 'Récupération de compte';
 $labels['fetchmailtyp'] = 'Protocole';
 $labels['fetchmailserver'] = 'Serveur POP3/IMAP';
 $labels['fetchmaildelete'] = 'Supprimer les messages après réception';

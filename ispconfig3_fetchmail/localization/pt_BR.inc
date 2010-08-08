@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Baixar Mensagens';
+$labels['acc_fetchmail'] = 'Fetchmail';
 $labels['fetchmailtyp'] = 'Tipo';
 $labels['fetchmailserver'] = 'Servidor POP3/IMAP';
 $labels['fetchmaildelete'] = 'Deletar mensagens após o recebimento';

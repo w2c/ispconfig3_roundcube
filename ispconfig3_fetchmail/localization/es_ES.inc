@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Correo Externo';
+$labels['acc_fetchmail'] = 'Correo Externo';
 $labels['fetchmailtyp'] = 'Tipo';
 $labels['fetchmailserver'] = 'Servidor POP3/IMAP';
 $labels['fetchmaildelete'] = 'Borrar mensajes despu&eacute;s de recibidos';

@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['fetchmail'] = 'Extern mailaccount';
+$labels['acc_fetchmail'] = 'Extern mailaccount';
 $labels['fetchmailtyp'] = 'Type';
 $labels['fetchmailserver'] = 'POP3/IMAP Server';
 $labels['fetchmaildelete'] = 'Mail van server verwijderen na ophalen';
