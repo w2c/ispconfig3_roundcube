@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['isp_filter'] = 'Filtro di posta';
+$labels['acc_filter'] = 'Filtri posta';
 $labels['filtername'] = 'Nome';
 $labels['filtersource'] = 'Condizione';
 $labels['filtersubject'] = 'Soggetto';

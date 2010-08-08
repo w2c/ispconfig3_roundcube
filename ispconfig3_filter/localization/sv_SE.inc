@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['isp_filter'] = 'Mailfilter';
+$labels['acc_filter'] = 'Mailfilter';
 $labels['filtername'] = 'Namn';
 $labels['filtersource'] = 'Regel';
 $labels['filtersubject'] = '&Auml;mnet';

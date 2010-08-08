@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['isp_filter'] = 'Filtro de Correo';
+$labels['acc_filter'] = 'Filtros de Correo';
 $labels['filtername'] = 'Nombre';
 $labels['filtersource'] = 'Fuente';
 $labels['filtersubject'] = 'Tema';
