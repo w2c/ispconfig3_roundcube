@@ -1,0 +1,45 @@
+#rule-cont
+{
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  height: 163px;
+  overflow: auto;
+  width: 450px;
+}
+
+body.rule-table
+{
+  margin: 0px;
+  background-color: #F9F9F9;
+}
+
+#rule-table
+{
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  /* css hack for IE */
+  width: expression('auto');
+}
+
+/* safari hack \*/
+html>body*#rule-table[id$="rule-table"]:not([class="none"]) { table-layout: auto; }
+/**/
+
+#rule-table td.rule
+{
+  text-align: left;
+  vertical-align: middle;
+	cursor: pointer;
+}
+#selected
+{
+	color: #FFFFFF;
+  background-color: #CC3333;
+}
+
+#rule-table td.control
+{
+  text-align: right;
+  vertical-align: middle;
+}
