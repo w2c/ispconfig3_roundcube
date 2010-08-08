@@ -1,7 +1,6 @@
 <?php
-
 $labels = array();
-$labels['autoreply'] = 'Autoodpowiedz';
+$labels['acc_autoreply'] = 'Autoodpowiedz';
 $labels['autoreplymessage'] = 'Tresc wiadomosci';
 $labels['autoreplyenabled'] = 'Wlaczone';
 $labels['and'] = 'i';

@@ -1,7 +1,6 @@
 <?php
-
 $labels = array();
-$labels['autoreply'] = 'Odzivnik';
+$labels['acc_autoreply'] = 'Odzivnik';
 $labels['autoreplymessage'] = 'Sporočilo';
 $labels['autoreplyenabled'] = 'Vklopljen';
 $labels['and'] = 'in';

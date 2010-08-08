@@ -1,7 +1,6 @@
 <?php
-
 $labels = array();
-$labels['autoreply'] = 'Autosvar';
+$labels['acc_autoreply'] = 'Autosvar';
 $labels['autoreplymessage'] = 'Meddelande';
 $labels['autoreplyenabled'] = 'Aktiverad';
 $labels['and'] = 'och';

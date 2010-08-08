@@ -1,6 +1,6 @@
 <?php
 $labels = array();
-$labels['autoreply'] = 'Automatische Nachricht';
+$labels['acc_autoreply'] = 'Automatische Nachricht';
 $labels['autoreplymessage'] = 'Nachricht';
 $labels['autoreplyenabled'] = 'Aktivieren';
 $labels['and'] = 'und';
