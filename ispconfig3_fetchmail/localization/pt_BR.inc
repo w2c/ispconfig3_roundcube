@@ -3,13 +3,13 @@ $labels = array();
 $labels['acc_fetchmail'] = 'Fetchmail';
 $labels['fetchmailtyp'] = 'Tipo';
 $labels['fetchmailserver'] = 'Servidor POP3/IMAP';
-$labels['fetchmaildelete'] = 'Deletar mensagens após o recebimento';
+$labels['fetchmaildelete'] = 'Deletar mensagens apÃ³s o recebimento';
 $labels['fetchmailenabled'] = 'Ativar';
-$labels['nofetch'] = 'Sem contas disponíveis';
-$labels['fetchmail_entries'] = 'Contas disponíveis';
+$labels['nofetch'] = 'Sem contas disponÃ­veis';
+$labels['fetchmail_entries'] = 'Contas disponÃ­veis';
 
 $messages = array();
-$messages['fetchmaildelconfirm'] = 'Você confirma a remoção desta conta?';
+$messages['fetchmaildelconfirm'] = 'VocÃª confirma a remoÃ§Ã£o desta conta?';
 $messages['fetchmaillimitreached'] = 'Limite Atingido';
-$messages['textempty'] = 'Um ou mais campos estão em branco.';
+$messages['textempty'] = 'Um ou mais campos estÃ£o em branco.';
 ?>

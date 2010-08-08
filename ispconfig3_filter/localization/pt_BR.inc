@@ -6,11 +6,11 @@ $labels['filtersource'] = 'Origem';
 $labels['filtersubject'] = 'Assunto';
 $labels['filterfrom'] = 'De';
 $labels['filterto'] = 'Para';
-$labels['filtercontains'] = 'Contém';
-$labels['filteris'] = 'é';
-$labels['filterbegins'] = 'Começa com';
+$labels['filtercontains'] = 'ContÃ©m';
+$labels['filteris'] = 'Ã©';
+$labels['filterbegins'] = 'ComeÃ§a com';
 $labels['filterends'] = 'Termina com';
-$labels['filteraction'] = 'Ação';
+$labels['filteraction'] = 'AÃ§Ã£o';
 $labels['filtermove'] = 'Mover';
 $labels['filterdelete'] = 'Deletar';
 $labels['filterenabled'] = 'Ativar';
@@ -19,7 +19,7 @@ $labels['filternorules'] = 'Sem regras existentes';
 $labels['filter_entries'] = 'Regras';
 
 $messages = array();
-$messages['filterdelconfirm'] = 'Você está certo de remover esta regra?';
+$messages['filterdelconfirm'] = 'VocÃª estÃ¡ certo de remover esta regra?';
 $messages['filterlimitreached'] = 'Limite atingido';
-$messages['textempty'] = 'Um ou mais campos estão em branco';
+$messages['textempty'] = 'Um ou mais campos estÃ£o em branco';
 ?>

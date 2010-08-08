@@ -4,12 +4,12 @@ $labels['password'] = 'Senha';
 $labels['changepasswd']  = 'Atualizar Senha';
 $labels['curpasswd']  = 'Senha Atual:';
 $labels['newpasswd']  = 'Nova Senha:';
-$labels['confpasswd']  = 'Confirmação de Senha:';
+$labels['confpasswd']  = 'ConfirmaÃ§Ã£o de Senha:';
 
 $messages = array();
 $messages['nopassword'] = 'Por favor informe uma nova senha.';
 $messages['nocurpassword'] = 'Por favor informe sua senha atual.';
-$messages['passwordincorrect'] = 'Sua senha atual está incorreta.';
+$messages['passwordincorrect'] = 'Sua senha atual estÃ¡ incorreta.';
 $messages['passwordinconsistency'] = 'Senha inconsistente, tente novamente.';
-$messages['passwordminlength'] = 'Sua senha esta muito curta: são requeridos pelo menso %d digitos.';
+$messages['passwordminlength'] = 'Sua senha esta muito curta: sÃ£o requeridos pelo menso %d digitos.';
 ?>

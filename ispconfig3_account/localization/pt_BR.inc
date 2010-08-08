@@ -1,6 +1,6 @@
 <?php
 $labels['acc_acc'] = 'Conta';
-$labels['acc_alias'] = 'Endereços de Correio Lincados';
+$labels['acc_alias'] = 'EndereÃ§os de Correio Lincados';
 $labels['acc_general'] = 'Geral';
 $labels['acc_pass'] = 'Senha';
 $labels['acc_forward'] = 'Encaminhamento';
@@ -8,7 +8,7 @@ $labels['acc_autoreply'] = 'Autoresponder';
 $labels['acc_fetchmail'] = 'Fetchmail';
 $labels['acc_filter'] = 'Filtro de Correio';
 $labels['acc_wblist'] = 'White/Black List';
-$labels['acc_lastlogin'] = 'Último Login';
-$labels['acc_defaultidentity'] = 'Identidade Padrão';
-$labels['acc_noalias'] = 'Endereços de correio não lincados';
+$labels['acc_lastlogin'] = 'Ãšltimo Login';
+$labels['acc_defaultidentity'] = 'Identidade PadrÃ£o';
+$labels['acc_noalias'] = 'EndereÃ§os de correio nÃ£o lincados';
 ?>
