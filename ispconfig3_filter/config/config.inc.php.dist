@@ -1,3 +1,0 @@
-<?php
-$rcmail_config['wblist_limit'] = 15;
-?>

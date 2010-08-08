@@ -1,4 +1,0 @@
-<?php
-$rcmail_config['password_confirm_current'] = TRUE;
-$rcmail_config['password_min_length'] = 6;
-?>
