@@ -1,13 +1,14 @@
 <?php
-$labels['isp_acc'] = 'Account';
-$labels['isp_alias'] = 'Verbonden e-mailadressen';
-$labels['isp_general'] = 'Algemeen';
-$labels['isp_pass'] = 'Wachtwoord';
-$labels['isp_forward'] = 'Doorsturen';
-$labels['isp_fetchmail'] = 'Extern mailaccount';
-$labels['isp_autoreply'] = 'Autobeantwoorden';
-$labels['isp_filter'] = 'Mail Filter';
-$labels['lastlogin'] = 'Laatste keer ingelogd:';
-$labels['defaultidentity'] = 'Standaard identiteit';
-$labels['noalias'] = 'Geen e-mailadressen verbonden';
+$labels['acc_acc'] = 'Account';
+$labels['acc_alias'] = 'Verbonden e-mailadressen';
+$labels['acc_general'] = 'Algemeen';
+$labels['acc_pass'] = 'Wachtwoord';
+$labels['acc_forward'] = 'Doorsturen';
+$labels['acc_fetchmail'] = 'Extern mailaccount';
+$labels['acc_autoreply'] = 'Autobeantwoorden';
+$labels['acc_filter'] = 'Mail Filter';
+$labels['acc_wblist'] = 'White/Black List';
+$labels['acc_lastlogin'] = 'Laatste keer ingelogd:';
+$labels['acc_defaultidentity'] = 'Standaard identiteit';
+$labels['acc_noalias'] = 'Geen e-mailadressen verbonden';
 ?>

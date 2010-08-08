@@ -1,13 +1,14 @@
 <?php
-$labels['isp_acc'] = 'Conta';
-$labels['isp_alias'] = 'Endereços de Correio Lincados';
-$labels['isp_general'] = 'Geral';
-$labels['isp_pass'] = 'Senha';
-$labels['isp_forward'] = 'Encaminhamento';
-$labels['isp_autoreply'] = 'Autoresponder';
-$labels['isp_fetchmail'] = 'Fetchmail';
-$labels['isp_filter'] = 'Filtro de Correio';
-$labels['lastlogin'] = 'Último Login';
-$labels['defaultidentity'] = 'Identidade Padrão';
-$labels['noalias'] = 'Endereços de correio não lincados';
+$labels['acc_acc'] = 'Conta';
+$labels['acc_alias'] = 'Endereços de Correio Lincados';
+$labels['acc_general'] = 'Geral';
+$labels['acc_pass'] = 'Senha';
+$labels['acc_forward'] = 'Encaminhamento';
+$labels['acc_autoreply'] = 'Autoresponder';
+$labels['acc_fetchmail'] = 'Fetchmail';
+$labels['acc_filter'] = 'Filtro de Correio';
+$labels['acc_wblist'] = 'White/Black List';
+$labels['acc_lastlogin'] = 'Último Login';
+$labels['acc_defaultidentity'] = 'Identidade Padrão';
+$labels['acc_noalias'] = 'Endereços de correio não lincados';
 ?>

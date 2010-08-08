@@ -1,13 +1,14 @@
 <?php
-$labels['isp_acc'] = 'Cuenta';
-$labels['isp_alias'] = 'Cuentas de correo ligadas a';
-$labels['isp_general'] = 'General';
-$labels['isp_pass'] = 'Contrase&ntilde;a';
-$labels['isp_forward'] = 'Reenvio';
-$labels['isp_fetchmail'] = 'Correo Externo';
-$labels['isp_autoreply'] = 'Autorespuesta';
-$labels['isp_filter'] = 'Filtros de Correo';
-$labels['lastlogin'] = 'Ultima Sesi&oacute;n';
-$labels['defaultidentity'] = 'Identidad Predeterminada';
-$labels['noalias'] = 'No tiene cuentas de correo ligadas';
+$labels['acc_acc'] = 'Cuenta';
+$labels['acc_alias'] = 'Cuentas de correo ligadas a';
+$labels['acc_general'] = 'General';
+$labels['acc_pass'] = 'Contrase&ntilde;a';
+$labels['acc_forward'] = 'Reenvio';
+$labels['acc_fetchmail'] = 'Correo Externo';
+$labels['acc_autoreply'] = 'Autorespuesta';
+$labels['acc_filter'] = 'Filtros de Correo';
+$labels['acc_wblist'] = 'Black/White List';
+$labels['acc_lastlogin'] = 'Ultima Sesi&oacute;n';
+$labels['acc_defaultidentity'] = 'Identidad Predeterminada';
+$labels['acc_noalias'] = 'No tiene cuentas de correo ligadas';
 ?>

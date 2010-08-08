@@ -1,13 +1,14 @@
 <?php
-$labels['isp_acc'] = 'Konto';
-$labels['isp_alias'] = 'Powiazane adresy email';
-$labels['isp_general'] = 'Ogólne';
-$labels['isp_pass'] = 'Haslo';
-$labels['isp_forward'] = 'Przekazywanie poczty';
-$labels['isp_fetchmail'] = 'Pobieranie poczty';
-$labels['isp_autoreply'] = 'Autoodpowiedz';
-$labels['isp_filter'] = 'Filtr poczty';
-$labels['lastlogin'] = 'Ostatnio zalogowany';
-$labels['defaultidentity'] = 'Domyslna tozsamosc';
-$labels['noalias'] = 'Brak powiazanych adresów email';
+$labels['acc_acc'] = 'Konto';
+$labels['acc_alias'] = 'Powiazane adresy email';
+$labels['acc_general'] = 'Ogólne';
+$labels['acc_pass'] = 'Haslo';
+$labels['acc_forward'] = 'Przekazywanie poczty';
+$labels['acc_fetchmail'] = 'Pobieranie poczty';
+$labels['acc_autoreply'] = 'Autoodpowiedz';
+$labels['acc_filter'] = 'Filtr poczty';
+$labels['acc_wblist'] = 'White/Black List';
+$labels['acc_lastlogin'] = 'Ostatnio zalogowany';
+$labels['acc_defaultidentity'] = 'Domyslna tozsamosc';
+$labels['acc_noalias'] = 'Brak powiazanych adresów email';
 ?> 

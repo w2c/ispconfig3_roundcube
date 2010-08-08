@@ -1,13 +1,14 @@
 <?php
-$labels['isp_acc'] = 'Account';
-$labels['isp_alias'] = 'Linked email address(es)';
-$labels['isp_general'] = 'General';
-$labels['isp_pass'] = 'Password';
-$labels['isp_forward'] = 'Forwarding';
-$labels['isp_fetchmail'] = 'Fetchmail';
-$labels['isp_autoreply'] = 'Autoreply';
-$labels['isp_filter'] = 'Mail Filter';
-$labels['lastlogin'] = 'Last Login';
-$labels['defaultidentity'] = 'Default Identity';
-$labels['noalias'] = 'No linked email address(es)';
+$labels['acc_acc'] = 'Account';
+$labels['acc_alias'] = 'Linked email address(es)';
+$labels['acc_general'] = 'General';
+$labels['acc_pass'] = 'Password';
+$labels['acc_forward'] = 'Forwarding';
+$labels['acc_fetchmail'] = 'Fetchmail';
+$labels['acc_autoreply'] = 'Autoreply';
+$labels['acc_filter'] = 'Mail Filter';
+$labels['acc_wblist'] = 'Black/White List';
+$labels['acc_lastlogin'] = 'Last Login';
+$labels['acc_defaultidentity'] = 'Default Identity';
+$labels['acc_noalias'] = 'No linked email address(es)';
 ?>

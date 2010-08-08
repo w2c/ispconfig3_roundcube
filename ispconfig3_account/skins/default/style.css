@@ -1,29 +1,30 @@
-#acc_info_list {
+#acc_info_list
+{
 	padding-bottom:5px;
 }
 
 #alias-cont
 {
-  border: 1px solid #999999;
-  background-color: #F9F9F9;
-  height: 163px;
-  overflow: auto;
-  width: 400px;
+	border: 1px solid #999999;
+	background-color: #F9F9F9;
+	height: 163px;
+	overflow: auto;
+	width: 400px;
 }
 
 body.alias-table
 {
-  margin: 0px;
-  background-color: #F9F9F9;
+	margin: 0px;
+	background-color: #F9F9F9;
 }
 
 #alias-table
 {
-  width: 100%;
-  display: table;
-  table-layout: fixed;
-  /* css hack for IE */
-  width: expression('auto');
+	width: 100%;
+	display: table;
+	table-layout: fixed;
+	/* css hack for IE */
+	width: expression('auto');
 }
 
 /* safari hack \*/
@@ -32,7 +33,7 @@ html>body*#alias-table[id$="alias-table"]:not([class="none"]) { table-layout: au
 
 #alias-table td
 {
-  text-align: left;
-  vertical-align: middle;
-  padding-left:10px;
+	text-align: left;
+	vertical-align: middle;
+	padding-left:10px;
 }
