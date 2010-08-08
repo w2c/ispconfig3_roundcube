@@ -186,7 +186,7 @@ class ispconfig3_spam extends rcube_plugin
 
 		$spam_table = new html_table(array('id' => 'spam-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 3));
 		$spam_table->add_header(array('width' => '220px'), $this->gettext('policy_entries'));
-		$spam_table->add_header(array('width' => '180px'), $this->gettext('policy_tag'));
+		$spam_table->add_header(array('width' => '150px'), $this->gettext('policy_tag'));
 		$spam_table->add_header(array('width' => '130px'), $this->gettext('policy_kill'));
 
 		try
