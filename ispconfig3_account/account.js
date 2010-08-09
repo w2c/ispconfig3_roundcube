@@ -20,6 +20,7 @@ if (window.rcmail) {
         rcmail.account_list.addEventListener('select', function(o){ p.account_select(o); });
         rcmail.account_list.init();
         rcmail.account_list.focus();
+		rcmail.account_list.select_row('general');		
       }
     }
   });
