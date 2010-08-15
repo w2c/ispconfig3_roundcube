@@ -27,29 +27,18 @@ class ispconfig3_autoselect extends rcube_plugin
 	
 	function load_config()
 	{
-		$config_1 = $this->home.'/config/config.inc.php';
-		$config_2 = "plugins/ispconfig3_account/config/config.inc.php";
-		if(file_exists($config_1))
+		$config = $this->home.'/config/config.inc.php';
+		if(file_exists($config))
 		{
-			if(!$this->rcmail_inst->config->load_from_file($config_1))
+			if(!$this->rcmail_inst->config->load_from_file($config))
      			raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);		
 		}
-		else if(file_exists($config_2))
+		else if(file_exists($config . ".dist"))
 		{
-			if(!$this->rcmail_inst->config->load_from_file($config_2))
+			if(!$this->rcmail_inst->config->load_from_file($config . '.dist'))
      			raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);		
 		}
-		else if(file_exists($config_1 . ".dist"))
-		{
-			if(!$this->rcmail_inst->config->load_from_file($config_1 . '.dist'))
-     			raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);		
-		}
-		else if(file_exists($config_2 . ".dist"))
-		{
-			if(!$this->rcmail_inst->config->load_from_file($config_2 . '.dist'))
-     			raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);		
-		}
-	}
+	} 
 
 	function startup($args)
 	{
@@ -61,7 +50,7 @@ class ispconfig3_autoselect extends rcube_plugin
 
 	function template_object_loginform($args)
 	{
-		$args['content'] = substr($args['content'], 0, 545).substr($args['content'], 701);
+		$args['content'] = substr($args['content'], 0, 540).substr($args['content'], 696);
 
 		return $args;
 	}
@@ -86,7 +75,7 @@ class ispconfig3_autoselect extends rcube_plugin
 			if(count($mail_user) == 1)
 			{
 				$mail_server = $this->soap->server_get($session_id, $mail_user[0]['server_id'], 'server');
-				$host = $mail_server['hostname'];
+				$host = $this->rcmail_inst->config->get('autoselect_con_type').$mail_server['hostname'];
 			}
 
 			$this->soap->logout($session_id);
