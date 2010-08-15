@@ -114,20 +114,6 @@ class ispconfig3_autoreply extends rcube_plugin
 		$hidden_priority = new html_hiddenfield(array('name' => '_priority', 'value' => $priority, 'id' => 'priority'));
 		$out .= $hidden_priority->show();
 
-		$out .= "<script type=\"text/javascript\">
-				$(function()
-				{
- 					$.datepicker.setDefaults({
-						firstDay: 1,
-						dateFormat: 'yy-mm-dd',
-						showTime: true,
-						constrainInput: false,
-						time24h: true});
- 					$('#autoreplystarton').datepicker();
-					$('#autoreplyendby').datepicker();
-				});
-				</script>";
-
 		$out .= '<fieldset><legend>' . $this->gettext('acc_autoreply') . ' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
 		$out .= '<br />' . "\n";
 		$out .= '<table' . $attrib_str . ">\n\n";
