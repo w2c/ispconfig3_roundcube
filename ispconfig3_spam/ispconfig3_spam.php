@@ -77,7 +77,7 @@ class ispconfig3_spam extends rcube_plugin
 							'fullname' => $this->rcmail_inst->user->data['username'],
 							'local' => $spam_user[0]['local']);
 
-			$update = $this->soap->mail_spamfilter_user_update($session_id, $spam_user[0]['id'], $uid, $params);
+			$update = $this->soap->mail_spamfilter_user_update($session_id, $uid, $spam_user[0]['id'], $params);
 
 			$params = array('server_id' => $mail_user[0]['server_id'],
 							'email' => $this->rcmail_inst->user->data['username'],
