@@ -69,7 +69,7 @@ class ispconfig3_forward extends rcube_plugin
 				}
 
 				if ($filter_ar[1] == '')
-					$filter = "### Start Forward\n".$address."\n### End Forward\n\n";
+					$filter = "### Start Forward\n".$address."\n### End Forward\n\n".$filter_ar[0];
 				else
 					$filter = "### Start Forward\n".$address."\n### End Forward\n\n".$filter_ar[1];
 
