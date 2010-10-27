@@ -17,6 +17,7 @@ class ispconfig3_autoselect extends rcube_plugin
 	{
 		$this->rcmail_inst = rcmail::get_instance();
 		$this->load_config();
+		$this->load_con_config();
 		$this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url').'index.php',
 									'uri'      => $this->rcmail_inst->config->get('soap_url')));
 									
@@ -38,7 +39,22 @@ class ispconfig3_autoselect extends rcube_plugin
 			if(!$this->rcmail_inst->config->load_from_file($config . '.dist'))
      			raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);		
 		}
-	} 
+	}
+	
+	function load_con_config()
+	{
+		$config = $this->api->dir.'ispconfig3_account/config/config.inc.php';
+		if(file_exists($config))
+		{
+			if(!$this->rcmail_inst->config->load_from_file($config))
+     			raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);		
+		}
+		else if(file_exists($config . ".dist"))
+		{
+			if(!$this->rcmail_inst->config->load_from_file($config . '.dist'))
+     			raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);		
+		}
+	}
 
 	function startup($args)
 	{
@@ -50,7 +66,7 @@ class ispconfig3_autoselect extends rcube_plugin
 
 	function template_object_loginform($args)
 	{
-		$args['content'] = substr($args['content'], 0, 540).substr($args['content'], 696);
+		$args['content'] = str_replace("<tr><td class=\"title\"><label for=\"rcmloginhost\">Server</label>\n</td>\n<td><input name=\"_host\" id=\"rcmloginhost\" autocomplete=\"off\" type=\"text\" /></td>\n</tr>","",$args['content']);
 
 		return $args;
 	}
@@ -63,7 +79,7 @@ class ispconfig3_autoselect extends rcube_plugin
 		return $args;
 	}
 
-	function getHost($user)
+	private function getHost($user)
 	{
 		$host = '';
 
