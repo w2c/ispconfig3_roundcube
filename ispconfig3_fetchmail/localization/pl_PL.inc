@@ -1,15 +1,15 @@
 <?php
 $labels = array();
-$labels['acc_fetchmail'] = 'Pobieranie poczty';
+$labels['acc_fetchmail'] = 'Pobieranie poczty z zewnętrznych serwerów';
 $labels['fetchmailtyp'] = 'Typ';
 $labels['fetchmailserver'] = 'Serwer POP3/IMAP';
-$labels['fetchmaildelete'] = 'Usun wiadomosci z serwera po pobraniu';
-$labels['fetchmailenabled'] = 'Wlaczone';
-$labels['nofetch'] = 'Brak dostepnych pozycji';
-$labels['fetchmail_entries'] = 'Dostepne pozycje';
+$labels['fetchmaildelete'] = 'Usuń wiadomości z serwera po pobraniu';
+$labels['fetchmailenabled'] = 'Włączone';
+$labels['nofetch'] = 'Brak dostępnych pozycji';
+$labels['fetchmail_entries'] = 'Dostępne pozycje';
 
 $messages = array();
-$messages['fetchmaildelconfirm'] = 'Jestes pewny, ze chcesz usunac ta pozycje?';
-$messages['fetchmaillimitreached'] = 'Osiagnieto limit';
-$messages['textempty'] = 'Jedno lub wiecej p�l jest puste';
+$messages['fetchmaildelconfirm'] = 'Jesteś pewny, ze chcesz usunąć ta pozycje?';
+$messages['fetchmaillimitreached'] = 'Osiągnięto limit';
+$messages['textempty'] = 'Jedno lub wiecej pól jest puste';
 ?> 

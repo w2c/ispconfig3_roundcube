@@ -1,15 +1,18 @@
 <?php
+
 $labels = array();
-$labels['password'] = 'Haslo';
-$labels['changepasswd']  = 'Zmiana hasla';
-$labels['curpasswd']  = 'Biezace haslo:';
-$labels['newpasswd']  = 'Nowe haslo:';
-$labels['confpasswd']  = 'Potwierdz nowe haslo:';
+$labels['password'] = 'Hasło';
+$labels['changepasswd']  = 'Zmiana hasła';
+$labels['curpasswd']  = 'Bieżące hasło:';
+$labels['newpasswd']  = 'Nowe hasło:';
+$labels['confpasswd']  = 'Potwierdź nowe hasło:';
 
 $messages = array();
-$messages['nopassword'] = 'Prosze wprowadzic nowe haslo.';
-$messages['nocurpassword'] = 'Prosze wprowadzic biezace haslo.';
-$messages['passwordincorrect'] = 'Biezace haslo jest nieprawidlowe.';
-$messages['passwordinconsistency'] = 'Niezgodnosc hasel, prosze wprowadzic ponownie.';
-$messages['passwordminlength'] = 'Haslo jest za kr�tkie, wymagane jest minimum %d cyfr.';
+$messages['nopassword'] = 'Proszę wprowadzić nowe hasło.';
+$messages['nocurpassword'] = 'Proszę wprowadzić biezące hasło.';
+$messages['passwordincorrect'] = 'Bieżące hasło jest nieprawidłowe.';
+$messages['passwordinconsistency'] = 'Niezgodność haseł, proszę wprowadzić ponownie.';
+$messages['internalerror'] = 'Błąd bazy danych serwera. To może być niebezpieczne dla innych użytkowników. Proszę się skontaktować z administratorem systemu.';
+$messages['errorsaving'] = 'Nie można zapisać hasła w bazie danych. Proszę się skontaktować z administratorem systemu.';
+$messages['passwordminlength'] = 'Hasło jest za krótkie, wymagane jest minimum %d cyfr.';
 ?> 

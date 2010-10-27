@@ -11,15 +11,15 @@ $labels['filteris'] = 'Est';
 $labels['filterbegins'] = 'Commence par';
 $labels['filterends'] = 'Finit par';
 $labels['filteraction'] = 'Action';
-$labels['filtermove'] = 'Déplacer';
+$labels['filtermove'] = 'DÃ©placer';
 $labels['filterdelete'] = 'Supprimer';
-$labels['filterenabled'] = 'Activé';
+$labels['filterenabled'] = 'ActivÃ©';
 $labels['filteradd'] = 'Ajouter';
-$labels['filternorules'] = 'Aucune règle existante';
-$labels['filter_entries'] = 'Règles';
+$labels['filternorules'] = 'Aucune rÃ¨gle existante';
+$labels['filter_entries'] = 'RÃ¨gles';
 
 $messages = array();
-$messages['filterdelconfirm'] = 'Etes-vous sûr de vouloir supprimer cette règle?';
+$messages['filterdelconfirm'] = 'Etes-vous sÃ»r de vouloir supprimer cette rÃ¨gle?';
 $messages['filterlimitreached'] = 'Limite atteinte';
 $messages['textempty'] = 'Un ou plusieurs champs sont vides';
 ?>
