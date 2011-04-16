@@ -1,0 +1,35 @@
+.ui-datetime { position: absolute; z-index: 9999; }
+.ui-datetime-inline { position: static; display: block; clear: both; }
+.ui-datetime-to { margin-left: 0; float: left; clear: right; }
+
+.ui-datetime-calendar { float: left; }
+
+.ui-datetime .ui-datetime-header { position:relative; padding:.2em 0; }
+.ui-datetime .ui-datetime-title { margin: 0; line-height: 1.8em; text-align: center; }
+
+.ui-datetime .ui-datetime-prev { left:2px; }
+.ui-datetime .ui-datetime-next { right:2px; }
+.ui-datetime .ui-datetime-prev, .ui-datetime .ui-datetime-next { position:absolute; top: 2px; width: 1.8em; height: 1.8em; }
+.ui-datetime .ui-datetime-prev span { display: block; position: absolute; left: 50%; margin-left: -7px; top: 50%; margin-top: -7px;  }
+.ui-datetime .ui-datetime-next span { display: block; position: absolute; left: 50%; margin-left: -8px; top: 50%; margin-top: -7px;  }
+.ui-datetime .ui-datetime-prev.ui-state-hover span { margin-left: -8px; margin-top: -8px; }
+.ui-datetime .ui-datetime-next.ui-state-hover span { margin-left: -7px; margin-top: -8px; }
+
+.ui-datetime-calendar .ui-datetime-week { text-align: center; }
+
+.ui-datetime table {width: 100%; font-size: .9em; border-collapse: collapse; margin: 0; }
+.ui-datetime th { padding: .7em .3em; text-align: center; font-weight: bold; border: 0; vertical-align: top; height: 1px; }
+.ui-datetime td { border: 0; padding: 1px; }
+.ui-datetime td span, .ui-datetime td a { display: block; padding: .2em; text-align: right; text-decoration: none; }
+
+.ui-datetime-clock { width: 5em; float: left; }
+
+.ui-datetime-slider { position: relative; margin: 0 auto .1em auto; }
+.ui-datetime-slider .ui-datetime-slider-handle { position: absolute; z-index: 2; left: -.3em; width: 1em; height: 1em; margin-top: -.1em; cursor: move; }
+.ui-datetime-slider-vertical { width: .6em; }
+
+.ui-datetime-calendar-first, .ui-datetime-calendar-middle, .ui-datetime-calendar-last { width: 17em; float: left; }
+.ui-datetime-calendar-first table, .ui-datetime-calendar-middle table, .ui-datetime-calendar-last table { width: 95%; margin: 0 auto; }
+
+.ui-datetime .ui-widget-content { padding: .2em; }
+.ui-datetime .ui-state-hover { cursor: pointer; }

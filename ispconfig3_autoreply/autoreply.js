@@ -2,6 +2,10 @@ if (window.rcmail)
 {
 	rcmail.addEventListener('init', function(evt)
 	{
+		$('#autoreplystarton').datetime(
+		{
+			chainTo: '#autoreplyendby',
+		});
 		rcmail.register_command('plugin.ispconfig3_autoreply.save', function()
 		{ 
 			var input_text = rcube_find_object('_autoreplybody');

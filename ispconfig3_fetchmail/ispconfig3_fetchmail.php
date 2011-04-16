@@ -107,11 +107,12 @@ class ispconfig3_fetchmail extends rcube_plugin
 			try
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, array('destination' => $destination));
+				
+				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
 				
 				if(count($mail_fetchmail) < $limit)
 				{
-					$params = array('server_id' => $serverid,
+					$params = array('server_id' => $mail_user[0]['server_id'],
 									'type' => $typ,
 									'source_server' => $server,
 									'source_username' => $user,
@@ -120,7 +121,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 									'destination' => $destination,
 									'active' => $enabled);
 									
-					$add = $this->soap->mail_fetchmail_add($session_id, $mail_fetchmail[$id]['server_id'], $params);
+					$add = $this->soap->mail_fetchmail_add($session_id, $mail_user[0]['server_id'], $params);
 					
 					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 				}
@@ -154,7 +155,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 									'active' => $enabled);
 									
 					$uid = $this->soap->client_get_id($session_id, $mail_fetchmail['sys_userid']);
-					$add = $this->soap->mail_fetchmail_update($session_id, $id, $uid, $params);
+					$add = $this->soap->mail_fetchmail_update($session_id, $uid, $id, $params);
 					
 					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 				}

@@ -19,6 +19,12 @@ class ispconfig3_autoreply extends rcube_plugin
 		$this->api->output->add_handler('autoreply_form', array($this, 'gen_form'));
 		$this->api->output->add_handler('sectionname_autoreply', array($this, 'prefs_section_name'));
 		
+		$skin = $this->rcmail_inst->config->get('skin');
+		$this->include_stylesheet('skins/'.$skin.'/css/jquery/smoothness/jquery-ui-1.8.11.custom.css');
+		$this->include_stylesheet('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css');
+		
+		$this->include_script('skins/'.$skin.'/js/jquery-ui-1.8.11.custom.min.js');
+		$this->include_script('skins/'.$skin.'/js/jquery.ui.datetime.min.js');
 		$this->include_script('autoreply.js');
 	}
 
@@ -40,6 +46,18 @@ class ispconfig3_autoreply extends rcube_plugin
 		$body = get_input_value('_autoreplybody', RCUBE_INPUT_POST);
 		$startdate = get_input_value('_autoreplystarton', RCUBE_INPUT_POST);
 		$enddate = get_input_value('_autoreplyendby', RCUBE_INPUT_POST);
+		
+		$startdate = array('year' => substr($startdate,0,4),
+							'month' => substr($startdate,5,2),
+							'day' => substr($startdate,8,2),
+							'hour' => substr($startdate,11,2),
+							'minute' => substr($startdate,14,2));
+							
+		$enddate = array('year' => substr($enddate,0,4),
+						'month' => substr($enddate,5,2),
+						'day' => substr($enddate,8,2),
+						'hour' => substr($enddate,11,2),
+						'minute' => substr($enddate,14,2));
 		
 		if(!$enabled)
 			$enabled = 'n';
@@ -106,6 +124,12 @@ class ispconfig3_autoreply extends rcube_plugin
 			$enabled = 1;
 		else
 			$enabled = 0;
+			
+		if ($mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
+			$mail_user[0]['autoresponder_start_date'] = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i');
+			
+		if ($mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
+			$mail_user[0]['autoresponder_end_date'] = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i');
 
 		$this->rcmail_inst->output->set_env('framed', true);
 
@@ -125,13 +149,6 @@ class ispconfig3_autoreply extends rcube_plugin
 						rep_specialchars_output($this->gettext('autoreplymessage')),
 						$input_autoreplybody->show($mail_user[0]['autoresponder_text']));
 
-		$field_id = 'autoreplyenabled';
-		$input_autoreplyenabled = new html_checkbox(array('name' => '_autoreplyenabled', 'id' => $field_id, 'value' => 1));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('autoreplyenabled')),
-						$input_autoreplyenabled->show($enabled?1:0));
-
 		$field_id = 'autoreplystarton';
 		$input_autoreplystarton = new html_inputfield(array('name' => '_autoreplystarton', 'id' => $field_id, 'size' => 20));
 		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
@@ -145,6 +162,13 @@ class ispconfig3_autoreply extends rcube_plugin
 						$field_id,
 						rep_specialchars_output($this->gettext('autoreplyendby')),
 						$input_autoreplyendby->show($mail_user[0]['autoresponder_end_date']));
+		
+		$field_id = 'autoreplyenabled';
+		$input_autoreplyenabled = new html_checkbox(array('name' => '_autoreplyenabled', 'id' => $field_id, 'value' => 1));
+		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
+						$field_id,
+						rep_specialchars_output($this->gettext('autoreplyenabled')),
+						$input_autoreplyenabled->show($enabled?1:0));
 
 		$out .= "\n</table>";
 		$out .= '<br />' . "\n";
