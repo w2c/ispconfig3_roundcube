@@ -1,15 +1,15 @@
 <?php
 $labels = array();
-$labels['acc_fetchmail'] = 'Correo Externo';
+$labels['acc_fetchmail'] = 'Cuentas Externas';
 $labels['fetchmailtyp'] = 'Tipo';
 $labels['fetchmailserver'] = 'Servidor POP3/IMAP';
-$labels['fetchmaildelete'] = 'Borrar mensajes despu&eacute;s de recibidos';
+$labels['fetchmaildelete'] = 'Borrar mensajes del servidor después de recibidos';
 $labels['fetchmailenabled'] = 'Activo';
-$labels['nofetch'] = 'No hay Datos';
-$labels['fetchmail_entries'] = 'Datos de la Cuenta';
+$labels['nofetch'] = 'No se han configurado ninguna cuenta';
+$labels['fetchmail_entries'] = 'Cuentas configuradas';
 
 $messages = array();
-$messages['fetchmaildelconfirm'] = 'Desea borrar esta cuenta?';
-$messages['fetchmaillimitreached'] = 'Sobre el Limite';
-$messages['textempty'] = 'Uno o m&aacute;s campos requeridos';
+$messages['fetchmaildelconfirm'] = '¿Seguro que desea borrar esta cuenta?';
+$messages['fetchmaillimitreached'] = 'No se pueden añadir más cuentas';
+$messages['textempty'] = 'Es necesario cubrir todos los campos';
 ?>

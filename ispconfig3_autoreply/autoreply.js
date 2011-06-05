@@ -9,8 +9,9 @@ if (window.rcmail)
 		rcmail.register_command('plugin.ispconfig3_autoreply.save', function()
 		{ 
 			var input_text = rcube_find_object('_autoreplybody');
+			var input_enabled = rcube_find_object('_autoreplyenabled');
 
-			if(input_text.value == "")
+			if((input_text.value == "") && (input_enabled.ckecked == false))
 			{
 				parent.rcmail.display_message(rcmail.gettext('textempty','ispconfig3_autoreply'), 'error');    
 				input_text.focus();    

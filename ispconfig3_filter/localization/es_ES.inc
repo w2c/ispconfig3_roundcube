@@ -2,24 +2,24 @@
 $labels = array();
 $labels['acc_filter'] = 'Filtros de Correo';
 $labels['filtername'] = 'Nombre';
-$labels['filtersource'] = 'Fuente';
-$labels['filtersubject'] = 'Tema';
+$labels['filtersource'] = 'Regla';
+$labels['filtersubject'] = 'Asunto';
 $labels['filterfrom'] = 'De';
 $labels['filterto'] = 'Para';
-$labels['filtercontains'] = 'Contiene';
-$labels['filteris'] = 'Es';
-$labels['filterbegins'] = 'Empieza';
-$labels['filterends'] = 'Termina';
-$labels['filteraction'] = 'Acci&oacute;n';
+$labels['filtercontains'] = 'contiene';
+$labels['filteris'] = 'igual a';
+$labels['filterbegins'] = 'empieza con';
+$labels['filterends'] = 'termina con';
+$labels['filteraction'] = 'Acción';
 $labels['filtermove'] = 'Mover';
 $labels['filterdelete'] = 'Borrar';
 $labels['filterenabled'] = 'Activo';
 $labels['filteradd'] = 'Agregar';
-$labels['filternorules'] = 'No existe ninguna regla';
-$labels['filter_entries'] = 'Reglas';
+$labels['filternorules'] = 'No se definió ningún filtro de correo';
+$labels['filter_entries'] = 'Filtros';
 
 $messages = array();
-$messages['filterdelconfirm'] = 'Est&aacute; seguro de que quiere borrar esta regla?';
-$messages['filterlimitreached'] = 'Limite m&aacute;ximo alcalzado';
-$messages['textempty'] = 'Uno o m&aacute;s campos son requeridos';
+$messages['filterdelconfirm'] = '¿Está seguro de que quiere borrar este filtro?';
+$messages['filterlimitreached'] = 'No es posible añadir más filtros';
+$messages['textempty'] = 'Es necesario cubrir todos los campos';
 ?>
