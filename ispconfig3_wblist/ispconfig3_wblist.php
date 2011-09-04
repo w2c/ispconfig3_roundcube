@@ -118,7 +118,7 @@ class ispconfig3_wblist extends rcube_plugin
 									'fullname' => $this->rcmail_inst->user->data['username'],
 									'local' => 'Y');
 									
-					$uid = $client->client_get_id($session_id, $mail_user[0]['sys_userid']);
+					$uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 					$add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
 					$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
 				}
@@ -139,9 +139,9 @@ class ispconfig3_wblist extends rcube_plugin
 									'active' => $enabled);
 
 					if ($type == "W")
-						$add = $this->soap->mail_spamfilter_whitelist_add($session_id, 0, $params);
+						$add = $this->soap->mail_spamfilter_whitelist_add($session_id, $uid, $params);
 					else
-						$add = $this->soap->mail_spamfilter_blacklist_add($session_id, 0, $params);
+						$add = $this->soap->mail_spamfilter_blacklist_add($session_id, $uid, $params);
 						
 					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 				}
@@ -175,9 +175,9 @@ class ispconfig3_wblist extends rcube_plugin
 					$uid = $this->soap->client_get_id($session_id, $spam_user[0]['sys_userid']);
 
 					if ($type == "W")
-						$update = $this->soap->mail_spamfilter_whitelist_update($session_id, $id, $uid, $params);
+						$update = $this->soap->mail_spamfilter_whitelist_update($session_id, $uid, $id, $params);
 					else
-						$update = $this->soap->mail_spamfilter_blacklist_update($session_id, $id, $uid, $params);
+						$update = $this->soap->mail_spamfilter_blacklist_update($session_id, $uid, $id, $params);
 						
 					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 				}
