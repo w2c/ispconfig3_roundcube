@@ -72,6 +72,7 @@ class ispconfig3_pass extends rcube_plugin
 									'email' => $this->rcmail_inst->user->data['username'],
 									'password' => $newpwd,
 									'name' => $mail_user[0]['name'],
+									'login' => $mail_user[0]['login'],
 									'uid' => $mail_user[0]['uid'],
 									'gid' => $mail_user[0]['gid'],
 									'maildir' => $mail_user[0]['maildir'],

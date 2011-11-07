@@ -50,6 +50,7 @@ class ispconfig3_forward extends rcube_plugin
 				$params = array('server_id' => $mail_user[0]['server_id'],
 								'email' => $this->rcmail_inst->user->data['username'],
 								'name' => $mail_user[0]['name'],
+								'login' => $mail_user[0]['login'],
 								'uid' => $mail_user[0]['uid'],
 								'gid' => $mail_user[0]['gid'],
 								'cc' => $address,
@@ -68,6 +69,7 @@ class ispconfig3_forward extends rcube_plugin
 								'disablepop3' => $mail_user[0]['disablepop3'],
 								'disabledeliver' => $mail_user[0]['disabledeliver'],
 								'disablesmtp' => $mail_user[0]['disablesmtp']);
+	
 
 				$update = $this->soap->mail_user_update($session_id, 0, $mail_user[0]['mailuser_id'], $params);
 				$this->soap->logout($session_id);

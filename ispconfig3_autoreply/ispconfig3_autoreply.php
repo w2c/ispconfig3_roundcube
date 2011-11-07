@@ -72,6 +72,7 @@ class ispconfig3_autoreply extends rcube_plugin
 			$params = array('server_id' => $mail_user[0]['server_id'],
 							'email' => $this->rcmail_inst->user->data['username'],
 							'name' => $mail_user[0]['name'],
+							'login' => $mail_user[0]['login'],
 							'uid' => $mail_user[0]['uid'],
 							'gid' => $mail_user[0]['gid'],
 							'maildir' => $mail_user[0]['maildir'],
