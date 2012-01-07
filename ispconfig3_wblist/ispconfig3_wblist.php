@@ -99,71 +99,59 @@ class ispconfig3_wblist extends rcube_plugin
 		else
 			$enabled = 'y';
 
-		if($id == 0 || $id == '')
-		{
-			$limit = $this->rcmail_inst->config->get('wblist_limit');
-			try
-			{
-				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+    try
+    {
+      $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
+      $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+        
+      if($id == 0 || $id == '')
+      {
+        $limit = $this->rcmail_inst->config->get('wblist_limit');
 
-				if ($spam_user[0]['id'] == '')
-				{
-					$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+        if ($spam_user[0]['id'] == '')
+        {
+          $params = array('server_id' => $mail_user[0]['server_id'],
+                  'priority' => '5',
+                  'policy_id' => $this->rcmail_inst->config->get('wblist_default_policy'),
+                  'email' => $this->rcmail_inst->user->data['username'],
+                  'fullname' => $this->rcmail_inst->user->data['username'],
+                  'local' => 'Y');
+                  
+          $add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
+          $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+        }
 
-					$params = array('server_id' => $mail_user[0]['server_id'],
-									'priority' => '5',
-									'policy_id' => '5',
-									'email' => $this->rcmail_inst->user->data['username'],
-									'fullname' => $this->rcmail_inst->user->data['username'],
-									'local' => 'Y');
-									
-					$uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
-					$add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
-					$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-				}
+        $wblist = $this->soap->mail_spamfilter_whitelist_get($session_id, array('rid' => $spam_user[0]['id']));
+        //$blist = $this->soap->mail_spamfilter_blacklist_get($session_id, array('rid' => $spam_user[0]['id']));
+        //$wblist = array_merge($wlist, $blist);
+        
+        if(count($wblist) < $limit)
+        {
+          $params = array('sys_userid' => $spam_user[0]['sys_userid'],
+                  'sys_groupid' => $spam_user[0]['sys_groupid'],
+                  'server_id' => $spam_user[0]['server_id'],
+                  'rid' => $spam_user[0]['id'],
+                  'wb' => $type,
+                  'email' => $email,
+                  'priority' => $priority,
+                  'active' => $enabled);
 
-				$wblist = $this->soap->mail_spamfilter_whitelist_get($session_id, array('rid' => $spam_user[0]['id']));
-				//$blist = $this->soap->mail_spamfilter_blacklist_get($session_id, array('rid' => $spam_user[0]['id']));
-				//$wblist = array_merge($wlist, $blist);
-				
-				if(count($wblist) < $limit)
-				{
-					$params = array('sys_userid' => $spam_user[0]['sys_userid'],
-									'sys_groupid' => $spam_user[0]['sys_groupid'],
-									'server_id' => $spam_user[0]['server_id'],
-									'rid' => $spam_user[0]['id'],
-									'wb' => $type,
-									'email' => $email,
-									'priority' => $priority,
-									'active' => $enabled);
-
-					if ($type == "W")
-						$add = $this->soap->mail_spamfilter_whitelist_add($session_id, $uid, $params);
-					else
-						$add = $this->soap->mail_spamfilter_blacklist_add($session_id, $uid, $params);
-						
-					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-				}
-				else
-					$this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('wblimitreached'), 'error');
-
-				$this->soap->logout($session_id);
-			}
-			catch (SoapFault $e)
-			{
-				$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
-			}
-		}
-		else
-		{
-			try
-			{
-				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-				$wblist = $this->soap->mail_spamfilter_blacklist_get($session_id, $id);
-				
-				if ($wblist['rid'] == $spam_user[0]['id'])
+          if ($type == "W")
+            $add = $this->soap->mail_spamfilter_whitelist_add($session_id, $uid, $params);
+          else
+            $add = $this->soap->mail_spamfilter_blacklist_add($session_id, $uid, $params);
+            
+          $this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+        }
+        else
+          $this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('wblimitreached'), 'error');
+      }
+      else
+      {
+        $wblist = $this->soap->mail_spamfilter_blacklist_get($session_id, $id);
+        if ($wblist['rid'] == $spam_user[0]['id'])
 				{
 					$params = array('server_id' => $spam_user[0]['server_id'],
 									'rid' => $spam_user[0]['id'],
@@ -171,8 +159,6 @@ class ispconfig3_wblist extends rcube_plugin
 									'email' => $email,
 									'priority' => $priority,
 									'active' => $enabled);
-
-					$uid = $this->soap->client_get_id($session_id, $spam_user[0]['sys_userid']);
 
 					if ($type == "W")
 						$update = $this->soap->mail_spamfilter_whitelist_update($session_id, $uid, $id, $params);
@@ -183,14 +169,13 @@ class ispconfig3_wblist extends rcube_plugin
 				}
 				else
 					$this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('opnotpermitted'), 'error');
-				
-				$this->soap->logout($session_id);
-			}
-			catch (SoapFault $e)
-			{
-				$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
-			}
-		}
+      }
+      $this->soap->logout($session_id);
+    }
+    catch (SoapFault $e)
+    {
+      $this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
+    }
 		
 		$this->init_html();
 	}

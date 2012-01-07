@@ -9,7 +9,7 @@
 
 class ispconfig3_autoselect extends rcube_plugin
 {
-	public $task = 'login|mail|logout';
+	public $task = 'login|logout';
 	private $soap = NULL;
 	private $rcmail_inst = NULL;
 
@@ -20,8 +20,7 @@ class ispconfig3_autoselect extends rcube_plugin
 		$this->load_con_config();
 		$this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url').'index.php',
 									'uri'      => $this->rcmail_inst->config->get('soap_url')));
-									
-		$this->add_hook('startup', array($this, 'startup'));
+
 		$this->add_hook('authenticate', array($this, 'authenticate'));
 		$this->add_hook('template_object_loginform', array($this, 'template_object_loginform'));
 	}
@@ -56,17 +55,9 @@ class ispconfig3_autoselect extends rcube_plugin
 		}
 	}
 
-	function startup($args)
-	{
-		if (empty($args['action']) && empty($_SESSION['user_id']) && !empty($_POST['_user']) && !empty($_POST['_pass']))
-			$args['action'] = 'login';
-			
-		return $args;
-	}
-
 	function template_object_loginform($args)
 	{
-		$args['content'] = str_replace("<tr><td class=\"title\"><label for=\"rcmloginhost\">Server</label>\n</td>\n<td><input name=\"_host\" id=\"rcmloginhost\" autocomplete=\"off\" type=\"text\" /></td>\n</tr>","",$args['content']);
+		$args['content'] = str_replace("<tr><td class=\"title\"><label for=\"rcmloginhost\">Server</label>\n</td>\n<td class=\"input\"><input name=\"_host\" id=\"rcmloginhost\" autocomplete=\"off\" type=\"text\" /></td>\n</tr>","",$args['content']);
 
 		return $args;
 	}

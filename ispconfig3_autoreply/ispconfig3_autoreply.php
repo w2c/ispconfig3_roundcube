@@ -5,6 +5,7 @@ class ispconfig3_autoreply extends rcube_plugin
 	public $task = 'settings';
 	private $soap = NULL;
 	private $rcmail_inst = NULL;
+  private $required_plugins = array('jqueryui');
 
 	function init()
 	{
@@ -20,10 +21,8 @@ class ispconfig3_autoreply extends rcube_plugin
 		$this->api->output->add_handler('sectionname_autoreply', array($this, 'prefs_section_name'));
 		
 		$skin = $this->rcmail_inst->config->get('skin');
-		$this->include_stylesheet('skins/'.$skin.'/css/jquery/smoothness/jquery-ui-1.8.11.custom.css');
 		$this->include_stylesheet('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css');
 		
-		$this->include_script('skins/'.$skin.'/js/jquery-ui-1.8.11.custom.min.js');
 		$this->include_script('skins/'.$skin.'/js/jquery.ui.datetime.min.js');
 		$this->include_script('autoreply.js');
 	}
@@ -68,30 +67,16 @@ class ispconfig3_autoreply extends rcube_plugin
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
 			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-
-			$params = array('server_id' => $mail_user[0]['server_id'],
-							'email' => $this->rcmail_inst->user->data['username'],
-							'name' => $mail_user[0]['name'],
-							'login' => $mail_user[0]['login'],
-							'uid' => $mail_user[0]['uid'],
-							'gid' => $mail_user[0]['gid'],
-							'maildir' => $mail_user[0]['maildir'],
-							'quota' => $mail_user[0]['quota'],
-							'homedir' => $mail_user[0]['homedir'],							
-							'autoresponder' => $enabled,
-							'autoresponder_text' => $body,
-							'autoresponder_start_date' => $startdate,
-							'autoresponder_end_date' => $enddate,
-							'move_junk' => $mail_user[0]['move_junk'],
-							'custom_mailfilter' => $mail_user[0]['custom_mailfilter'],
-							'postfix' => $mail_user[0]['postfix'],
-							'access' => $mail_user[0]['access'],
-							'disableimap' => $mail_user[0]['disableimap'],
-							'disablepop3' => $mail_user[0]['disablepop3'],
-							'disabledeliver' => $mail_user[0]['disabledeliver'],
-							'disablesmtp' => $mail_user[0]['disablesmtp']);
-
-			$update = $this->soap->mail_user_update($session_id, $mail_user[0]['sys_userid'], $mail_user[0]['mailuser_id'], $params);
+      $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+      
+      $params = $mail_user[0];
+      unset($params['password']);
+      $params['autoresponder'] = $enabled;
+      $params['autoresponder_text'] = $body;
+      $params['autoresponder_start_date'] = $startdate;
+      $params['autoresponder_end_date'] = $enddate;
+      
+			$update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
 			$this->soap->logout($session_id);
 			
 			$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
@@ -126,7 +111,7 @@ class ispconfig3_autoreply extends rcube_plugin
 		else
 			$enabled = 0;
 			
-		if ($mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
+		if ($mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00' || strtotime($mail_user[0]['autoresponder_start_date']) <= time())
 			$mail_user[0]['autoresponder_start_date'] = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i');
 			
 		if ($mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')

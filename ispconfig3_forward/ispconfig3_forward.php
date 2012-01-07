@@ -46,32 +46,13 @@ class ispconfig3_forward extends rcube_plugin
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
 				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+        $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
-				$params = array('server_id' => $mail_user[0]['server_id'],
-								'email' => $this->rcmail_inst->user->data['username'],
-								'name' => $mail_user[0]['name'],
-								'login' => $mail_user[0]['login'],
-								'uid' => $mail_user[0]['uid'],
-								'gid' => $mail_user[0]['gid'],
-								'cc' => $address,
-								'maildir' => $mail_user[0]['maildir'],
-								'quota' => $mail_user[0]['quota'],
-								'homedir' => $mail_user[0]['homedir'],							
-								'autoresponder' => $mail_user[0]['autoresponder'],
-								'autoresponder_text' => $mail_user[0]['autoresponder_text'],
-								'autoresponder_start_date' => $mail_user[0]['autoresponder_start_date'],
-								'autoresponder_end_date' => $mail_user[0]['autoresponder_end_date'],
-								'move_junk' => $mail_user[0]['move_junk'],
-								'custom_mailfilter' => $mail_user[0]['custom_mailfilter'],
-								'postfix' => $mail_user[0]['postfix'],
-								'access' => $mail_user[0]['access'],
-								'disableimap' => $mail_user[0]['disableimap'],
-								'disablepop3' => $mail_user[0]['disablepop3'],
-								'disabledeliver' => $mail_user[0]['disabledeliver'],
-								'disablesmtp' => $mail_user[0]['disablesmtp']);
-	
-
-				$update = $this->soap->mail_user_update($session_id, 0, $mail_user[0]['mailuser_id'], $params);
+        $params = $mail_user[0];
+        unset($params['password']);
+        $params['cc'] = $address;
+        
+				$update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
 				$this->soap->logout($session_id);
 				
 				$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');

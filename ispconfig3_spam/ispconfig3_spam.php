@@ -48,11 +48,11 @@ class ispconfig3_spam extends rcube_plugin
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
 			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
 			if ($spam_user[0]['id'] == '')
 			{
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-
 				$params = array('server_id' => $mail_user[0]['server_id'],
 								'priority' => '5',
 								'policy_id' => $policy_id,
@@ -60,46 +60,19 @@ class ispconfig3_spam extends rcube_plugin
 								'fullname' => $this->rcmail_inst->user->data['username'],
 								'local' => 'Y');
 
-				$uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 				$add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
-				$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
 			}
 			else
 			{
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-				$uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+        $params = $spam_user[0];
+        $params['policy_id'] = $policy_id;
+
+        $update = $this->soap->mail_spamfilter_user_update($session_id, $uid, $spam_user[0]['id'], $params);
 			}
 
-			$params = array('server_id' => $spam_user[0]['server_id'],
-							'priority' => $spam_user[0]['priority'],
-							'policy_id' => $policy_id,
-							'email' => $this->rcmail_inst->user->data['username'],
-							'fullname' => $this->rcmail_inst->user->data['username'],
-							'local' => $spam_user[0]['local']);
-
-			$update = $this->soap->mail_spamfilter_user_update($session_id, $uid, $spam_user[0]['id'], $params);
-
-			$params = array('server_id' => $mail_user[0]['server_id'],
-							'email' => $this->rcmail_inst->user->data['username'],
-							'name' => $mail_user[0]['name'],
-							'login' => $mail_user[0]['login'],
-							'uid' => $mail_user[0]['uid'],
-							'gid' => $mail_user[0]['gid'],
-							'maildir' => $mail_user[0]['maildir'],
-							'quota' => $mail_user[0]['quota'],
-							'homedir' => $mail_user[0]['homedir'],							
-							'autoresponder' => $mail_user[0]['autoresponder'],
-							'autoresponder_text' => $mail_user[0]['autoresponder_text'],
-							'autoresponder_start_date' => $mail_user[0]['autoresponder_start_date'],
-							'autoresponder_end_date' => $mail_user[0]['autoresponder_end_date'],
-							'move_junk' => $move_junk,
-							'custom_mailfilter' => $mail_user[0]['custom_mailfilter'],
-							'postfix' => $mail_user[0]['postfix'],
-							'access' => $mail_user[0]['access'],
-							'disableimap' => $mail_user[0]['disableimap'],
-							'disablepop3' => $mail_user[0]['disablepop3'],
-							'disabledeliver' => $mail_user[0]['disabledeliver'],
-							'disablesmtp' => $mail_user[0]['disablesmtp']);
+      $params = $mail_user[0];
+      unset($params['password']);
+      $params['move_junk'] = $move_junk;
 
 			$update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
 			$this->soap->logout($session_id);

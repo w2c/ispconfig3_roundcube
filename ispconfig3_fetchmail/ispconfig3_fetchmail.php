@@ -81,7 +81,6 @@ class ispconfig3_fetchmail extends rcube_plugin
 	function save()
 	{ 
 		$id     = get_input_value('_id', RCUBE_INPUT_POST);
-		$serverid     = get_input_value('_serverid', RCUBE_INPUT_POST);
 		$destination        = $this->rcmail_inst->user->data['username'];
 		$typ     = get_input_value('_fetchmailtyp', RCUBE_INPUT_POST);
 		$server     = get_input_value('_fetchmailserver', RCUBE_INPUT_POST);
@@ -100,15 +99,16 @@ class ispconfig3_fetchmail extends rcube_plugin
 		else
 			$enabled = 'y';
 
-		if($id == 0 || $id == '')
-		{
-			$limit = $this->rcmail_inst->config->get('fetchmail_limit');
-
-			try
-			{
-				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+    try
+	  {
+		  $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
+		  $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+      
+		  if($id == 0 || $id == '')
+		  {
+        $mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, array('destination' => $destination));
+			  $limit = $this->rcmail_inst->config->get('fetchmail_limit');
 				
 				if(count($mail_fetchmail) < $limit)
 				{
@@ -121,31 +121,20 @@ class ispconfig3_fetchmail extends rcube_plugin
 									'destination' => $destination,
 									'active' => $enabled);
 									
-					$add = $this->soap->mail_fetchmail_add($session_id, $mail_user[0]['server_id'], $params);
+          $add = $this->soap->mail_fetchmail_add($session_id, $uid, $params);
 					
 					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 				}
 				else
 					$this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('fetchmaillimitreached'), 'error');
-				
-				$this->soap->logout($session_id);
-
 			}
-			catch (SoapFault $e)
-			{
-				$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
-			}
-		}
-		else
-		{
-			try
-			{
-				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, $id);
+      else
+      {
+        $mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, $id);
 				
 				if ($mail_fetchmail['destination'] == $destination)
 				{
-					$params = array('server_id' => $serverid,
+					$params = array('server_id' => $mail_fetchmail['server_id'],
 									'type' => $typ,
 									'source_server' => $server,
 									'source_username' => $user,
@@ -154,21 +143,20 @@ class ispconfig3_fetchmail extends rcube_plugin
 									'destination' => $destination,
 									'active' => $enabled);
 									
-					$uid = $this->soap->client_get_id($session_id, $mail_fetchmail['sys_userid']);
-					$add = $this->soap->mail_fetchmail_update($session_id, $uid, $id, $params);
+					$update = $this->soap->mail_fetchmail_update($session_id, $uid, $id, $params);
 					
 					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 				}
 				else
 					$this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('opnotpermitted'), 'error');
-				
-				$this->soap->logout($session_id);
-			}
-			catch (SoapFault $e)
-			{
-				$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
-			}
-		}
+      }
+      
+		  $this->soap->logout($session_id);
+    }
+    catch (SoapFault $e)
+    {
+      $this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
+    }
 		
 		$this->init_html();
 	}
@@ -231,9 +219,6 @@ class ispconfig3_fetchmail extends rcube_plugin
 
 		$hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => $mail_fetchmail['mailget_id']));
 		$out .= $hidden_id->show();
-
-		$hidden_serverid = new html_hiddenfield(array('name' => '_serverid', 'value' => $mail_fetchmail['server_id']));
-		$out .= $hidden_serverid->show();
 
 		$field_id = 'fetchmailtyp';
 		$input_fetchmailtyp = new html_select(array('name' => '_fetchmailtyp', 'id' => $field_id));

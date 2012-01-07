@@ -94,51 +94,40 @@ class ispconfig3_filter extends rcube_plugin
 			$enabled = 'n';
 		else
 			$enabled = 'y';
-
-		if($id == 0 || $id == '')
-		{		
-			$limit = $this->rcmail_inst->config->get('filter_limit');
-			
-			try
-			{
-				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-				$filter = $this->soap->mail_user_filter_get($session_id, array('mailuser_id' => $mail_user[0]['mailuser_id']));
-				
-				if(count($filter) < $limit)
-				{
-					$params = array('mailuser_id' => $mail_user[0]['mailuser_id'],
-									'rulename' => $name,
-									'source' => $source,
-									'searchterm' => $searchterm,
-									'op' => $op,
-									'action' => $action,
-									'target' => $target,
-									'active' => $enabled);
-									
-					$add = $this->soap->mail_user_filter_add($session_id, 0, $params);
-					
-					$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-				}
-				else
-					$this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('filterlimitreached'), 'error');
-				
-				$this->soap->logout($session_id);
-			}
-			catch (SoapFault $e)
-			{
-				$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
-			}
-		}
-		else
-		{
-			try
-			{
-				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-				$filter = $this->soap->mail_user_filter_get($session_id, $id);
-				
-				if ($filter['mailuser_id'] == $mail_user[0]['mailuser_id'])
+      
+    try
+	  {
+      $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
+			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+      if($id == 0 || $id == '')
+      {
+        $filter = $this->soap->mail_user_filter_get($session_id, array('mailuser_id' => $mail_user[0]['mailuser_id']));
+        $limit = $this->rcmail_inst->config->get('filter_limit');
+          
+        if(count($filter) < $limit)
+        {
+          $params = array('mailuser_id' => $mail_user[0]['mailuser_id'],
+                  'rulename' => $name,
+                  'source' => $source,
+                  'searchterm' => $searchterm,
+                  'op' => $op,
+                  'action' => $action,
+                  'target' => $target,
+                  'active' => $enabled);
+                  
+          $add = $this->soap->mail_user_filter_add($session_id, $uid, $params);
+          
+          $this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+        }
+        else
+          $this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('filterlimitreached'), 'error');
+          
+      }
+      else
+      {
+        $filter = $this->soap->mail_user_filter_get($session_id, $id);
+        if ($filter['mailuser_id'] == $mail_user[0]['mailuser_id'])
 				{
 					$params = array('mailuser_id' => $mail_user[0]['mailuser_id'],
 									'rulename' => $name,
@@ -149,19 +138,18 @@ class ispconfig3_filter extends rcube_plugin
 									'target' => $target,
 									'active' => $enabled);
 					
-					$uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 					$update = $this->soap->mail_user_filter_update($session_id, $uid, $id, $params);
 				}
 				else
 					$this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('opnotpermitted'), 'error');
-				
-				$this->soap->logout($session_id);
-			}
-			catch (SoapFault $e)
-			{
-				$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
-			}
-		}
+      }
+          
+      $this->soap->logout($session_id);
+    }
+    catch (SoapFault $e)
+    {
+      $this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
+    }
 		
 		$this->init_html();
 	}
