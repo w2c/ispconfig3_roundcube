@@ -113,7 +113,7 @@ class ispconfig3_filter extends rcube_plugin
                   'searchterm' => $searchterm,
                   'op' => $op,
                   'action' => $action,
-                  'target' => $target,
+                  'target' => substr($target, 6),
                   'active' => $enabled);
                   
           $add = $this->soap->mail_user_filter_add($session_id, $uid, $params);
@@ -236,7 +236,7 @@ class ispconfig3_filter extends rcube_plugin
 
 		$input_filtertarget = rcmail_mailbox_select(array('name' => '_filtertarget', 'id' => 'filtertarget'));
 
-		$string = $input_filteraction->show($filter[0]['action']).$input_filtertarget->show($filter[0]['target']);
+		$string = $input_filteraction->show($filter[0]['action']).$input_filtertarget->show("INBOX.".$filter[0]['target']);
 
 		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
   						$field_id,
