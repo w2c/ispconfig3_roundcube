@@ -1,14 +1,14 @@
-<?php
+?php
 $labels = array();
-$labels['acc_autoreply'] = 'Respuesta automática';
+$labels['acc_autoreply'] = 'Autorespuesta';
 $labels['autoreplymessage'] = 'Mensaje';
 $labels['autoreplyenabled'] = 'Activo';
 $labels['and'] = 'y';
-$labels['autoreplystarton'] = 'Desde el';
-$labels['autoreplyendby'] = 'Hasta el';
+$labels['autoreplystarton'] = 'Fecha de inicio';
+$labels['autoreplyendby'] = 'Fecha de fin';
 
 $messages = array();
-$messages['textempty'] = 'Por favor, escriba un mensaje';
-$messages['startdate_notfuture'] = 'La fecha de inicio no puede estar en el pasado';
-$messages['endate_notgreater'] = 'Debe espeficicar una fecha de finalización, y ésta debe ser posterior a la de inicio';
+$messages['textempty'] = 'Favor escriba su mensaje';
+$messages['startdate_notfuture'] = 'Fecha de inicio no debe ser anterior a la fecha de finalizaci&oacute;';
+$messages['endate_notgreater'] = 'Fecha de finalizaci&oacute; se debe establecer y ser posterior a la fecha de inicio';
 ?>
