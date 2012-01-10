@@ -23,7 +23,7 @@ class ispconfig3_autoreply extends rcube_plugin
 		$skin = $this->rcmail_inst->config->get('skin');
 		$this->include_stylesheet('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css');
 		
-		$this->include_script('skins/'.$skin.'/js/jquery.ui.datetime.min.js');
+		$this->include_script('skins/default/js/jquery.ui.datetime.min.js');
 		$this->include_script('autoreply.js');
 	}
 
