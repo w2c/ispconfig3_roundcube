@@ -23,7 +23,7 @@ class ispconfig3_autoreply extends rcube_plugin
 		$skin = $this->rcmail_inst->config->get('skin');
 		$this->include_stylesheet('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css');
 		
-		$this->include_script('skins/default/js/jquery.ui.datetime.min.js');
+		$this->include_script('skins/'.$skin.'/js/jquery.ui.datetime.min.js');
 		$this->include_script('autoreply.js');
 	}
 
@@ -45,6 +45,9 @@ class ispconfig3_autoreply extends rcube_plugin
 		$body = get_input_value('_autoreplybody', RCUBE_INPUT_POST);
 		$startdate = get_input_value('_autoreplystarton', RCUBE_INPUT_POST);
 		$enddate = get_input_value('_autoreplyendby', RCUBE_INPUT_POST);
+    
+    if (strtotime($startdate) <= time())
+			$startdate = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i', time() + 300);
 		
 		$startdate = array('year' => substr($startdate,0,4),
 							'month' => substr($startdate,5,2),
