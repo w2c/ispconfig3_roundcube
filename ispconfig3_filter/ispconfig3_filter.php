@@ -113,7 +113,7 @@ class ispconfig3_filter extends rcube_plugin
                   'searchterm' => $searchterm,
                   'op' => $op,
                   'action' => $action,
-                  'target' => substr($target, 6),
+                  'target' => str_replace("INBOX.","",$target),
                   'active' => $enabled);
                   
           $add = $this->soap->mail_user_filter_add($session_id, $uid, $params);
