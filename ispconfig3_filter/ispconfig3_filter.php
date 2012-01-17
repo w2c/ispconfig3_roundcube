@@ -99,7 +99,12 @@ class ispconfig3_filter extends rcube_plugin
 	  {
       $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
 			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_server = $this->soap->server_get($session_id, $mail_user[0]['server_id'], 'mail');
       $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+      
+      if ($mail_server['mail_filter_syntax'] == 'maildrop')
+        $target = str_replace("INBOX.","",$target);
+      
       if($id == 0 || $id == '')
       {
         $filter = $this->soap->mail_user_filter_get($session_id, array('mailuser_id' => $mail_user[0]['mailuser_id']));
@@ -113,7 +118,7 @@ class ispconfig3_filter extends rcube_plugin
                   'searchterm' => $searchterm,
                   'op' => $op,
                   'action' => $action,
-                  'target' => str_replace("INBOX.","",$target),
+                  'target' => $target,
                   'active' => $enabled);
                   
           $add = $this->soap->mail_user_filter_add($session_id, $uid, $params);
@@ -168,7 +173,8 @@ class ispconfig3_filter extends rcube_plugin
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
 				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-				$filter = $this->soap->mail_user_filter_get($session_id, array('filter_id' => $id)); 
+				$filter = $this->soap->mail_user_filter_get($session_id, array('filter_id' => $id));
+        $mail_server = $this->soap->server_get($session_id, $mail_user[0]['server_id'], 'mail');
 				$this->soap->logout($session_id);
 			}
 			catch (SoapFault $e)
@@ -190,6 +196,9 @@ class ispconfig3_filter extends rcube_plugin
 				$mail_fetchmail['action'] = '';
 				$mail_fetchmail['target'] = '';
 			}
+      
+      if ($mail_server['mail_filter_syntax'] == 'maildrop')
+        $filter[0]['target'] = "INBOX.".$filter[0]['target'];
 		}
 
 		if ($enabled == 'y')
@@ -236,7 +245,7 @@ class ispconfig3_filter extends rcube_plugin
 
 		$input_filtertarget = rcmail_mailbox_select(array('name' => '_filtertarget', 'id' => 'filtertarget'));
 
-		$string = $input_filteraction->show($filter[0]['action']).$input_filtertarget->show("INBOX.".$filter[0]['target']);
+		$string = $input_filteraction->show($filter[0]['action']).$input_filtertarget->show($filter[0]['target']);
 
 		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
   						$field_id,
