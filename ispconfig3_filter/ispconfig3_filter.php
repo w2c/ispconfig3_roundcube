@@ -161,7 +161,7 @@ class ispconfig3_filter extends rcube_plugin
 
 	function gen_form()
 	{
-		$this->rcmail_inst->imap_init(TRUE);
+		$this->rcmail_inst->imap_connect(TRUE);
 		$id = get_input_value('_id', RCUBE_INPUT_GET);
 
 		$this->rcmail_inst->output->add_label('ispconfig3_filter.filterdelconfirm',

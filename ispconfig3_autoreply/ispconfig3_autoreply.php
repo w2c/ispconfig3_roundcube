@@ -5,7 +5,7 @@ class ispconfig3_autoreply extends rcube_plugin
 	public $task = 'settings';
 	private $soap = NULL;
 	private $rcmail_inst = NULL;
-  private $required_plugins = array('jqueryui');
+    private $required_plugins = array('jqueryui');
 
 	function init()
 	{
@@ -21,9 +21,17 @@ class ispconfig3_autoreply extends rcube_plugin
 		$this->api->output->add_handler('sectionname_autoreply', array($this, 'prefs_section_name'));
 		
 		$skin = $this->rcmail_inst->config->get('skin');
-		$this->include_stylesheet('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css');
 		
-		$this->include_script('skins/'.$skin.'/js/jquery.ui.datetime.min.js');
+		if (file_exists('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css'))
+			$this->include_stylesheet('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css');
+		else
+			$this->include_stylesheet('skins/default/css/jquery/jquery.ui.datetime.css');
+		
+		if (file_exists('skins/'.$skin.'/js/jquery.ui.datetime.min.js'))
+			$this->include_script('skins/'.$skin.'/js/jquery.ui.datetime.min.js');
+		else
+			$this->include_script('skins/default/js/jquery.ui.datetime.min.js');
+		
 		$this->include_script('autoreply.js');
 	}
 
