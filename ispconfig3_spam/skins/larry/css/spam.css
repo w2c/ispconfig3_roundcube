@@ -1,0 +1,10 @@
+#spam-cont
+{
+  height: 172px;
+  overflow: auto;
+}
+
+#spam-table td
+{
+  text-align: center;
+}

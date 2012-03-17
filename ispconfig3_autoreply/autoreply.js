@@ -11,7 +11,7 @@ if (window.rcmail)
 			var input_text = rcube_find_object('_autoreplybody');
 			var input_enabled = rcube_find_object('_autoreplyenabled');
 
-			if((input_text.value == "") && (input_enabled.ckecked == false))
+			if((input_text.value == "") && (input_enabled.checked == true))
 			{
 				parent.rcmail.display_message(rcmail.gettext('textempty','ispconfig3_autoreply'), 'error');    
 				input_text.focus();    

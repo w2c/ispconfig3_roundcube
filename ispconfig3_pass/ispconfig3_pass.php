@@ -4,6 +4,7 @@ class ispconfig3_pass extends rcube_plugin
 {
 	public $task = 'settings';
 	private $rcmail_inst = NULL;
+  private $required_plugins = array('ispconfig3_account');
 
 	function init()
 	{
@@ -108,43 +109,27 @@ class ispconfig3_pass extends rcube_plugin
 		$this->rcmail_inst->output->add_script('var pw_min_length =' . $pwl . ';');
 		$this->rcmail_inst->output->set_env('framed', true);
 
-		$attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
+		$out .= '<fieldset><legend>' . $this->gettext('password') . '</legend>' . "\n";
 
-		$out .= '<fieldset><legend>' . $this->gettext('password') . ' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-		$out .= '<br />' . "\n";
-		$out .= '<table' . $attrib_str . ">\n\n";
-
-		if ($confirm)
+    $table = new html_table(array('cols' => 2, 'class' => 'propform'));
+    
+    if ($confirm)
 		{
-			$field_id = 'curpasswd';
-			$input_newpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => $field_id, 'size' => 20));
+      $input_newpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => 'curpasswd', 'size' => 20));
+      $table->add('title', rep_specialchars_output($this->gettext('curpasswd')));
+      $table->add('', $input_newpasswd->show());
+    }
 
-			$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-							$field_id,
-							rep_specialchars_output($this->gettext('curpasswd')),
-							$input_newpasswd->show());
-		}
+    $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => 'newpasswd', 'size' => 20));
+    $table->add('title', rep_specialchars_output($this->gettext('newpasswd')));
+    $table->add('', $input_newpasswd->show());
+    
+    $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => 'confpasswd', 'size' => 20));
+    $table->add('title', rep_specialchars_output($this->gettext('confpasswd')));
+    $table->add('', $input_confpasswd->show());
 
-		$field_id = 'newpasswd';
-		$input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => $field_id, 'size' => 20));
-
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('newpasswd')),
-						$input_newpasswd->show());
-						
-		$field_id = 'confpasswd';
-		$input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => $field_id, 'size' => 20));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label></td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('confpasswd')),
-						$input_confpasswd->show());
-						
-		$out .= "\n</table>";
-		$out .= '<br />' . "\n";       
+    $out .= $table->show();    
 		$out .= "</fieldset>\n";
-		
-		$this->rcmail_inst->output->add_gui_object('passform', 'pass-form');
 		
 		return $out;
 	}

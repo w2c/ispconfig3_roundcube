@@ -5,7 +5,7 @@ class ispconfig3_autoreply extends rcube_plugin
 	public $task = 'settings';
 	private $soap = NULL;
 	private $rcmail_inst = NULL;
-    private $required_plugins = array('jqueryui');
+  private $required_plugins = array('jqueryui','ispconfig3_account');
 
 	function init()
 	{
@@ -102,8 +102,6 @@ class ispconfig3_autoreply extends rcube_plugin
 
 	function gen_form()
 	{
-		$this->rcmail_inst->output->add_label('ispconfig3_autoreply.textempty'); 
-
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
@@ -115,7 +113,7 @@ class ispconfig3_autoreply extends rcube_plugin
 			$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
 		}
 
-		$enabled     = $mail_user[0]['autoresponder'];
+		$enabled = $mail_user[0]['autoresponder'];
 		
 		if ($enabled == 'y')
 			$enabled = 1;
@@ -130,48 +128,31 @@ class ispconfig3_autoreply extends rcube_plugin
 
 		$this->rcmail_inst->output->set_env('framed', true);
 
-		$attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
-
 		$hidden_priority = new html_hiddenfield(array('name' => '_priority', 'value' => $priority, 'id' => 'priority'));
 		$out .= $hidden_priority->show();
 
-		$out .= '<fieldset><legend>' . $this->gettext('acc_autoreply') . ' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-		$out .= '<br />' . "\n";
-		$out .= '<table' . $attrib_str . ">\n\n";
+		$out .= '<fieldset><legend>' . $this->gettext('acc_autoreply'). '</legend>' . "\n";
 
-		$field_id = 'autoreplybody';
-		$input_autoreplybody = new html_textarea(array('name' => '_autoreplybody', 'id' => $field_id, 'cols' => 48, 'rows' => 15));
-		$out .= sprintf("<tr><td valign=\"top\" class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('autoreplymessage')),
-						$input_autoreplybody->show($mail_user[0]['autoresponder_text']));
+    $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-		$field_id = 'autoreplystarton';
-		$input_autoreplystarton = new html_inputfield(array('name' => '_autoreplystarton', 'id' => $field_id, 'size' => 20));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('autoreplystarton')),
-						$input_autoreplystarton->show($mail_user[0]['autoresponder_start_date']));
+    $input_autoreplybody = new html_textarea(array('name' => '_autoreplybody', 'id' => 'autoreplybody', 'cols' => 48, 'rows' => 15));
+    $table->add('title', rep_specialchars_output($this->gettext('autoreplymessage')));
+    $table->add('', $input_autoreplybody->show($mail_user[0]['autoresponder_text']));
 
-		$field_id = 'autoreplyendby';
-		$input_autoreplyendby = new html_inputfield(array('name' => '_autoreplyendby', 'id' => $field_id, 'size' => 20));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('autoreplyendby')),
-						$input_autoreplyendby->show($mail_user[0]['autoresponder_end_date']));
-		
-		$field_id = 'autoreplyenabled';
-		$input_autoreplyenabled = new html_checkbox(array('name' => '_autoreplyenabled', 'id' => $field_id, 'value' => 1));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('autoreplyenabled')),
-						$input_autoreplyenabled->show($enabled?1:0));
+    $input_autoreplystarton = new html_inputfield(array('name' => '_autoreplystarton', 'id' => 'autoreplystarton', 'size' => 20));
+    $table->add('title', rep_specialchars_output($this->gettext('autoreplystarton')));
+    $table->add('', $input_autoreplystarton->show($mail_user[0]['autoresponder_start_date']));
 
-		$out .= "\n</table>";
-		$out .= '<br />' . "\n";
-		$out .= "</fieldset>\n";    
+    $input_autoreplyendby = new html_inputfield(array('name' => '_autoreplyendby', 'id' => 'autoreplyendby', 'size' => 20));
+    $table->add('title', rep_specialchars_output($this->gettext('autoreplyendby')));
+    $table->add('', $input_autoreplyendby->show($mail_user[0]['autoresponder_end_date']));
+    
+    $input_autoreplyenabled = new html_checkbox(array('name' => '_autoreplyenabled', 'id' => 'autoreplyenabled', 'value' => 1));
+    $table->add('title', rep_specialchars_output($this->gettext('autoreplyenabled')));
+    $table->add('', $input_autoreplyenabled->show($enabled));
 
-		$this->rcmail_inst->output->add_gui_object('autoreplyform', 'autoreply-form');
+    $out .= $table->show(); 
+		$out .= "</fieldset>\n";
 
 		return $out;
 	}

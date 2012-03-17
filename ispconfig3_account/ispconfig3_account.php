@@ -88,8 +88,16 @@ class ispconfig3_account extends rcube_plugin
         $this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
       }
       
-      preg_match('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/',$args['content'],$test);
-      $args['content'] = preg_replace('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/',$emails->show($test[1]),$args['content']);
+      if (substr(RCMAIL_VERSION, 2, 1) <= 7)
+      {
+        preg_match('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/',$args['content'],$test);
+        $args['content'] = preg_replace('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/',$emails->show($test[1]),$args['content']);
+      }
+      else
+      {
+        preg_match('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\">/',$args['content'],$test);
+        $args['content'] = preg_replace('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\">/',$emails->show($test[1]),$args['content']);
+      }
     }
     return $args;
   }
@@ -156,10 +164,9 @@ class ispconfig3_account extends rcube_plugin
   {
     $this->rcmail_inst->output->set_env('framed', true);
 
-    $out = '<fieldset><legend>'.$this->gettext('acc_general').' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-    $out .= '<br />' . "\n";
+    $out = '<form class="propform"><fieldset><legend>'.$this->gettext('acc_general').'</legend>' . "\n";
 
-    $table = new html_table(array('cols' => 2, 'cellpadding' => 3));
+    $table = new html_table(array('cols' => 2, 'cellpadding' => 3, 'class' => 'propform'));
 
     $table->add('title', Q($this->gettext('username')));
     $table->add('', Q($this->rcmail_inst->user->data['username']));
@@ -173,12 +180,9 @@ class ispconfig3_account extends rcube_plugin
     $identity = $this->rcmail_inst->user->get_identity();
     $table->add('title', Q($this->gettext('acc_defaultidentity')));
     $table->add('', Q($identity['name'] . ' <' . $identity['email'] . '>'));
-    $out .= $table->show();
-    $out .= '<br />' . "\n";       
+    $out .= $table->show();     
     $out .= "</fieldset>\n";
-
-    $out .= '<fieldset><legend>'.$this->gettext('acc_alias').' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-    $out .= '<br />' . "\n";
+    $out .= '<fieldset><legend>'.$this->gettext('acc_alias').'</legend>' . "\n";
 
     $alias_table = new html_table(array('id' => 'alias-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 1));
     $alias_table->add_header(array('width' => '100%'), $this->gettext('mail'));
@@ -208,9 +212,8 @@ class ispconfig3_account extends rcube_plugin
       $alias_table->add_row();
     }
 
-    $out .= "<div id=\"alias-cont\">".$alias_table->show()."</div>\n";
-    $out .= '<br />' . "\n";       
-    $out .= "</fieldset>\n";
+    $out .= "<div id=\"alias-cont\">".$alias_table->show()."</div>\n";     
+    $out .= "</fieldset></form>\n";
 
     return $out;
   } 

@@ -6,6 +6,7 @@ class ispconfig3_forward extends rcube_plugin
 	public $EMAIL_ADDRESS_PATTERN = '([a-z0-9][a-z0-9\-\.\+\_]*@[a-z0-9]([a-z0-9\-][.]?)*[a-z0-9]\\.[a-z]{2,5})';
 	private $soap = NULL;
 	private $rcmail_inst = NULL;
+  private $required_plugins = array('ispconfig3_account');
 
 	function init()
 	{
@@ -36,7 +37,7 @@ class ispconfig3_forward extends rcube_plugin
 
 	function save()
 	{
-		$address      = strtolower(get_input_value('_forwardingaddress', RCUBE_INPUT_POST)); 
+		$address = strtolower(get_input_value('_forwardingaddress', RCUBE_INPUT_POST)); 
 
 		if($address == $this->rcmail_inst->user->data['username'])
 			$this->rcmail_inst->output->command('display_message', $this->gettext('forwardingloop'), 'error');
@@ -69,8 +70,8 @@ class ispconfig3_forward extends rcube_plugin
 	function gen_form()
 	{
 		$user = $this->rcmail_inst->user->get_prefs();
-
-		$this->rcmail_inst->output->add_label('ispconfig3_forward.invalidaddress',
+    
+    $this->rcmail_inst->output->add_label('ispconfig3_forward.invalidaddress',
 												'ispconfig3_forward.forwardingempty');
 
 		try
@@ -86,24 +87,16 @@ class ispconfig3_forward extends rcube_plugin
 
 		$this->rcmail_inst->output->set_env('framed', true);
 
-		$attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
+		$out .= '<fieldset><legend>' . $this->gettext('acc_forward') . '</legend>' . "\n";
+    
+    $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-		$out .= '<fieldset><legend>' . $this->gettext('acc_forward') . ' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-		$out .= '<br />' . "\n";
-		$out .= '<table' . $attrib_str . ">\n\n";
+    $input_forwardingaddress = new html_inputfield(array('name' => '_forwardingaddress', 'id' => 'forwardingaddress', 'value' => $forward[1], 'maxlength' => 320, 'size' => 40));
+    $table->add('title', rep_specialchars_output($this->gettext('forwardingaddress')));
+    $table->add('', $input_forwardingaddress->show($mail_user[0]['cc']));
 
-		$field_id = 'forwardingaddress';
-		$input_forwardingaddress = new html_inputfield(array('name' => '_forwardingaddress', 'id' => $field_id, 'value' => $forward[1], 'maxlength' => 320, 'size' => 40));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('forwardingaddress')),
-						$input_forwardingaddress->show($mail_user[0]['cc']));                                            
-
-		$out .= "\n</table>";
-		$out .= '<br />' . "\n";
+    $out .= $table->show();
 		$out .= "</fieldset>\n";    
-
-		$this->rcmail_inst->output->add_gui_object('forwardform', 'forward-form');
 
 		return $out;
 	}

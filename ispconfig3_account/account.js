@@ -1,7 +1,7 @@
 if (window.rcmail) {
   rcmail.addEventListener('init', function(evt) {
 
-    var tab = $('<span>').attr('id', 'settingstabpluginispconfig3_account').addClass('tablink');
+    var tab = $('<span>').attr('id', 'settingstabpluginispconfig3_account').addClass('tablink account');
     var button = $('<a>').attr('href', rcmail.env.comm_path+'&_action=plugin.ispconfig3_account')
       .attr('title', rcmail.gettext('acc_acc','ispconfig3_account'))
       .html(rcmail.gettext('acc_acc','ispconfig3_account'))
@@ -15,12 +15,11 @@ if (window.rcmail) {
     if (rcmail.env.action == 'plugin.ispconfig3_account') {
 
       if (rcmail.gui_objects.accountlist) {
-        var p = rcmail;
         rcmail.account_list = new rcube_list_widget(rcmail.gui_objects.accountlist, {multiselect:false, draggable:false, keyboard:false});
-        rcmail.account_list.addEventListener('select', function(o){ p.account_select(o); });
+        rcmail.account_list.addEventListener('select', function(o){ rcmail.account_select(o); });
         rcmail.account_list.init();
         rcmail.account_list.focus();
-		rcmail.account_list.select_row('general');		
+		    rcmail.account_list.select_row('general');		
       }
     }
   });
@@ -28,27 +27,22 @@ if (window.rcmail) {
 
 rcube_webmail.prototype.account_select = function(list)
 {
-	var id = list.get_single_selection()
+  var id = list.get_single_selection(), add_url = '', target = window;
 
-	if (id)
-	{
-		var add_url = '';
-		var target = window;
-		this.set_busy(true);
+  if (id) {
+    if (this.env.contentframe && window.frames && window.frames[this.env.contentframe]) {
 
-		if (this.env.contentframe && window.frames && window.frames[this.env.contentframe])
-		{
-			add_url = '&_framed=1';
-			target = window.frames[this.env.contentframe];
-		}
-		
-		if (id == 'general')
+      add_url = '&_framed=1';
+      target = window.frames[this.env.contentframe];
+    }
+    
+    if (id == 'general')
 		{
 			id = 'account.show';
 		}
+    
+    rcmail.location_href(this.env.comm_path+'&_action=plugin.ispconfig3_'+id+add_url, target, true);
+  }
 
-		target.location.href = this.env.comm_path+'&_action=plugin.ispconfig3_'+id+add_url;
-	}
-	
-	return true;
+  return true;
 };

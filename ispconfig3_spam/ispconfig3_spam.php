@@ -5,6 +5,7 @@ class ispconfig3_spam extends rcube_plugin
 	public $task = 'settings';
 	private $soap = NULL;
 	private $rcmail_inst = NULL;
+  private $required_plugins = array('ispconfig3_account');
 
 	function init()
 	{
@@ -121,32 +122,21 @@ class ispconfig3_spam extends rcube_plugin
 
 		$this->rcmail_inst->output->set_env('framed', true);
 
-		$attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
+		$out .= '<fieldset><legend>' . $this->gettext('junk') . '</legend>' . "\n";
+    
+    $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-		$out .= '<fieldset><legend>' . $this->gettext('junk') . ' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-		$out .= '<br />' . "\n";
-		$out .= '<table' . $attrib_str . ">\n\n";
-
-		$field_id = 'policy_name';
-		$input_spampolicy_name = new html_select(array('name' => '_spampolicy_name', 'id' => $field_id));
+    $input_spampolicy_name = new html_select(array('name' => '_spampolicy_name', 'id' => 'spampolicy_name'));
 		$input_spampolicy_name->add($policy_name,$policy_id);
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('policy_name')),
-						$input_spampolicy_name->show($policy_sel[0]['policy_name']));
+    $table->add('title', rep_specialchars_output($this->gettext('policy_name')));
+    $table->add('', $input_spampolicy_name->show($policy_sel[0]['policy_name']));
 
-		$field_id = 'spammove';
-		$input_spammove = new html_checkbox(array('name' => '_spammove', 'value' => '1'));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('spammove')),
-						$input_spammove->show($enabled));
+    $input_spammove = new html_checkbox(array('name' => '_spammove', 'id' => 'spammove', 'value' => '1'));
+    $table->add('title', rep_specialchars_output($this->gettext('spammove')));
+    $table->add('', $input_spammove->show($enabled));
 
-		$out .= "\n</table>";
-		$out .= '<br />' . "\n";
+    $out .= $table->show();
 		$out .= "</fieldset>\n"; 
-
-		$this->rcmail_inst->output->add_gui_object('spamform', 'spam-form');
 
 		return $out;
 	}
@@ -155,8 +145,7 @@ class ispconfig3_spam extends rcube_plugin
 	{
 		$this->rcmail_inst->output->set_env('framed', true);
 
-		$out = '<fieldset><legend>'.$this->gettext('policy_entries').' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-		$out .= '<br />' . "\n";
+		$out = '<fieldset><legend>'.$this->gettext('policy_entries').'</legend>' . "\n";
 
 		$spam_table = new html_table(array('id' => 'spam-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 3));
 		$spam_table->add_header(array('width' => '220px'), $this->gettext('policy_entries'));
@@ -195,8 +184,7 @@ class ispconfig3_spam extends rcube_plugin
 			$spam_table->add_row();
 		}
 
-		$out .= "<div id=\"spam-cont\">".$spam_table->show()."</div>\n";
-		$out .= '<br />' . "\n";       
+		$out .= "<div id=\"spam-cont\">".$spam_table->show()."</div>\n";     
 		$out .= "</fieldset>\n";
 		
 		return $out;

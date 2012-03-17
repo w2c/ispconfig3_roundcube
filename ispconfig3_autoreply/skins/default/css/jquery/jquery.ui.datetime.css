@@ -19,7 +19,7 @@
 
 .ui-datetime table {width: 100%; font-size: .9em; border-collapse: collapse; margin: 0; }
 .ui-datetime th { padding: .7em .3em; text-align: center; font-weight: bold; border: 0; vertical-align: top; height: 1px; }
-.ui-datetime td { border: 0; padding: 1px; }
+.ui-datetime td { border: 0; padding: 1px !important; width: 0 !important; }
 .ui-datetime td span, .ui-datetime td a { display: block; padding: .2em; text-align: right; text-decoration: none; }
 
 .ui-datetime-clock { width: 5em; float: left; }

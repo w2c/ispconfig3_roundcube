@@ -5,6 +5,7 @@ class ispconfig3_wblist extends rcube_plugin
 	public $task = 'settings';
 	private $soap = NULL;
 	private $rcmail_inst = NULL;
+  private $required_plugins = array('ispconfig3_account');
 
 	function init()
 	{
@@ -184,9 +185,8 @@ class ispconfig3_wblist extends rcube_plugin
 	{
 		$id = get_input_value('_id', RCUBE_INPUT_GET);
 
-		$this->rcmail_inst->output->add_label('ispconfig3_wblist.wblistdelconfirm',
-												'ispconfig3_wblist.textempty'); 
-									
+		$this->rcmail_inst->output->add_label('ispconfig3_wblist.wblistdelconfirm'); 
+
 		if ($id != '' || $id != 0)
 		{
 			try
@@ -235,49 +235,33 @@ class ispconfig3_wblist extends rcube_plugin
 
 		$this->rcmail_inst->output->set_env('framed', true);
 
-		$attrib_str = create_attrib_string($attrib, array('style', 'class', 'id', 'cellpadding', 'cellspacing', 'border', 'summary'));
-
-		$out .= '<fieldset><legend>' . $this->gettext('acc_wblist') . ' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-		$out .= '<br />' . "\n";
-		$out .= '<table' . $attrib_str . ">\n\n";
+		$out .= '<fieldset><legend>' . $this->gettext('acc_wblist') . '</legend>' . "\n";
 
 		$hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => $wblist[0]['wblist_id']));
 		$out .= $hidden_id->show();
 
-		$field_id = 'wblistaddress';
-		$input_wblistemail = new html_inputfield(array('name' => '_wblistemail', 'id' => $field_id, 'size' => 70));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('email')),
-						$input_wblistemail->show($wblist[0]['email']));
+		$table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-		$field_id = 'wblistwb';
-		$input_wblistwb = new html_select(array('name' => '_wblistwb', 'id' => $field_id));
-		$input_wblistwb->add(array($this->gettext('wblistwhitelist'),$this->gettext('wblistblacklist')), array('W','B'));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('wblisttype')),
-						$input_wblistwb->show($type));
+    $input_wblistemail = new html_inputfield(array('name' => '_wblistemail', 'id' => 'wblistaddress', 'size' => 70));
+    $table->add('title', rep_specialchars_output($this->gettext('email')));
+    $table->add('', $input_wblistemail->show($wblist[0]['email']));
 
-		$input_wblistpriority = new html_select(array('name' => '_wblistpriority', 'id' => 'wblistpriority'));
+    $input_wblistwb = new html_select(array('name' => '_wblistwb', 'id' => 'wblistwb'));
+    $input_wblistwb->add(array($this->gettext('wblistwhitelist'),$this->gettext('wblistblacklist')), array('W','B'));
+    $table->add('title', rep_specialchars_output($this->gettext('wblisttype')));
+    $table->add('', $input_wblistwb->show($type));
+
+    $input_wblistpriority = new html_select(array('name' => '_wblistpriority', 'id' => 'wblistpriority'));
 		$input_wblistpriority->add(array("1","2","3","4","5","6","7","8","9","10"));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('wblistpriority')),
-						$input_wblistpriority->show($wblist[0]['priority']));
+    $table->add('title', rep_specialchars_output($this->gettext('wblistpriority')));
+    $table->add('', $input_wblistpriority->show($wblist[0]['priority']));
+    
+    $input_wblistenabled = new html_checkbox(array('name' => '_wblistenabled', 'id' => 'wblistenabled', 'value' => '1'));
+    $table->add('title', rep_specialchars_output($this->gettext('wblistenabled')));
+    $table->add('', $input_wblistenabled->show($enabled));
 
-		$field_id = 'wblistenabled';
-		$input_wblistenabled = new html_checkbox(array('name' => '_wblistenabled', 'id' => $field_id, 'value' => '1'));
-		$out .= sprintf("<tr><td class=\"title\"><label for=\"%s\">%s</label>:</td><td>%s</td></tr>\n",
-						$field_id,
-						rep_specialchars_output($this->gettext('wblistenabled')),
-						$input_wblistenabled->show($enabled));
-
-		$out .= "\n</table>";
-		$out .= '<br />' . "\n";
-		$out .= "</fieldset>\n";  
-
-		$this->rcmail_inst->output->add_gui_object('wblistform', 'wblist-form');
+    $out .= $table->show();
+		$out .= "</fieldset>\n";
 
 		return $out;
 	}
@@ -286,13 +270,12 @@ class ispconfig3_wblist extends rcube_plugin
 	{
 		$this->rcmail_inst->output->set_env('framed', true);
 
-		$out = '<fieldset><legend>'.$this->gettext('wblistentries').' ::: ' . $this->rcmail_inst->user->data['username'] . '</legend>' . "\n";
-		$out .= '<br />' . "\n";
+		$out = '<fieldset><legend>'.$this->gettext('wblistentries').'</legend>' . "\n";
 
 		$rule_table = new html_table(array('id' => 'rule-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 4));
-		$rule_table->add_header(array('width' => '370px'), $this->gettext('wblistentries'));
+		$rule_table->add_header("", $this->gettext('wblistentries'));
 		$rule_table->add_header(array('width' => '16px'), '');
-		$rule_table->add_header(array('width' => '16px'), '');
+		$rule_table->add_header(array('width' => '20px'), '');
 		$rule_table->add_header(array('width' => '16px'), '');
 
 		try
@@ -329,8 +312,7 @@ class ispconfig3_wblist extends rcube_plugin
 		}
 
 
-		$out .= "<div id=\"rule-cont\">".$rule_table->show()."</div>\n";
-		$out .= '<br />' . "\n";       
+		$out .= "<div id=\"rule-cont\">".$rule_table->show()."</div>\n";    
 		$out .= "</fieldset>\n";
 		
 		return $out;
