@@ -67,8 +67,28 @@ class ispconfig3_pass extends rcube_plugin
 									'uri'      => $this->rcmail_inst->config->get('soap_url')));
 					$session_id = $soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
 					$mail_user = $soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+          
+          $startdate = $mail_user[0]['autoresponder_start_date'];
+          $enddate = $mail_user[0]['autoresponder_end_date'];
+        
+          if (strtotime($startdate) <= time())
+          $startdate = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i', time() + 300);
+		
+          $startdate = array('year' => substr($startdate,0,4),
+							'month' => substr($startdate,5,2),
+							'day' => substr($startdate,8,2),
+							'hour' => substr($startdate,11,2),
+							'minute' => substr($startdate,14,2));
+							
+          $enddate = array('year' => substr($enddate,0,4),
+						'month' => substr($enddate,5,2),
+						'day' => substr($enddate,8,2),
+						'hour' => substr($enddate,11,2),
+						'minute' => substr($enddate,14,2));
 
           $params = $mail_user[0];
+          $params['autoresponder_start_date'] = $startdate;
+          $params['autoresponder_end_date'] = $enddate;
           $params['password'] = $newpwd;
 
 					$uid = $soap->client_get_id($session_id, $mail_user[0]['sys_userid']);

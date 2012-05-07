@@ -70,9 +70,29 @@ class ispconfig3_spam extends rcube_plugin
 
         $update = $this->soap->mail_spamfilter_user_update($session_id, $uid, $spam_user[0]['id'], $params);
 			}
-
+      
+      $startdate = $mail_user[0]['autoresponder_start_date'];
+      $enddate = $mail_user[0]['autoresponder_end_date'];
+        
+      if (strtotime($startdate) <= time())
+      $startdate = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i', time() + 300);
+		
+      $startdate = array('year' => substr($startdate,0,4),
+						'month' => substr($startdate,5,2),
+						'day' => substr($startdate,8,2),
+						'hour' => substr($startdate,11,2),
+						'minute' => substr($startdate,14,2));
+							
+      $enddate = array('year' => substr($enddate,0,4),
+						'month' => substr($enddate,5,2),
+						'day' => substr($enddate,8,2),
+						'hour' => substr($enddate,11,2),
+						'minute' => substr($enddate,14,2));
+      
       $params = $mail_user[0];
       unset($params['password']);
+      $params['autoresponder_start_date'] = $startdate;
+      $params['autoresponder_end_date'] = $enddate;
       $params['move_junk'] = $move_junk;
 
 			$update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
