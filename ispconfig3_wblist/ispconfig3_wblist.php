@@ -61,7 +61,8 @@ class ispconfig3_wblist extends rcube_plugin
 			try
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+        $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+				$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
 				
 				if (get_input_value('_type', RCUBE_INPUT_GET) == "W")
 					$wblist = $this->soap->mail_spamfilter_whitelist_get($session_id, $id);
@@ -103,8 +104,8 @@ class ispconfig3_wblist extends rcube_plugin
     try
     {
       $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-      $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-      $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+      $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
       $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
         
       if($id == 0 || $id == '')
@@ -116,12 +117,12 @@ class ispconfig3_wblist extends rcube_plugin
           $params = array('server_id' => $mail_user[0]['server_id'],
                   'priority' => '5',
                   'policy_id' => $this->rcmail_inst->config->get('wblist_default_policy'),
-                  'email' => $this->rcmail_inst->user->data['username'],
-                  'fullname' => $this->rcmail_inst->user->data['username'],
+                  'email' => $mail_user[0]['email'],
+                  'fullname' => $mail_user[0]['name'],
                   'local' => 'Y');
                   
           $add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
-          $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+          $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
         }
 
         $wblist = $this->soap->mail_spamfilter_whitelist_get($session_id, array('rid' => $spam_user[0]['id']));
@@ -192,7 +193,8 @@ class ispconfig3_wblist extends rcube_plugin
 			try
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+        $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+				$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
 				
 				if (get_input_value('_type', RCUBE_INPUT_GET) == "W")
 				{
@@ -281,7 +283,8 @@ class ispconfig3_wblist extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
 			$wblist = $this->soap->mail_spamfilter_whitelist_get($session_id, array('rid' => $spam_user[0]['id']));
 			//$blist = $this->soap->mail_spamfilter_blacklist_get($session_id, array('rid' => $spam_user[0]['id']));
 			//$wblist = array_merge($wlist, $blist);

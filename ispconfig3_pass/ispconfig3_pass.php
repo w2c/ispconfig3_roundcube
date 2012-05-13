@@ -66,7 +66,7 @@ class ispconfig3_pass extends rcube_plugin
           $soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url').'index.php',
 									'uri'      => $this->rcmail_inst->config->get('soap_url')));
 					$session_id = $soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-					$mail_user = $soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+					$mail_user = $soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
           
           $startdate = $mail_user[0]['autoresponder_start_date'];
           $enddate = $mail_user[0]['autoresponder_end_date'];

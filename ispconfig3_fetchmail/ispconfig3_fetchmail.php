@@ -61,9 +61,10 @@ class ispconfig3_fetchmail extends rcube_plugin
 			try
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
+        $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
 				$mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, $id);
 				
-				if ($mail_fetchmail['destination'] == $this->rcmail_inst->user->data['username'])
+				if ($mail_fetchmail['destination'] == $mail_user[0]['email'])
 				{
 					$delete = $this->soap->mail_fetchmail_delete($session_id, $id);
 					
@@ -82,7 +83,6 @@ class ispconfig3_fetchmail extends rcube_plugin
 	function save()
 	{ 
 		$id           = get_input_value('_id', RCUBE_INPUT_POST);
-		$destination  = $this->rcmail_inst->user->data['username'];
 		$typ          = get_input_value('_fetchmailtyp', RCUBE_INPUT_POST);
 		$server       = get_input_value('_fetchmailserver', RCUBE_INPUT_POST);
 		$user         = get_input_value('_fetchmailuser', RCUBE_INPUT_POST);
@@ -103,12 +103,12 @@ class ispconfig3_fetchmail extends rcube_plugin
     try
 	  {
 		  $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-		  $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+		  $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
       $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
       
 		  if($id == 0 || $id == '')
 		  {
-        $mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, array('destination' => $destination));
+        $mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, array('destination' => $mail_user[0]['email']));
 			  $limit = $this->rcmail_inst->config->get('fetchmail_limit');
 				
 				if(count($mail_fetchmail) < $limit)
@@ -119,7 +119,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 									'source_username' => $user,
 									'source_password' => $pass,							
 									'source_delete' => $delete,
-									'destination' => $destination,
+									'destination' => $mail_user[0]['email'],
 									'active' => $enabled);
 									
           $add = $this->soap->mail_fetchmail_add($session_id, $uid, $params);
@@ -133,7 +133,7 @@ class ispconfig3_fetchmail extends rcube_plugin
       {
         $mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, $id);
 				
-				if ($mail_fetchmail['destination'] == $destination)
+				if ($mail_fetchmail['destination'] == $mail_user[0]['email'])
 				{
 					$params = array('server_id' => $mail_fetchmail['server_id'],
 									'type' => $typ,
@@ -141,7 +141,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 									'source_username' => $user,
 									'source_password' => $pass,							
 									'source_delete' => $delete,
-									'destination' => $destination,
+									'destination' => $mail_user[0]['email'],
 									'active' => $enabled);
 									
 					$update = $this->soap->mail_fetchmail_update($session_id, $uid, $id, $params);
@@ -173,6 +173,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 			try
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
+        $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
 				$mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, $id);
 				$this->soap->logout($session_id);
 			}
@@ -184,7 +185,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 			$enabled = $mail_fetchmail['active'];
 			$delete = $mail_fetchmail['source_delete'];
 
-			if ($mail_fetchmail['destination'] != $this->rcmail_inst->user->data['username'])
+			if ($mail_fetchmail['destination'] != $mail_user[0]['mail_user'])
 			{
 				$this->rcmail_inst->output->command('display_message', 'Error: '.$this->gettext('opnotpermitted'), 'error');	
 
@@ -263,7 +264,8 @@ class ispconfig3_fetchmail extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$fetchmail = $this->soap->mail_fetchmail_get($session_id, array('destination' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+			$fetchmail = $this->soap->mail_fetchmail_get($session_id, array('destination' => $mail_user[0]['email']));
 			$this->soap->logout($session_id);
 
 			for ( $i = 0; $i < count($fetchmail); $i++ )

@@ -48,7 +48,6 @@ class ispconfig3_autoreply extends rcube_plugin
 
 	function save()
 	{ 
-		$user = $this->rcmail_inst->user->data['username'];
 		$enabled = get_input_value('_autoreplyenabled', RCUBE_INPUT_POST);
 		$body = get_input_value('_autoreplybody', RCUBE_INPUT_POST);
 		$startdate = get_input_value('_autoreplystarton', RCUBE_INPUT_POST);
@@ -77,7 +76,7 @@ class ispconfig3_autoreply extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+			$mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
       $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
       
       $params = $mail_user[0];
@@ -105,7 +104,7 @@ class ispconfig3_autoreply extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));  
+			$mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));  
 			$this->soap->logout($session_id);
 		}
 		catch (SoapFault $e)

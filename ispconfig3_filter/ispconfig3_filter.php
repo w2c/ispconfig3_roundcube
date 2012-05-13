@@ -62,7 +62,7 @@ class ispconfig3_filter extends rcube_plugin
 			try
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+				$mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
 				$filter = $this->soap->mail_user_filter_get($session_id, $id);
 				
 				if ($filter['mailuser_id'] == $mail_user[0]['mailuser_id'])
@@ -100,7 +100,7 @@ class ispconfig3_filter extends rcube_plugin
     try
 	  {
       $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+			$mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
       $mail_server = $this->soap->server_get($session_id, $mail_user[0]['server_id'], 'mail');
       $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
       
@@ -173,7 +173,7 @@ class ispconfig3_filter extends rcube_plugin
 			try
 			{
 				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+				$mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
 				$filter = $this->soap->mail_user_filter_get($session_id, array('filter_id' => $id));
         $mail_server = $this->soap->server_get($session_id, $mail_user[0]['server_id'], 'mail');
 				$this->soap->logout($session_id);
@@ -212,6 +212,9 @@ class ispconfig3_filter extends rcube_plugin
 		$out .= '<fieldset><legend>' . $this->gettext('acc_filter') . '</legend>' . "\n";
 
     $table = new html_table(array('cols' => 2, 'class' => 'propform'));
+ 
+    $hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => $filter[0]['filter_id']));
+		$out .= $hidden_id->show();
 
     $input_filtername = new html_inputfield(array('name' => '_filtername', 'id' => 'filtername', 'size' => 70));
     $table->add('title', rep_specialchars_output($this->gettext('filtername')));
@@ -255,7 +258,7 @@ class ispconfig3_filter extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+			$mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
 			$filter = $this->soap->mail_user_filter_get($session_id, array('mailuser_id' => $mail_user[0]['mailuser_id']));
 			$this->soap->logout($session_id);
 

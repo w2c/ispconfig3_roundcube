@@ -77,7 +77,7 @@ class ispconfig3_autoselect extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $user));  
+			$mail_user = $this->soap->mail_user_get($session_id, array('login' => $user));  
 
 			if(count($mail_user) == 1)
 			{

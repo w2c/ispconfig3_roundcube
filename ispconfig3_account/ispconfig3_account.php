@@ -73,12 +73,14 @@ class ispconfig3_account extends rcube_plugin
     if ($this->rcmail_inst->config->get('identity_limit') === true)
     {
       $emails = new html_select(array('name' => '_email', 'id' => 'rcmfd_email', 'class' => 'ff_email'));
-      $emails->add($this->rcmail_inst->user->data['username'],$this->rcmail_inst->user->data['username']);
       try
       {
         $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-        $alias = $this->soap->mail_alias_get($session_id, array('destination' => $this->rcmail_inst->user->data['username'], 'type' => 'alias', 'active' => 'y'));
+        $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+        $alias = $this->soap->mail_alias_get($session_id, array('destination' => $mail_user[0]['email'], 'type' => 'alias', 'active' => 'y'));
         $this->soap->logout($session_id);
+        
+        $emails->add($mail_user[0]['email'], $mail_user[0]['email']);
         
         for ( $i = 0; $i < count($alias); $i++ )
           $emails->add($alias[$i]['source'], $alias[$i]['source']);
@@ -190,8 +192,13 @@ class ispconfig3_account extends rcube_plugin
     try
     {
       $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-      $alias = $this->soap->mail_alias_get($session_id, array('destination' => $this->rcmail_inst->user->data['username'], 'type' => 'alias', 'active' => 'y'));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+      $alias = $this->soap->mail_alias_get($session_id, array('destination' => $mail_user[0]['email'], 'type' => 'alias', 'active' => 'y'));
       $this->soap->logout($session_id);
+      
+      $class = ( $class == 'odd' ? 'even' : 'odd' );
+      $alias_table->set_row_attribs(array('class' => $class));
+      $alias_table->add('', $mail_user[0]['email']);
 
       for ( $i = 0; $i < count($alias); $i++ )
       {

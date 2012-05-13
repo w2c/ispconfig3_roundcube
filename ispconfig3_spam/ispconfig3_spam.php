@@ -48,8 +48,8 @@ class ispconfig3_spam extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-      $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
       $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
 			if ($spam_user[0]['id'] == '')
@@ -57,8 +57,8 @@ class ispconfig3_spam extends rcube_plugin
 				$params = array('server_id' => $mail_user[0]['server_id'],
 								'priority' => '5',
 								'policy_id' => $policy_id,
-								'email' => $this->rcmail_inst->user->data['username'],
-								'fullname' => $this->rcmail_inst->user->data['username'],
+								'email' => $mail_user[0]['email'],
+								'fullname' => $mail_user[0]['name'],
 								'local' => 'Y');
 
 				$add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
@@ -116,8 +116,8 @@ class ispconfig3_spam extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
-			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
 			$policy = $this->soap->mail_policy_get($session_id, array(1 => 1));
 			$policy_sel = $this->soap->mail_policy_get($session_id, array("id" => $spam_user[0]['policy_id']));
 			$this->soap->logout($session_id);
@@ -175,7 +175,8 @@ class ispconfig3_spam extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+			$spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
 			$policies = $this->soap->mail_policy_get($session_id, array(1 => 1));
 
 			for ( $i = 0; $i < count($policies); $i++ )

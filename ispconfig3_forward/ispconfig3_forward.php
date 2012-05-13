@@ -39,14 +39,15 @@ class ispconfig3_forward extends rcube_plugin
 	{
 		$address = strtolower(get_input_value('_forwardingaddress', RCUBE_INPUT_POST)); 
 
-		if($address == $this->rcmail_inst->user->data['username'])
-			$this->rcmail_inst->output->command('display_message', $this->gettext('forwardingloop'), 'error');
-		else
-		{
-			try
-			{
-				$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-				$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+    try
+    {
+      $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
+      $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+      
+      if($address == $mail_user[0]['email'])
+        $this->rcmail_inst->output->command('display_message', $this->gettext('forwardingloop'), 'error');
+      else
+      {
         $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
         
         $startdate = $mail_user[0]['autoresponder_start_date'];
@@ -54,18 +55,18 @@ class ispconfig3_forward extends rcube_plugin
         
         if (strtotime($startdate) <= time())
         $startdate = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i', time() + 300);
-		
+    
         $startdate = array('year' => substr($startdate,0,4),
-							'month' => substr($startdate,5,2),
-							'day' => substr($startdate,8,2),
-							'hour' => substr($startdate,11,2),
-							'minute' => substr($startdate,14,2));
-							
+              'month' => substr($startdate,5,2),
+              'day' => substr($startdate,8,2),
+              'hour' => substr($startdate,11,2),
+              'minute' => substr($startdate,14,2));
+              
         $enddate = array('year' => substr($enddate,0,4),
-						'month' => substr($enddate,5,2),
-						'day' => substr($enddate,8,2),
-						'hour' => substr($enddate,11,2),
-						'minute' => substr($enddate,14,2));
+            'month' => substr($enddate,5,2),
+            'day' => substr($enddate,8,2),
+            'hour' => substr($enddate,11,2),
+            'minute' => substr($enddate,14,2));
 
         $params = $mail_user[0];
         unset($params['password']);
@@ -73,16 +74,16 @@ class ispconfig3_forward extends rcube_plugin
         $params['autoresponder_start_date'] = $startdate;
         $params['autoresponder_end_date'] = $enddate;
         
-				$update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
-				$this->soap->logout($session_id);
-				
-				$this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-			}
-			catch (SoapFault $e)
-			{
-				$this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
-			}
-		} 
+        $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
+        $this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+      }
+      
+      $this->soap->logout($session_id);
+    }
+    catch (SoapFault $e)
+    {
+      $this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
+    }
 
 		$this->init_html();
 	}
@@ -97,7 +98,7 @@ class ispconfig3_forward extends rcube_plugin
 		try
 		{
 			$session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'),$this->rcmail_inst->config->get('remote_soap_pass'));
-			$mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail_inst->user->data['username']));
+			$mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
 			$this->soap->logout($session_id);
 		}
 		catch (SoapFault $e)
