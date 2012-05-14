@@ -212,13 +212,6 @@ class ispconfig3_account extends rcube_plugin
       $this->rcmail_inst->output->command('display_message', 'Soap Error: '.$e->getMessage(), 'error');
     }
 
-    if(count($alias) == 0)
-    {
-      $alias_table->add('', rep_specialchars_output($this->gettext('acc_noalias')));
-      $alias_table->set_row_attribs(array('class' => 'odd'));
-      $alias_table->add_row();
-    }
-
     $out .= "<div id=\"alias-cont\">".$alias_table->show()."</div>\n";     
     $out .= "</fieldset></form>\n";
 
