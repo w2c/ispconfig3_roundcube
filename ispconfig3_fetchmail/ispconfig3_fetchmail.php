@@ -1,5 +1,4 @@
 <?php
-
 class ispconfig3_fetchmail extends rcube_plugin
 {
 	public $task = 'settings';

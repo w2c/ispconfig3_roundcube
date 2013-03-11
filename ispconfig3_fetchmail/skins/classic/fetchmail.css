@@ -1,0 +1,45 @@
+#fetch-cont
+{
+  border: 1px solid #999999;
+  background-color: #F9F9F9;
+  height: 163px;
+  overflow: auto;
+  width: 450px;
+}
+
+body.fetch-table
+{
+  margin: 0px;
+  background-color: #F9F9F9;
+}
+
+#fetch-table
+{
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  /* css hack for IE */
+  width: expression('auto');
+}
+
+/* safari hack \*/
+html>body*#fetch-table[id$="fetch-table"]:not([class="none"]) { table-layout: auto; }
+/**/
+
+#fetch-table td.fetch
+{
+  text-align: left;
+  vertical-align: middle;
+	cursor: pointer;
+}
+#selected
+{
+	color: #FFFFFF;
+  background-color: #CC3333;
+}
+
+#fetch-table td.control
+{
+  text-align: right;
+  vertical-align: middle;
+}

@@ -1,12 +1,4 @@
 <?php
-/**
-* ISPConfig 3 Autoselect Host
-*
-* Make use of the ISPConfig 3 remote library to select the corresponding Host
-*
-* @author Horst Fickel ( web-wack.at )
-*/
-
 class ispconfig3_autoselect extends rcube_plugin
 {
 	public $task = 'login|logout';
@@ -57,8 +49,8 @@ class ispconfig3_autoselect extends rcube_plugin
 
 	function template_object_loginform($args)
 	{
-		$args['content'] = str_replace("<tr><td class=\"title\"><label for=\"rcmloginhost\">Server</label>\n</td>\n<td class=\"input\"><input name=\"_host\" id=\"rcmloginhost\" autocomplete=\"off\" type=\"text\" /></td>\n</tr>","",$args['content']);
-
+		$args['content'] = preg_replace ("/<tr><td\ class\=\"[A-z0-9]{1,}\"><label\ for\=\"rcmloginhost\">.*?rcmloginhost.*?td>\s+<\/tr>/s", "",$args['content']);
+		
 		return $args;
 	}
 

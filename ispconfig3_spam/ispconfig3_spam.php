@@ -1,5 +1,4 @@
 <?php
-
 class ispconfig3_spam extends rcube_plugin
 {
 	public $task = 'settings';
@@ -58,7 +57,7 @@ class ispconfig3_spam extends rcube_plugin
 								'priority' => '5',
 								'policy_id' => $policy_id,
 								'email' => $mail_user[0]['email'],
-								'fullname' => $mail_user[0]['name'],
+								'fullname' => $mail_user[0]['email'],
 								'local' => 'Y');
 
 				$add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
@@ -71,28 +70,10 @@ class ispconfig3_spam extends rcube_plugin
         $update = $this->soap->mail_spamfilter_user_update($session_id, $uid, $spam_user[0]['id'], $params);
 			}
       
-      $startdate = $mail_user[0]['autoresponder_start_date'];
-      $enddate = $mail_user[0]['autoresponder_end_date'];
-        
-      if (strtotime($startdate) <= time())
-      $startdate = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i', time() + 300);
-		
-      $startdate = array('year' => substr($startdate,0,4),
-						'month' => substr($startdate,5,2),
-						'day' => substr($startdate,8,2),
-						'hour' => substr($startdate,11,2),
-						'minute' => substr($startdate,14,2));
-							
-      $enddate = array('year' => substr($enddate,0,4),
-						'month' => substr($enddate,5,2),
-						'day' => substr($enddate,8,2),
-						'hour' => substr($enddate,11,2),
-						'minute' => substr($enddate,14,2));
-      
       $params = $mail_user[0];
       unset($params['password']);
-      $params['autoresponder_start_date'] = $startdate;
-      $params['autoresponder_end_date'] = $enddate;
+			unset($params['autoresponder_start_date']);
+			unset($params['autoresponder_end_date']);
       $params['move_junk'] = $move_junk;
 
 			$update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
@@ -167,9 +148,10 @@ class ispconfig3_spam extends rcube_plugin
 
 		$out = '<fieldset><legend>'.$this->gettext('policy_entries').'</legend>' . "\n";
 
-		$spam_table = new html_table(array('id' => 'spam-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 3));
+		$spam_table = new html_table(array('id' => 'spam-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 4));
 		$spam_table->add_header(array('width' => '220px'), $this->gettext('policy_entries'));
 		$spam_table->add_header(array('class' => 'value', 'width' => '150px'), $this->gettext('policy_tag'));
+		$spam_table->add_header(array('class' => 'value', 'width' => '150px'), $this->gettext('policy_tag2'));
 		$spam_table->add_header(array('class' => 'value', 'width' => '130px'), $this->gettext('policy_kill'));
 
 		try
@@ -188,7 +170,7 @@ class ispconfig3_spam extends rcube_plugin
 
 				$spam_table->set_row_attribs(array('class' => $class));
 				
-				$this->_spam_row($spam_table,$policies[$i]['policy_name'],$policies[$i]['spam_tag_level'],$policies[$i]['spam_kill_level'],$attrib);
+				$this->_spam_row($spam_table,$policies[$i]['policy_name'],$policies[$i]['spam_tag_level'],$policies[$i]['spam_tag2_level'],$policies[$i]['spam_kill_level'],$attrib);
 			}
 
 			$this->soap->logout($session_id);
@@ -200,7 +182,7 @@ class ispconfig3_spam extends rcube_plugin
 
 		if(count($policies) == 0)
 		{
-			$spam_table->add(array('colspan' => '3'), rep_specialchars_output($this->gettext('spamnopolicies')));
+			$spam_table->add(array('colspan' => '4'), rep_specialchars_output($this->gettext('spamnopolicies')));
 			$spam_table->set_row_attribs(array('class' => 'odd'));
 			$spam_table->add_row();
 		}
@@ -211,10 +193,11 @@ class ispconfig3_spam extends rcube_plugin
 		return $out;
 	}
 
-	private function _spam_row($spam_table,$name,$tag,$kill,$attrib)
+	private function _spam_row($spam_table,$name,$tag,$tag2,$kill,$attrib)
 	{
 		$spam_table->add(array('class' => 'policy'), $name);
 		$spam_table->add(array('class' => 'value'), '&nbsp;'.$tag);
+		$spam_table->add(array('class' => 'value'), '&nbsp;'.$tag2);
 		$spam_table->add(array('class' => 'value'), $kill);
 
 		return $spam_table;

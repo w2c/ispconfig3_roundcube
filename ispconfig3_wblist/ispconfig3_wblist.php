@@ -1,5 +1,4 @@
 <?php
-
 class ispconfig3_wblist extends rcube_plugin
 {
 	public $task = 'settings';
@@ -118,7 +117,7 @@ class ispconfig3_wblist extends rcube_plugin
                   'priority' => '5',
                   'policy_id' => $this->rcmail_inst->config->get('wblist_default_policy'),
                   'email' => $mail_user[0]['email'],
-                  'fullname' => $mail_user[0]['name'],
+                  'fullname' => $mail_user[0]['email'],
                   'local' => 'Y');
                   
           $add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);

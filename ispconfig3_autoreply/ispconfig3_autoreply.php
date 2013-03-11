@@ -1,5 +1,4 @@
 <?php
-
 class ispconfig3_autoreply extends rcube_plugin
 {
 	public $task = 'settings';
@@ -25,12 +24,12 @@ class ispconfig3_autoreply extends rcube_plugin
 		if (file_exists('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css'))
 			$this->include_stylesheet('skins/'.$skin.'/css/jquery/jquery.ui.datetime.css');
 		else
-			$this->include_stylesheet('skins/default/css/jquery/jquery.ui.datetime.css');
+			$this->include_stylesheet('skins/classic/css/jquery/jquery.ui.datetime.css');
 		
 		if (file_exists('skins/'.$skin.'/js/jquery.ui.datetime.min.js'))
 			$this->include_script('skins/'.$skin.'/js/jquery.ui.datetime.min.js');
 		else
-			$this->include_script('skins/default/js/jquery.ui.datetime.min.js');
+			$this->include_script('skins/classic/js/jquery.ui.datetime.min.js');
 		
 		$this->include_script('autoreply.js');
 	}
@@ -52,22 +51,22 @@ class ispconfig3_autoreply extends rcube_plugin
 		$body = get_input_value('_autoreplybody', RCUBE_INPUT_POST);
 		$startdate = get_input_value('_autoreplystarton', RCUBE_INPUT_POST);
 		$enddate = get_input_value('_autoreplyendby', RCUBE_INPUT_POST);
-    
-    if (strtotime($startdate) <= time())
-			$startdate = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i', time() + 300);
+		
+		if (strtotime($enddate) < strtotime($startdate))
+			$enddate = $startdate;
 		
 		$startdate = array('year' => substr($startdate,0,4),
-							'month' => substr($startdate,5,2),
-							'day' => substr($startdate,8,2),
-							'hour' => substr($startdate,11,2),
-							'minute' => substr($startdate,14,2));
+			'month' => substr($startdate,5,2),
+			'day' => substr($startdate,8,2),
+			'hour' => substr($startdate,11,2),
+			'minute' => substr($startdate,14,2));
 							
 		$enddate = array('year' => substr($enddate,0,4),
-						'month' => substr($enddate,5,2),
-						'day' => substr($enddate,8,2),
-						'hour' => substr($enddate,11,2),
-						'minute' => substr($enddate,14,2));
-		
+			'month' => substr($enddate,5,2),
+			'day' => substr($enddate,8,2),
+			'hour' => substr($enddate,11,2),
+			'minute' => substr($enddate,14,2));
+
 		if(!$enabled)
 			$enabled = 'n';
 		else
@@ -119,7 +118,7 @@ class ispconfig3_autoreply extends rcube_plugin
 		else
 			$enabled = 0;
 			
-		if ($mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00' || strtotime($mail_user[0]['autoresponder_start_date']) <= time())
+		if ($mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
 			$mail_user[0]['autoresponder_start_date'] = date('Y').'-'.date('m').'-'.date('d').' '.date('H').':'.date('i');
 			
 		if ($mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
