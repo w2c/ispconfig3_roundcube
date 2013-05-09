@@ -1,10 +1,10 @@
 <?php
 $labels = array();
 $labels['password'] = 'Změna hesla';
-$labels['changepasswd']  = 'Change Password';
-$labels['curpasswd']  = 'Stávající heslo:';
-$labels['newpasswd']  = 'Nové heslo:';
-$labels['confpasswd']  = 'Ověření nového hesla:';
+$labels['changepasswd'] = 'Change Password';
+$labels['curpasswd'] = 'Stávající heslo:';
+$labels['newpasswd'] = 'Nové heslo:';
+$labels['confpasswd'] = 'Ověření nového hesla:';
 
 $messages = array();
 $messages['nopassword'] = 'Prosím zadejte nové heslo.';

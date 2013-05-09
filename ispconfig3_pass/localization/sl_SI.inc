@@ -1,10 +1,10 @@
 <?php
 $labels = array();
 $labels['password'] = 'Sprememba gesla';
-$labels['changepasswd']  = 'Spremeni geslo';
-$labels['curpasswd']  = 'Trenutno geslo:';
-$labels['newpasswd']  = 'Novo geslo:';
-$labels['confpasswd']  = 'Potrditev novega gesla:';
+$labels['changepasswd'] = 'Spremeni geslo';
+$labels['curpasswd'] = 'Trenutno geslo:';
+$labels['newpasswd'] = 'Novo geslo:';
+$labels['confpasswd'] = 'Potrditev novega gesla:';
 
 $messages = array();
 $messages['nopassword'] = 'Prosimo, vnesite novo geslo.';

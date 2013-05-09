@@ -2,9 +2,9 @@
 $labels = array();
 $labels['password'] = 'пароль';
 $labels['changepasswd'] = 'изменить пароль';
-$labels['curpasswd']  = 'старый пароль:';
-$labels['newpasswd']  = 'новый пароль:';
-$labels['confpasswd']  = 'повторите новый пароль:';
+$labels['curpasswd'] = 'старый пароль:';
+$labels['newpasswd'] = 'новый пароль:';
+$labels['confpasswd'] = 'повторите новый пароль:';
 
 $messages = array();
 $messages['nopassword'] = 'пожалуйста задайте новый пароль.';

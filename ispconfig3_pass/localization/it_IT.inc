@@ -1,10 +1,10 @@
 <?php
 $labels = array();
 $labels['password'] = 'Password';
-$labels['changepasswd']  = 'Modifica la Password';
-$labels['curpasswd']  = 'Password attuale:';
-$labels['newpasswd']  = 'Nuova Password:';
-$labels['confpasswd']  = 'Nuova Password (conferma):';
+$labels['changepasswd'] = 'Modifica la Password';
+$labels['curpasswd'] = 'Password attuale:';
+$labels['newpasswd'] = 'Nuova Password:';
+$labels['confpasswd'] = 'Nuova Password (conferma):';
 
 $messages = array();
 $messages['nopassword'] = 'Prego, inserire una nuova password.';

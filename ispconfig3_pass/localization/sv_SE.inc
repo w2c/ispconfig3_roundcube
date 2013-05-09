@@ -1,10 +1,10 @@
 <?php
 $labels = array();
 $labels['password'] = 'L&ouml;senord';
-$labels['changepasswd']  = '&Auml;ndra l&ouml;senord';
-$labels['curpasswd']  = 'Nuvarande l&ouml;senord:';
-$labels['newpasswd']  = 'Nytt l&ouml;senord:';
-$labels['confpasswd']  = 'Bekr&auml;fta l&ouml;senord:';
+$labels['changepasswd'] = '&Auml;ndra l&ouml;senord';
+$labels['curpasswd'] = 'Nuvarande l&ouml;senord:';
+$labels['newpasswd'] = 'Nytt l&ouml;senord:';
+$labels['confpasswd'] = 'Bekr&auml;fta l&ouml;senord:';
 
 $messages = array();
 $messages['nopassword'] = 'Ange ett nytt l&ouml;senord.';

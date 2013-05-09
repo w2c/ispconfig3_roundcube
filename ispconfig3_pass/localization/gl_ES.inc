@@ -1,10 +1,10 @@
 <?php
 $labels = array();
 $labels['password'] = 'Contrasinal';
-$labels['changepasswd']  = 'Cambiar o contrasinal';
-$labels['curpasswd']  = 'Contrasinal actual:';
-$labels['newpasswd']  = 'Contrasinal novo:';
-$labels['confpasswd']  = 'Confirme o contrasinal novo:';
+$labels['changepasswd'] = 'Cambiar o contrasinal';
+$labels['curpasswd'] = 'Contrasinal actual:';
+$labels['newpasswd'] = 'Contrasinal novo:';
+$labels['confpasswd'] = 'Confirme o contrasinal novo:';
 
 $messages = array();
 $messages['nopassword'] = 'Por favor, introduza un contrasinal novo.';

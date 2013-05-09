@@ -1,10 +1,10 @@
 <?php
 $labels = array();
 $labels['password'] = 'Wachtwoord';
-$labels['changepasswd']  = 'Wachtwoord veranderen';
-$labels['curpasswd']  = 'Huidig wachtwoord:';
-$labels['newpasswd']  = 'Nieuw wachtwoord:';
-$labels['confpasswd']  = 'Bevestig nieuw wachtwoord:';
+$labels['changepasswd'] = 'Wachtwoord veranderen';
+$labels['curpasswd'] = 'Huidig wachtwoord:';
+$labels['newpasswd'] = 'Nieuw wachtwoord:';
+$labels['confpasswd'] = 'Bevestig nieuw wachtwoord:';
 
 $messages = array();
 $messages['nopassword'] = 'Vul a.u.b. nieuw wachtwoord in.';

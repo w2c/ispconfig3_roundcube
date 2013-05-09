@@ -2,10 +2,10 @@
 
 $labels = array();
 $labels['password'] = 'Hasło';
-$labels['changepasswd']  = 'Zmiana hasła';
-$labels['curpasswd']  = 'Bieżące hasło:';
-$labels['newpasswd']  = 'Nowe hasło:';
-$labels['confpasswd']  = 'Potwierdź nowe hasło:';
+$labels['changepasswd'] = 'Zmiana hasła';
+$labels['curpasswd'] = 'Bieżące hasło:';
+$labels['newpasswd'] = 'Nowe hasło:';
+$labels['confpasswd'] = 'Potwierdź nowe hasło:';
 
 $messages = array();
 $messages['nopassword'] = 'Proszę wprowadzić nowe hasło.';

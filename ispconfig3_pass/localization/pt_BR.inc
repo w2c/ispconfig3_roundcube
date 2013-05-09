@@ -1,10 +1,10 @@
 <?php
 $labels = array();
 $labels['password'] = 'Senha';
-$labels['changepasswd']  = 'Atualizar Senha';
-$labels['curpasswd']  = 'Senha Atual:';
-$labels['newpasswd']  = 'Nova Senha:';
-$labels['confpasswd']  = 'Confirmação de Senha:';
+$labels['changepasswd'] = 'Atualizar Senha';
+$labels['curpasswd'] = 'Senha Atual:';
+$labels['newpasswd'] = 'Nova Senha:';
+$labels['confpasswd'] = 'Confirmação de Senha:';
 
 $messages = array();
 $messages['nopassword'] = 'Por favor informe uma nova senha.';
