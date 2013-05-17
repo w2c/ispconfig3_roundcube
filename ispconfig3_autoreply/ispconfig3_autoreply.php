@@ -55,6 +55,9 @@ class ispconfig3_autoreply extends rcube_plugin
 
     if (strtotime($enddate) < strtotime($startdate))
       $enddate = $startdate;
+      
+    $startdate = gmdate("Y-m-d H:i", strtotime($startdate));
+    $enddate = gmdate("Y-m-d H:i", strtotime($enddate));
 
     $startdate = array('year' => substr($startdate, 0, 4),
       'month' => substr($startdate, 5, 2),
