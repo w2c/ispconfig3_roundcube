@@ -91,7 +91,7 @@ class ispconfig3_pass extends rcube_plugin
 
         if (!$error && $checkSymbol && !preg_match("#\W+#", $newpwd)) {
           $error = TRUE;
-          $this->rcmail_inst->output->command('display_message', $this->gettext('passwordcheckupper'), 'error');
+          $this->rcmail_inst->output->command('display_message', $this->gettext('passwordchecksymbol'), 'error');
         }
 
         if (!$error) {
