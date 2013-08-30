@@ -4,11 +4,11 @@ $labels['acc_autoreply'] = 'Réponse automatique';
 $labels['autoreplymessage'] = 'Message';
 $labels['autoreplyenabled'] = 'Activer';
 $labels['and'] = 'et';
-$labels['autoreplystarton'] = 'Debut';
+$labels['autoreplystarton'] = 'Début';
 $labels['autoreplyendby'] = 'Fin';
 
 $messages = array();
 $messages['textempty'] = 'Merci de saisir un message';
-$messages['startdate_notfuture'] = 'Start date cannot be in the past';
-$messages['endate_notgreater'] = 'End date must be set and be later than start date';
+$messages['startdate_notfuture'] = 'La date de début ne peut pas être dans le passé';
+$messages['endate_notgreater'] = 'La date de fin doit être antérieure à la date de début';
 ?>
