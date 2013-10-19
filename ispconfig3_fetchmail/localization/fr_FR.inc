@@ -6,7 +6,7 @@ $labels['fetchmailserver'] = 'Serveur POP3/IMAP';
 $labels['fetchmaildelete'] = 'Supprimer les messages après réception';
 $labels['fetchmailenabled'] = 'Activer';
 $labels['nofetch'] = 'Aucune entrée disponible';
-$labels['fetchmail_entries'] = 'Entrées disponible';
+$labels['fetchmail_entries'] = 'Entrées disponibles';
 
 $messages = array();
 $messages['fetchmaildelconfirm'] = 'Etes-vous sûr de vouloir supprimer cette entrée?';
