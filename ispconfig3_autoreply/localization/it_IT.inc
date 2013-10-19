@@ -2,13 +2,13 @@
 $labels = array();
 $labels['acc_autoreply'] = 'Autoreply';
 $labels['autoreplymessage'] = 'Messaggio';
-$labels['autoreplyenabled'] = 'Abilitato';
+$labels['autoreplyenabled'] = 'Attivo';
 $labels['and'] = 'e';
-$labels['autoreplystarton'] = 'Data inizio';
-$labels['autoreplyendby'] = 'Data fine';
+$labels['autoreplystarton'] = 'Data di inizio';
+$labels['autoreplyendby'] = 'Data di fine';
 
 $messages = array();
-$messages['textempty'] = 'Prego, Inserire un messaggio';
-$messages['startdate_notfuture'] = 'La [Data inizio] non può essere nel passato';
-$messages['endate_notgreater'] = 'La [Data fine] deve essere impostata ed essere successiva alla [Data inizio]';
+$messages['textempty'] = 'Si richiede un messaggio';
+$messages['startdate_notfuture'] = 'La data di inizio non puÃ² essere in passato';
+$messages['endate_notgreater'] = 'La data di fine deve essere impostato ed essere successiva alla data di inizio';
 ?>
