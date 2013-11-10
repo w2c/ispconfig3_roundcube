@@ -1,7 +1,7 @@
 <?php
 $labels['acc_acc'] = 'Profil';
 $labels['acc_alias'] = 'Linkelt email címek';
-$labels['acc_general'] = 'Álltalános';
+$labels['acc_general'] = 'Általános';
 $labels['acc_pass'] = 'Jelszó';
 $labels['acc_forward'] = 'Továbbítás';
 $labels['acc_fetchmail'] = 'Fetchmail';
