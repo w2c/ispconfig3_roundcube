@@ -12,8 +12,8 @@ $messages['nocurpassword'] = 'Please input current password.';
 $messages['passwordincorrect'] = 'Current password is incorrect.';
 $messages['passwordinconsistency'] = 'Inconsistency of password, please try again.';
 $messages['passwordminlength'] = 'Password is too short: %d digits required.';
-$messages['passwordchecknumber'] = 'Password must include at least one number.';
-$messages['passwordchecklower'] = 'Password must include at least one lower case letter.';
-$messages['passwordcheckupper'] = 'Password must include at least one upper case letter.';
-$messages['passwordchecksymbol'] = 'Password must include at least one symbol.';
+$messages['passwordchecknumber'] = 'Password must include at least %d number.';
+$messages['passwordchecklower'] = 'Password must include at least %d lower case letter.';
+$messages['passwordcheckupper'] = 'Password must include at least %d upper case letter.';
+$messages['passwordchecksymbol'] = 'Password must include at least %d symbol.';
 ?>
