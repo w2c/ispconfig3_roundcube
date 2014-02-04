@@ -55,6 +55,11 @@ class ispconfig3_pass extends rcube_plugin
       $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST);
       $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST);
       $pwl = $this->rcmail_inst->config->get('password_min_length');
+      // minimum password number of : total chars, lower case, upper case, numbers, symbols
+      $pwml = $this->rcmail_inst->config->get('password_min_lower');
+      $pwmu = $this->rcmail_inst->config->get('password_min_upper');
+      $pwmn = $this->rcmail_inst->config->get('password_min_number');
+      $pwms = $this->rcmail_inst->config->get('password_min_symbol');
       $checkUpper = $this->rcmail_inst->config->get('password_check_upper');
       $checkLower = $this->rcmail_inst->config->get('password_check_lower');
       $checkSymbol = $this->rcmail_inst->config->get('password_check_symbol');
@@ -65,6 +70,22 @@ class ispconfig3_pass extends rcube_plugin
         $pwl = max(6, $pwl);
       else
         $pwl = 6;
+      if (!empty($pwml))
+        $pwml = max(1, $pwml);
+      else
+        $pwml = 1;
+      if (!empty($pwmu))
+        $pwmu = max(1, $pwmu);
+      else
+        $pwmu = 1;
+      if (!empty($pwmn))
+        $pwmn = max(1, $pwmn);
+      else
+        $pwmn = 1;
+      if (!empty($pwms))
+        $pwms = max(1, $pwms);
+      else
+        $pwms = 1;
 
       if ($confirm && $this->rcmail_inst->decrypt($_SESSION['password']) != $curpwd)
         $this->rcmail_inst->output->command('display_message', $this->gettext('passwordincorrect'), 'error');
@@ -74,24 +95,24 @@ class ispconfig3_pass extends rcube_plugin
           $this->rcmail_inst->output->command('display_message', str_replace("%d", $pwl, $this->gettext('passwordminlength')), 'error');
         }
 
-        if (!$error && $checkNumber && !preg_match("#[0-9]+#", $newpwd)) {
+        if (!$error && $checkNumber && !preg_match("#(.*[0-9]){" . $pwmn . ",}#", $newpwd)) {
           $error = TRUE;
-          $this->rcmail_inst->output->command('display_message', $this->gettext('passwordchecknumber'), 'error');
+          $this->rcmail_inst->output->command('display_message', str_replace("%d", $pwmn, $this->gettext('passwordchecknumber')), 'error');
         }
 
-        if (!$error && $checkLower && !preg_match("#[a-z]+#", $newpwd)) {
+        if (!$error && $checkLower && !preg_match("#(.*[a-z]){" . $pwml . ",}#", $newpwd)) {
           $error = TRUE;
-          $this->rcmail_inst->output->command('display_message', $this->gettext('passwordchecklower'), 'error');
+          $this->rcmail_inst->output->command('display_message', str_replace("%d", $pwml, $this->gettext('passwordchecklower')), 'error');
         }
 
-        if (!$error && $checkUpper && !preg_match("#[A-Z]+#", $newpwd)) {
+        if (!$error && $checkUpper && !preg_match("#(.*[A-Z]){" . $pwmu . ",}#", $newpwd)) {
           $error = TRUE;
-          $this->rcmail_inst->output->command('display_message', $this->gettext('passwordcheckupper'), 'error');
+          $this->rcmail_inst->output->command('display_message', str_replace("%d", $pwmu, $this->gettext('passwordcheckupper')), 'error');
         }
 
-        if (!$error && $checkSymbol && !preg_match("#\W+#", $newpwd)) {
+        if (!$error && $checkSymbol && !preg_match("#(.*\W){" . $pwms . ",}#", $newpwd)) {
           $error = TRUE;
-          $this->rcmail_inst->output->command('display_message', $this->gettext('passwordchecksymbol'), 'error');
+          $this->rcmail_inst->output->command('display_message', str_replace("%d", $pwms, $this->gettext('passwordchecksymbol')), 'error');
         }
 
         if (!$error) {

@@ -5,4 +5,8 @@ $rcmail_config['password_check_symbol'] = TRUE;
 $rcmail_config['password_check_lower'] = TRUE;
 $rcmail_config['password_check_upper'] = TRUE;
 $rcmail_config['password_check_number'] = TRUE;
+$rcmail_config['password_min_symbol'] = 1;
+$rcmail_config['password_min_lower'] = 1;
+$rcmail_config['password_min_upper'] = 1;
+$rcmail_config['password_min_number'] = 1;
 ?>
