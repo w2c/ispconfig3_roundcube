@@ -80,7 +80,7 @@ class ispconfig3_account extends rcube_plugin
             {
                 $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
             }
-            if (substr(RCMAIL_VERSION, 2, 1) <= 7)
+            if (version_compare(RCMAIL_VERSION, '0.7.0') <= 0)
             {
                 preg_match('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/', $args['content'], $test);
                 $args['content'] = preg_replace('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/', $emails->show($test[1]), $args['content']);
