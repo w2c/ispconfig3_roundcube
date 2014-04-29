@@ -12,14 +12,14 @@ $labels['filterbegins'] = 'Beginnt';
 $labels['filterends'] = 'Endet';
 $labels['filteraction'] = 'Aktion';
 $labels['filtermove'] = 'Verschieben';
-$labels['filterdelete'] = 'L&ouml;schen';
+$labels['filterdelete'] = 'Löschen';
 $labels['filterenabled'] = 'Aktivieren';
-$labels['filteradd'] = 'Hinzuf�gen';
+$labels['filteradd'] = 'Hinzufügen';
 $labels['filternorules'] = 'Es exisitieren keine Regeln';
 $labels['filter_entries'] = 'Regeln';
 
 $messages = array();
-$messages['filterdelconfirm'] = 'Wollen Sie diese Regel wirklich l&ouml;schen?';
+$messages['filterdelconfirm'] = 'Wollen Sie diese Regel wirklich löschen?';
 $messages['filterlimitreached'] = 'Limit erreicht';
 $messages['textempty'] = 'Ein oder mehr Felder sind leer';
 ?>
