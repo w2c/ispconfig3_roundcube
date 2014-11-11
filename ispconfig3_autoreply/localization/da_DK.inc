@@ -9,6 +9,6 @@ $labels['autoreplyendby'] = 'Slut den';
 
 $messages = array();
 $messages['textempty'] = 'Indtast venligst en besked';
-$messages['startdate_notfuture'] = 'Startdato kan ikke vÃ¦re i fortiden';
-$messages['endate_notgreater'] = 'Slutdato skal indstilles og vÃ¦re senere end startdato';
+$messages['startdate_notfuture'] = 'Startdato kan ikke være i fortiden';
+$messages['endate_notgreater'] = 'Slutdato skal indstilles og være senere end startdato';
 ?>

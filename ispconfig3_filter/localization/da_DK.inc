@@ -14,12 +14,12 @@ $labels['filteraction'] = 'Handling';
 $labels['filtermove'] = 'Flyt';
 $labels['filterdelete'] = 'Slet';
 $labels['filterenabled'] = 'Aktiveret';
-$labels['filteradd'] = 'TilfÃ¸j';
+$labels['filteradd'] = 'Tilføj';
 $labels['filternorules'] = 'Der er ingen eksisterende regler';
 $labels['filter_entries'] = 'Regler';
 
 $messages = array();
 $messages['filterdelconfirm'] = 'Vil du slette denne regel?';
-$messages['filterlimitreached'] = 'BegrÃ¦nsning nÃ¥et';
+$messages['filterlimitreached'] = 'Begrænsning nået';
 $messages['textempty'] = 'Et eller flere felter er tomme';
 ?>
