@@ -87,7 +87,7 @@ class ispconfig3_filter extends rcube_plugin
         $op = get_input_value('_filterop', RCUBE_INPUT_POST);
         $searchterm = get_input_value('_filtersearchterm', RCUBE_INPUT_POST);
         $action = get_input_value('_filteraction', RCUBE_INPUT_POST);
-        $target = get_input_value('_filtertarget', RCUBE_INPUT_POST);
+        $target = mb_convert_encoding(get_input_value('_filtertarget', RCUBE_INPUT_POST), 'UTF-8', 'UTF7-IMAP');
         $enabled = get_input_value('_filterenabled', RCUBE_INPUT_POST);
 
         if (!$enabled)
@@ -195,6 +195,7 @@ class ispconfig3_filter extends rcube_plugin
 
             if ($mail_server['mail_filter_syntax'] == 'maildrop')
                 $filter[0]['target'] = "INBOX." . $filter[0]['target'];
+            $filter[0]['target'] = mb_convert_encoding($filter[0]['target'], 'UTF7-IMAP', 'UTF-8');
         }
 
         if ($enabled == 'y')
