@@ -4,7 +4,8 @@ class ispconfig3_pass extends rcube_plugin
     public $task = 'settings';
     private $rcmail_inst = null;
     private $required_plugins = array('jqueryui', 'ispconfig3_account');
-
+	private $soap = null;
+	
     function init()
     {
         $this->rcmail_inst = rcmail::get_instance();
@@ -107,10 +108,10 @@ class ispconfig3_pass extends rcube_plugin
                 {
                     try
                     {
-                        $soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
+                        $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
                                                            'uri'      => $this->rcmail_inst->config->get('soap_url')));
-                        $session_id = $soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
-                        $mail_user = $soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+                        $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
+                        $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
 
                         $params = $mail_user[0];
 
@@ -130,9 +131,9 @@ class ispconfig3_pass extends rcube_plugin
                         $params['autoresponder_end_date'] = $enddate;
                         $params['autoresponder_start_date'] = $startdate;
 
-                        $uid = $soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
-                        $update = $soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
-                        $soap->logout($session_id);
+                        $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+                        $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
+                        $this->soap->logout($session_id);
 
                         $this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 
