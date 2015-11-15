@@ -53,7 +53,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 
     function del()
     {
-        $id = get_input_value('_id', RCUBE_INPUT_GET);
+        $id = rcube_utils::get_input_value('_id', RCUBE_INPUT_GET);
 
         if ($id != 0 || $id != '')
         {
@@ -80,13 +80,13 @@ class ispconfig3_fetchmail extends rcube_plugin
 
     function save()
     {
-        $id = get_input_value('_id', RCUBE_INPUT_POST);
-        $typ = get_input_value('_fetchmailtyp', RCUBE_INPUT_POST);
-        $server = get_input_value('_fetchmailserver', RCUBE_INPUT_POST);
-        $user = get_input_value('_fetchmailuser', RCUBE_INPUT_POST);
-        $pass = get_input_value('_fetchmailpass', RCUBE_INPUT_POST);
-        $delete = get_input_value('_fetchmaildelete', RCUBE_INPUT_POST);
-        $enabled = get_input_value('_fetchmailenabled', RCUBE_INPUT_POST);
+        $id = rcube_utils::get_input_value('_id', RCUBE_INPUT_POST);
+        $typ = rcube_utils::get_input_value('_fetchmailtyp', RCUBE_INPUT_POST);
+        $server = rcube_utils::get_input_value('_fetchmailserver', RCUBE_INPUT_POST);
+        $user = rcube_utils::get_input_value('_fetchmailuser', RCUBE_INPUT_POST);
+        $pass = rcube_utils::get_input_value('_fetchmailpass', RCUBE_INPUT_POST);
+        $delete = rcube_utils::get_input_value('_fetchmaildelete', RCUBE_INPUT_POST);
+        $enabled = rcube_utils::get_input_value('_fetchmailenabled', RCUBE_INPUT_POST);
 
         if (!$delete)
             $delete = 'n';
@@ -161,7 +161,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 
     function gen_form()
     {
-        $id = get_input_value('_id', RCUBE_INPUT_GET);
+        $id = rcube_utils::get_input_value('_id', RCUBE_INPUT_GET);
 
         $this->rcmail_inst->output->add_label('ispconfig3_fetchmail.fetchmaildelconfirm');
 
@@ -217,27 +217,27 @@ class ispconfig3_fetchmail extends rcube_plugin
 
         $input_fetchmailtyp = new html_select(array('name' => '_fetchmailtyp', 'id' => 'fetchmailtyp'));
         $input_fetchmailtyp->add(array('POP3', 'IMAP', 'POP3 SSL', 'IMAP SSL'), array('pop3', 'imap', 'pop3ssl', 'imapssl'));
-        $table->add('title', rep_specialchars_output($this->gettext('fetchmailtyp')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('fetchmailtyp')));
         $table->add('', $input_fetchmailtyp->show($mail_fetchmail['type']));
 
         $input_fetchmailserver = new html_inputfield(array('name' => '_fetchmailserver', 'id' => 'fetchmailserver', 'maxlength' => 320, 'size' => 40));
-        $table->add('title', rep_specialchars_output($this->gettext('fetchmailserver')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('fetchmailserver')));
         $table->add('', $input_fetchmailserver->show($mail_fetchmail['source_server']));
 
         $input_fetchmailuser = new html_inputfield(array('name' => '_fetchmailuser', 'id' => 'fetchmailuser', 'maxlength' => 320, 'size' => 40));
-        $table->add('title', rep_specialchars_output($this->gettext('username')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('username')));
         $table->add('', $input_fetchmailuser->show($mail_fetchmail['source_username']));
 
         $input_fetchmailpass = new html_passwordfield(array('name' => '_fetchmailpass', 'id' => 'fetchmailpass', 'maxlength' => 320, 'size' => 40, 'autocomplete' => 'off'));
-        $table->add('title', rep_specialchars_output($this->gettext('password')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('password')));
         $table->add('', $input_fetchmailpass->show($mail_fetchmail['source_password']));
 
         $input_fetchmaildelete = new html_checkbox(array('name' => '_fetchmaildelete', 'id' => 'fetchmaildelete', 'value' => '1'));
-        $table->add('title', rep_specialchars_output($this->gettext('fetchmaildelete')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('fetchmaildelete')));
         $table->add('', $input_fetchmaildelete->show($delete));
 
         $input_fetchmailenabled = new html_checkbox(array('name' => '_fetchmailenabled', 'id' => 'fetchmailenabled', 'value' => '1'));
-        $table->add('title', rep_specialchars_output($this->gettext('fetchmailenabled')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('fetchmailenabled')));
         $table->add('', $input_fetchmailenabled->show($enabled));
 
         $out .= $table->show();
@@ -268,7 +268,7 @@ class ispconfig3_fetchmail extends rcube_plugin
             {
                 $class = ($class == 'odd' ? 'even' : 'odd');
 
-                if ($fetchmail[$i]['mailget_id'] == get_input_value('_id', RCUBE_INPUT_GET))
+                if ($fetchmail[$i]['mailget_id'] == rcube_utils::get_input_value('_id', RCUBE_INPUT_GET))
                     $class = 'selected';
 
                 $fetch_table->set_row_attribs(array('class' => $class, 'id' => 'fetch_' . $fetchmail[$i]['mailget_id']));
@@ -281,7 +281,7 @@ class ispconfig3_fetchmail extends rcube_plugin
 
         if (count($fetchmail) == 0)
         {
-            $fetch_table->add(array('colspan' => '3'), rep_specialchars_output($this->gettext('nofetch')));
+            $fetch_table->add(array('colspan' => '3'), rcube_utils::rep_specialchars_output($this->gettext('nofetch')));
             $fetch_table->set_row_attribs(array('class' => 'odd'));
             $fetch_table->add_row();
         }
@@ -315,5 +315,3 @@ class ispconfig3_fetchmail extends rcube_plugin
         return $fetch_table;
     }
 }
-
-?>

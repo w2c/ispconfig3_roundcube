@@ -47,11 +47,11 @@ class ispconfig3_autoreply extends rcube_plugin
 
     function save()
     {
-        $enabled = get_input_value('_autoreplyenabled', RCUBE_INPUT_POST);
-        $body = get_input_value('_autoreplybody', RCUBE_INPUT_POST);
-        $subject = get_input_value('_autoreplysubject', RCUBE_INPUT_POST);
-        $startdate = get_input_value('_autoreplystarton', RCUBE_INPUT_POST);
-        $enddate = get_input_value('_autoreplyendby', RCUBE_INPUT_POST);
+        $enabled = rcube_utils::get_input_value('_autoreplyenabled', RCUBE_INPUT_POST);
+        $body = rcube_utils::get_input_value('_autoreplybody', RCUBE_INPUT_POST);
+        $subject = rcube_utils::get_input_value('_autoreplysubject', RCUBE_INPUT_POST);
+        $startdate = rcube_utils::get_input_value('_autoreplystarton', RCUBE_INPUT_POST);
+        $enddate = rcube_utils::get_input_value('_autoreplyendby', RCUBE_INPUT_POST);
 
         $server_tz = new DateTimeZone(date_default_timezone_get());
         $server_offset = $server_tz->getOffset(new DateTime);
@@ -156,30 +156,28 @@ class ispconfig3_autoreply extends rcube_plugin
 
         $this->rcmail_inst->output->set_env('framed', true);
 
-        $out = '';
-
-        $out .= '<fieldset><legend>' . $this->gettext('acc_autoreply') . '</legend>' . "\n";
+        $out = '<fieldset><legend>' . $this->gettext('acc_autoreply') . '</legend>' . "\n";
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         $input_autoreplysubject = new html_inputfield(array('name' => '_autoreplysubject', 'id' => 'autoreplysubject', 'size' => 40));
-        $table->add('title', rep_specialchars_output($this->gettext('subject')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('subject')));
         $table->add('', $input_autoreplysubject->show($mail_user[0]['autoresponder_subject']));
 
         $input_autoreplybody = new html_textarea(array('name' => '_autoreplybody', 'id' => 'autoreplybody', 'cols' => 48, 'rows' => 15));
-        $table->add('title', rep_specialchars_output($this->gettext('autoreplymessage')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplymessage')));
         $table->add('', $input_autoreplybody->show($mail_user[0]['autoresponder_text']));
 
         $input_autoreplystarton = new html_inputfield(array('name' => '_autoreplystarton', 'id' => 'autoreplystarton', 'size' => 20));
-        $table->add('title', rep_specialchars_output($this->gettext('autoreplystarton')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplystarton')));
         $table->add('', $input_autoreplystarton->show($mail_user[0]['autoresponder_start_date']));
 
         $input_autoreplyendby = new html_inputfield(array('name' => '_autoreplyendby', 'id' => 'autoreplyendby', 'size' => 20));
-        $table->add('title', rep_specialchars_output($this->gettext('autoreplyendby')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplyendby')));
         $table->add('', $input_autoreplyendby->show($mail_user[0]['autoresponder_end_date']));
 
         $input_autoreplyenabled = new html_checkbox(array('name' => '_autoreplyenabled', 'id' => 'autoreplyenabled', 'value' => 1));
-        $table->add('title', rep_specialchars_output($this->gettext('autoreplyenabled')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplyenabled')));
         $table->add('', $input_autoreplyenabled->show($enabled));
 
         $out .= $table->show();
@@ -188,5 +186,3 @@ class ispconfig3_autoreply extends rcube_plugin
         return $out;
     }
 }
-
-?>

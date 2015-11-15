@@ -57,7 +57,7 @@ class ispconfig3_autoselect extends rcube_plugin
     function authenticate($args)
     {
         if (isset($_POST['_user']) && isset($_POST['_pass']))
-            $args['host'] = $this->getHost(get_input_value('_user', RCUBE_INPUT_POST));
+            $args['host'] = $this->getHost(rcube_utils::get_input_value('_user', RCUBE_INPUT_POST));
 
         return $args;
     }

@@ -53,7 +53,7 @@ class ispconfig3_wblist extends rcube_plugin
 
     function del()
     {
-        $id = get_input_value('_id', RCUBE_INPUT_GET);
+        $id = rcube_utils::get_input_value('_id', RCUBE_INPUT_GET);
 
         if ($id != 0 || $id != '')
         {
@@ -63,14 +63,14 @@ class ispconfig3_wblist extends rcube_plugin
                 $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
                 $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
 
-                if (get_input_value('_type', RCUBE_INPUT_GET) == "W")
+                if (rcube_utils::get_input_value('_type', RCUBE_INPUT_GET) == "W")
                     $wblist = $this->soap->mail_spamfilter_whitelist_get($session_id, $id);
                 else
                     $wblist = $this->soap->mail_spamfilter_blacklist_get($session_id, $id);
 
                 if ($wblist['rid'] == $spam_user[0]['id'])
                 {
-                    if (get_input_value('_type', RCUBE_INPUT_GET) == "W")
+                    if (rcube_utils::get_input_value('_type', RCUBE_INPUT_GET) == "W")
                         $delete = $this->soap->mail_spamfilter_whitelist_delete($session_id, $id);
                     else
                         $delete = $this->soap->mail_spamfilter_blacklist_delete($session_id, $id);
@@ -88,11 +88,11 @@ class ispconfig3_wblist extends rcube_plugin
 
     function save()
     {
-        $id = get_input_value('_id', RCUBE_INPUT_POST);
-        $type = get_input_value('_wblistwb', RCUBE_INPUT_POST);
-        $email = get_input_value('_wblistemail', RCUBE_INPUT_POST);
-        $priority = get_input_value('_wblistpriority', RCUBE_INPUT_POST);
-        $enabled = get_input_value('_wblistenabled', RCUBE_INPUT_POST);
+        $id = rcube_utils::get_input_value('_id', RCUBE_INPUT_POST);
+        $type = rcube_utils::get_input_value('_wblistwb', RCUBE_INPUT_POST);
+        $email = rcube_utils::get_input_value('_wblistemail', RCUBE_INPUT_POST);
+        $priority = rcube_utils::get_input_value('_wblistpriority', RCUBE_INPUT_POST);
+        $enabled = rcube_utils::get_input_value('_wblistenabled', RCUBE_INPUT_POST);
 
         if (!$enabled)
             $enabled = 'n';
@@ -181,7 +181,7 @@ class ispconfig3_wblist extends rcube_plugin
 
     function gen_form()
     {
-        $id = get_input_value('_id', RCUBE_INPUT_GET);
+        $id = rcube_utils::get_input_value('_id', RCUBE_INPUT_GET);
 
         $this->rcmail_inst->output->add_label('ispconfig3_wblist.wblistdelconfirm');
 
@@ -193,7 +193,7 @@ class ispconfig3_wblist extends rcube_plugin
                 $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
                 $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
 
-                if (get_input_value('_type', RCUBE_INPUT_GET) == "W")
+                if (rcube_utils::get_input_value('_type', RCUBE_INPUT_GET) == "W")
                 {
                     $wblist = $this->soap->mail_spamfilter_whitelist_get($session_id, array('wblist_id' => $id));
                     $type = "W";
@@ -241,21 +241,21 @@ class ispconfig3_wblist extends rcube_plugin
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         $input_wblistemail = new html_inputfield(array('name' => '_wblistemail', 'id' => 'wblistaddress', 'size' => 70));
-        $table->add('title', rep_specialchars_output($this->gettext('email')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('email')));
         $table->add('', $input_wblistemail->show($wblist[0]['email']));
 
         $input_wblistwb = new html_select(array('name' => '_wblistwb', 'id' => 'wblistwb'));
         $input_wblistwb->add(array($this->gettext('wblistwhitelist'), $this->gettext('wblistblacklist')), array('W', 'B'));
-        $table->add('title', rep_specialchars_output($this->gettext('wblisttype')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('wblisttype')));
         $table->add('', $input_wblistwb->show($type));
 
         $input_wblistpriority = new html_select(array('name' => '_wblistpriority', 'id' => 'wblistpriority'));
         $input_wblistpriority->add(array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
-        $table->add('title', rep_specialchars_output($this->gettext('wblistpriority')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('wblistpriority')));
         $table->add('', $input_wblistpriority->show($wblist[0]['priority']));
 
         $input_wblistenabled = new html_checkbox(array('name' => '_wblistenabled', 'id' => 'wblistenabled', 'value' => '1'));
-        $table->add('title', rep_specialchars_output($this->gettext('wblistenabled')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('wblistenabled')));
         $table->add('', $input_wblistenabled->show($enabled));
 
         $out .= $table->show();
@@ -290,7 +290,7 @@ class ispconfig3_wblist extends rcube_plugin
             {
                 $class = ($class == 'odd' ? 'even' : 'odd');
 
-                if ($wblist[$i]['wblist_id'] == get_input_value('_id', RCUBE_INPUT_GET))
+                if ($wblist[$i]['wblist_id'] == rcube_utils::get_input_value('_id', RCUBE_INPUT_GET))
                     $class = 'selected';
 
                 $rule_table->set_row_attribs(array('class' => $class, 'id' => 'rule_' . $wblist[$i]['wblist_id']));
@@ -304,7 +304,7 @@ class ispconfig3_wblist extends rcube_plugin
 
         if (count($wblist) == 0)
         {
-            $rule_table->add(array('colspan' => '4'), rep_specialchars_output($this->gettext('wblistnorules')));
+            $rule_table->add(array('colspan' => '4'), rcube_utils::rep_specialchars_output($this->gettext('wblistnorules')));
             $rule_table->set_row_attribs(array('class' => 'odd'));
             $rule_table->add_row();
         }
@@ -348,5 +348,3 @@ class ispconfig3_wblist extends rcube_plugin
         return $rule_table;
     }
 }
-
-?>

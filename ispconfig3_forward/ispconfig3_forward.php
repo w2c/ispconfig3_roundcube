@@ -37,12 +37,12 @@ class ispconfig3_forward extends rcube_plugin
 
     function save()
     {
-        $type = get_input_value('_type', RCUBE_INPUT_GET);
+        $type = rcube_utils::get_input_value('_type', RCUBE_INPUT_GET);
 
         if ($type != 'del')
-            $address = strtolower(get_input_value('_forwardingaddress', RCUBE_INPUT_POST));
+            $address = strtolower(rcube_utils::get_input_value('_forwardingaddress', RCUBE_INPUT_POST));
         else
-            $address = strtolower(get_input_value('_forwardingaddress', RCUBE_INPUT_GET));
+            $address = strtolower(rcube_utils::get_input_value('_forwardingaddress', RCUBE_INPUT_GET));
 
         try
         {
@@ -119,7 +119,7 @@ class ispconfig3_forward extends rcube_plugin
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         $input_forwardingaddress = new html_inputfield(array('name' => '_forwardingaddress', 'id' => 'forwardingaddress', 'value' => '', 'maxlength' => 320, 'size' => 40));
-        $table->add('title', rep_specialchars_output($this->gettext('forwardingaddress')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('forwardingaddress')));
         $table->add('', $input_forwardingaddress->show());
 
         $out .= $table->show();
@@ -153,7 +153,7 @@ class ispconfig3_forward extends rcube_plugin
                 {
                     $class = ($class == 'odd' ? 'even' : 'odd');
 
-                    if ($forward[$i] == get_input_value('_forwardingaddress', RCUBE_INPUT_GET))
+                    if ($forward[$i] == rcube_utils::get_input_value('_forwardingaddress', RCUBE_INPUT_GET))
                         $class = 'selected';
 
                     $rule_table->set_row_attribs(array('class' => $class, 'id' => 'rule_' . $forward[$i]));
@@ -162,7 +162,7 @@ class ispconfig3_forward extends rcube_plugin
             }
             else
             {
-                $rule_table->add(array('colspan' => '2'), rep_specialchars_output($this->gettext('forwardnomails')));
+                $rule_table->add(array('colspan' => '2'), rcube_utils::rep_specialchars_output($this->gettext('forwardnomails')));
                 $rule_table->set_row_attribs(array('class' => 'odd'));
                 $rule_table->add_row();
             }
@@ -190,5 +190,3 @@ class ispconfig3_forward extends rcube_plugin
         return $rule_table;
     }
 }
-
-?>

@@ -55,8 +55,8 @@ class ispconfig3_pass extends rcube_plugin
             $this->rcmail_inst->output->command('display_message', $this->gettext('nopassword'), 'error');
         else
         {
-            $curpwd = get_input_value('_curpasswd', RCUBE_INPUT_POST);
-            $newpwd = get_input_value('_newpasswd', RCUBE_INPUT_POST);
+            $curpwd = rcube_utils::get_input_value('_curpasswd', RCUBE_INPUT_POST);
+            $newpwd = rcube_utils::get_input_value('_newpasswd', RCUBE_INPUT_POST);
             $pwl = $this->rcmail_inst->config->get('password_min_length');
             $checkUpper = $this->rcmail_inst->config->get('password_check_upper');
             $checkLower = $this->rcmail_inst->config->get('password_check_lower');
@@ -175,16 +175,16 @@ class ispconfig3_pass extends rcube_plugin
         if ($confirm)
         {
             $input_newpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => 'curpasswd', 'size' => 20));
-            $table->add('title', rep_specialchars_output($this->gettext('curpasswd')));
+            $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('curpasswd')));
             $table->add('', $input_newpasswd->show());
         }
 
         $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => 'newpasswd', 'size' => 20));
-        $table->add('title', rep_specialchars_output($this->gettext('newpasswd')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('newpasswd')));
         $table->add('', $input_newpasswd->show() . '<div id="pass-check">');
 
         $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => 'confpasswd', 'size' => 20));
-        $table->add('title', rep_specialchars_output($this->gettext('confpasswd')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('confpasswd')));
         $table->add('', $input_confpasswd->show());
 
         $out .= $table->show();
@@ -193,5 +193,3 @@ class ispconfig3_pass extends rcube_plugin
         return $out;
     }
 }
-
-?>

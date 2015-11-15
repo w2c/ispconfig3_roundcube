@@ -36,8 +36,8 @@ class ispconfig3_spam extends rcube_plugin
 
     function save()
     {
-        $policy_id = get_input_value('_spampolicy_name', RCUBE_INPUT_POST);
-        $move_junk = get_input_value('_spammove', RCUBE_INPUT_POST);
+        $policy_id = rcube_utils::get_input_value('_spampolicy_name', RCUBE_INPUT_POST);
+        $move_junk = rcube_utils::get_input_value('_spammove', RCUBE_INPUT_POST);
 
         if (!$move_junk)
             $move_junk = 'n';
@@ -140,11 +140,11 @@ class ispconfig3_spam extends rcube_plugin
 
         $input_spampolicy_name = new html_select(array('name' => '_spampolicy_name', 'id' => 'spampolicy_name'));
         $input_spampolicy_name->add($policy_name, $policy_id);
-        $table->add('title', rep_specialchars_output($this->gettext('policy_name')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('policy_name')));
         $table->add('', $input_spampolicy_name->show($policy_sel[0]['policy_name']));
 
         $input_spammove = new html_checkbox(array('name' => '_spammove', 'id' => 'spammove', 'value' => '1'));
-        $table->add('title', rep_specialchars_output($this->gettext('spammove')));
+        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('spammove')));
         $table->add('', $input_spammove->show($enabled));
 
         $out .= $table->show();
@@ -192,7 +192,7 @@ class ispconfig3_spam extends rcube_plugin
 
         if (count($policies) == 0)
         {
-            $spam_table->add(array('colspan' => '4'), rep_specialchars_output($this->gettext('spamnopolicies')));
+            $spam_table->add(array('colspan' => '4'), rcube_utils::rep_specialchars_output($this->gettext('spamnopolicies')));
             $spam_table->set_row_attribs(array('class' => 'odd'));
             $spam_table->add_row();
         }
@@ -213,5 +213,3 @@ class ispconfig3_spam extends rcube_plugin
         return $spam_table;
     }
 }
-
-?>

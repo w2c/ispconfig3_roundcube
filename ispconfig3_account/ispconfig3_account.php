@@ -4,11 +4,13 @@ class ispconfig3_account extends rcube_plugin
     public $task = 'settings';
     private $sections = array();
     private $rcmail_inst = null;
+    private $rcube_inst = null;
     private $soap = null;
 
     function init()
     {
         $this->rcmail_inst = rcmail::get_instance();
+        $this->rcube_inst = rcube::get_instance();
         $this->load_config();
         $this->add_texts('localization/', true);
         $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
@@ -125,10 +127,11 @@ class ispconfig3_account extends rcube_plugin
             array_push($array, 'wblist');
         if (isset($plugins['ispconfig3_spam']))
             array_push($array, 'spam');
+
         $blocks = $attrib['sections'] ? preg_split('/[\s,;]+/', strip_quotes($attrib['sections'])) : $array;
         foreach ($blocks as $block)
             $sections[$block] = $sectionavail[$block];
-        $out = rcube_table_output($attrib, $sections, array('section'), 'id');
+        $out = $this->rcube_inst->table_output($attrib, $sections, array('section'), 'id');
         $this->rcmail_inst->output->add_gui_object('accountlist', $attrib['id']);
         $this->rcmail_inst->output->include_script('list.js');
 
@@ -145,20 +148,21 @@ class ispconfig3_account extends rcube_plugin
         $this->rcmail_inst->output->set_env('framed', true);
         $out = '<form class="propform"><fieldset><legend>' . $this->gettext('acc_general') . '</legend>' . "\n";
         $table = new html_table(array('cols' => 2, 'cellpadding' => 3, 'class' => 'propform'));
-        $table->add('title', Q($this->gettext('username')));
-        $table->add('', Q($this->rcmail_inst->user->data['username']));
-        $table->add('title', Q($this->gettext('server')));
-        $table->add('', Q($this->rcmail_inst->user->data['mail_host']));
-        $table->add('title', Q($this->gettext('acc_lastlogin')));
-        $table->add('', Q($this->rcmail_inst->user->data['last_login']));
+        $table->add('title', rcube::Q($this->gettext('username')));
+        $table->add('', rcube::Q($this->rcmail_inst->user->data['username']));
+        $table->add('title', rcube::Q($this->gettext('server')));
+        $table->add('', rcube::Q($this->rcmail_inst->user->data['mail_host']));
+        $table->add('title', rcube::Q($this->gettext('acc_lastlogin')));
+        $table->add('', rcube::Q($this->rcmail_inst->user->data['last_login']));
         $identity = $this->rcmail_inst->user->get_identity();
-        $table->add('title', Q($this->gettext('acc_defaultidentity')));
-        $table->add('', Q($identity['name'] . ' <' . $identity['email'] . '>'));
+        $table->add('title', rcube::Q($this->gettext('acc_defaultidentity')));
+        $table->add('', rcube::Q($identity['name'] . ' <' . $identity['email'] . '>'));
         $out .= $table->show();
         $out .= "</fieldset>\n";
         $out .= '<fieldset><legend>' . $this->gettext('acc_alias') . '</legend>' . "\n";
         $alias_table = new html_table(array('id' => 'alias-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 1));
         $alias_table->add_header(array('width' => '100%'), $this->gettext('mail'));
+
         try
         {
             $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
@@ -184,5 +188,3 @@ class ispconfig3_account extends rcube_plugin
         return $out;
     }
 }
-
-?>
