@@ -1,13 +1,15 @@
 <?php
-$labels['acc_acc'] = 'учетная запись';
-$labels['acc_alias'] = 'алиас';
-$labels['acc_general'] = 'общее';
-$labels['acc_pass'] = 'пароль';
-$labels['acc_forward'] = 'пересылка';
-$labels['acc_fetchmail'] = 'сборка почты';
-$labels['acc_autoreply'] = 'автоответ';
-$labels['acc_filter'] = 'фильтр';
-$labels['lastlogin'] = 'прошлый раз в системе';
-$labels['defaultidentity'] = 'отправитель по умолчанию';
-$labels['noalias'] = 'алиаса не существует';
+$labels['acc_acc'] = 'Учетная запись';
+$labels['acc_alias'] = 'Адреса электронной почты';
+$labels['acc_general'] = 'Общее';
+$labels['acc_pass'] = 'Пароль';
+$labels['acc_forward'] = 'Пересылка почты';
+$labels['acc_fetchmail'] = 'Сборка почты';
+$labels['acc_autoreply'] = 'Автоответ';
+$labels['acc_filter'] = 'Почтовые фильтры';
+$labels['acc_wblist'] = 'Чёрные/Белые списки';
+$labels['acc_lastlogin'] = 'Последний вход';
+$labels['acc_defaultidentity'] = 'Отправитель по-умолчанию';
+$labels['acc_noalias'] = 'Нет адресов электронной почты';
+
 ?>
