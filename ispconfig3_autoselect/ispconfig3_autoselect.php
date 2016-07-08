@@ -10,8 +10,17 @@ class ispconfig3_autoselect extends rcube_plugin
         $this->rcmail_inst = rcmail::get_instance();
         $this->load_config();
         $this->load_con_config();
-        $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
-                                                 'uri'      => $this->rcmail_inst->config->get('soap_url')));
+        $this->soap = new SoapClient(null, array(
+            'location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
+            'uri' => $this->rcmail_inst->config->get('soap_url'),
+            'stream_context' => stream_context_create(array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                    )
+                ));
+            ));
 
         $this->add_hook('authenticate', array($this, 'authenticate'));
         $this->add_hook('template_object_loginform', array($this, 'template_object_loginform'));
