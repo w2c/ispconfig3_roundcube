@@ -11,8 +11,17 @@ class ispconfig3_fetchmail extends rcube_plugin
         $this->rcmail_inst = rcmail::get_instance();
         $this->load_config();
         $this->add_texts('localization/', true);
-        $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
-                                                 'uri'      => $this->rcmail_inst->config->get('soap_url')));
+        $this->soap = new SoapClient(null, array(
+            'location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
+            'uri' => $this->rcmail_inst->config->get('soap_url'),
+            'stream_context' => stream_context_create(array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                    )
+                ));
+            ));
 
         $this->register_action('plugin.ispconfig3_fetchmail', array($this, 'init_html'));
         $this->register_action('plugin.ispconfig3_fetchmail.save', array($this, 'save'));
