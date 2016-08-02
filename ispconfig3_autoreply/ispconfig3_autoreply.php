@@ -126,7 +126,8 @@ class ispconfig3_autoreply extends rcube_plugin
         else
             $enabled = 0;
 
-        if ($mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
+        if (trim($mail_user[0]['autoresponder_start_date']) == false ||
+                $mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
         {
             $dt = new DateTime('@' . time());
             $dt->setTimeZone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
@@ -140,7 +141,8 @@ class ispconfig3_autoreply extends rcube_plugin
             $mail_user[0]['autoresponder_start_date'] = $dt->format('Y-m-d H:i');
         }
 
-        if ($mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
+        if (trim($mail_user[0]['autoresponder_end_date']) == false ||
+                $mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
         {
             $dt = new DateTime('@' . (time() + 86400));
             $dt->setTimeZone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
