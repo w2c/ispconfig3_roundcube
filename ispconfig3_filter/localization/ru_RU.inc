@@ -1,25 +1,25 @@
 <?php
 $labels = array();
-$labels['acc_filter'] = 'фильтр';
-$labels['filtername'] = 'название';
-$labels['filtersource'] = 'источник';
-$labels['filtersubject'] = 'тема';
-$labels['filterfrom'] = 'от кого';
-$labels['filterto'] = 'кому';
+$labels['acc_filter'] = 'Почтовые фильтры';
+$labels['filtername'] = 'Название';
+$labels['filtersource'] = 'Источник';
+$labels['filtersubject'] = 'Тема';
+$labels['filterfrom'] = 'От кого';
+$labels['filterto'] = 'Кому';
 $labels['filtercontains'] = 'содержит';
 $labels['filteris'] = 'соответствует';
 $labels['filterbegins'] = 'начинается на';
 $labels['filterends'] = 'заканчивается на';
-$labels['filteraction'] = 'действие';
-$labels['filtermove'] = 'передвинуть';
+$labels['filteraction'] = 'Действие';
+$labels['filtermove'] = 'переместить';
 $labels['filterdelete'] = 'удалить';
-$labels['filterenabled'] = 'включить';
-$labels['filteradd'] = 'добавить';
-$labels['filternorules'] = 'правил не существует';
-$labels['filter_entries'] = 'филтры';
+$labels['filterenabled'] = 'Включить';
+$labels['filteradd'] = 'Добавить';
+$labels['filternorules'] = 'Правил нет';
+$labels['filter_entries'] = 'Почтовые фильтры';
 
 $messages = array();
-$messages['filterdelconfirm'] = 'вы действительно хотите удалить это правило?';
-$messages['filterlimitreached'] = 'ограничение достигнуто';
-$messages['textempty'] = 'одно или несколько обязательных полей пусто';
+$messages['filterdelconfirm'] = 'Вы уверены, чтобы хотите удалить это правило?';
+$messages['filterlimitreached'] = 'Достигнуто ограничение';
+$messages['textempty'] = 'Одно или несколько обязательных полей не заполнены';
 ?>
