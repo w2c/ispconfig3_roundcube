@@ -13,8 +13,17 @@ class ispconfig3_account extends rcube_plugin
         $this->rcube_inst = rcube::get_instance();
         $this->load_config();
         $this->add_texts('localization/', true);
-        $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
-                                                 'uri'      => $this->rcmail_inst->config->get('soap_url')));
+        $this->soap = new SoapClient(null, array(
+            'location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
+            'uri' => $this->rcmail_inst->config->get('soap_url'),
+            'stream_context' => stream_context_create(array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                    )
+                ));
+            ));
         $this->register_action('plugin.ispconfig3_account', array($this, 'init_html'));
         $this->register_action('plugin.ispconfig3_account.show', array($this, 'init_html'));
         $this->add_hook('template_object_identityform', array($this, 'template_object_identityform'));
