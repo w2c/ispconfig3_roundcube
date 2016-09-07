@@ -10,8 +10,18 @@ class ispconfig3_spam extends rcube_plugin
         $this->rcmail_inst = rcmail::get_instance();
         $this->add_texts('localization/', true);
         $this->require_plugin('ispconfig3_account');
-        $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
-                                                 'uri'      => $this->rcmail_inst->config->get('soap_url')));
+
+        $this->soap = new SoapClient(null, array(
+            'location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
+            'uri' => $this->rcmail_inst->config->get('soap_url'),
+            'stream_context' => stream_context_create(array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            ))
+        ));
 
         $this->register_action('plugin.ispconfig3_spam', array($this, 'init_html'));
         $this->register_action('plugin.ispconfig3_spam.save', array($this, 'save'));
@@ -182,7 +192,8 @@ class ispconfig3_spam extends rcube_plugin
 
                 $spam_table->set_row_attribs(array('class' => $class));
 
-                $this->_spam_row($spam_table, $policies[$i]['policy_name'], $policies[$i]['spam_tag_level'], $policies[$i]['spam_tag2_level'], $policies[$i]['spam_kill_level'], $attrib);
+                $this->_spam_row($spam_table, $policies[$i]['policy_name'], $policies[$i]['spam_tag_level'],
+                    $policies[$i]['spam_tag2_level'], $policies[$i]['spam_kill_level'], $attrib);
             }
 
             $this->soap->logout($session_id);
