@@ -2,10 +2,9 @@
 class ispconfig3_account extends rcube_plugin
 {
     public $task = 'settings';
-    private $sections = array();
-    private $rcmail_inst = null;
-    private $rcube_inst = null;
-    private $soap = null;
+    private $rcmail_inst;
+    private $rcube_inst;
+    private $soap;
 
     function init()
     {
@@ -13,6 +12,7 @@ class ispconfig3_account extends rcube_plugin
         $this->rcube_inst = rcube::get_instance();
         $this->load_config();
         $this->add_texts('localization/', true);
+        $this->require_plugin('jqueryui');
         $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
                                                  'uri'      => $this->rcmail_inst->config->get('soap_url')));
         $this->register_action('plugin.ispconfig3_account', array($this, 'init_html'));
@@ -38,18 +38,18 @@ class ispconfig3_account extends rcube_plugin
         }
     }
 
-    function load_config()
+    function load_config($fname = 'config.inc.php')
     {
-        $config = $this->home . '/config/config.inc.php';
+        $config = $this->home . '/config/' . $fname;
         if (file_exists($config))
         {
             if (!$this->rcmail_inst->config->load_from_file($config))
-                raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);
+                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__, 'message' => "Failed to load config from $config"), true, false);
         }
         else if (file_exists($config . ".dist"))
         {
             if (!$this->rcmail_inst->config->load_from_file($config . '.dist'))
-                raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);
+                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__, 'message' => "Failed to load config from $config"), true, false);
         }
     }
 
@@ -57,9 +57,10 @@ class ispconfig3_account extends rcube_plugin
     {
         if (!$attrib['id'])
             $attrib['id'] = 'rcmaccountframe';
+
         $attrib['name'] = $attrib['id'];
         $this->api->output->set_env('contentframe', $attrib['name']);
-        $this->api->output->set_env('blankpage', $attrib['src'] ? $this->api->output->abs_url($attrib['src']) : 'program/blank.gif');
+        $this->api->output->set_env('blankpage', $attrib['src'] ? $this->api->output->abs_url($attrib['src']) : 'program/resources/blank.gif');
 
         return html::iframe($attrib);
     }
@@ -82,6 +83,7 @@ class ispconfig3_account extends rcube_plugin
             {
                 $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
             }
+
             if (version_compare(RCMAIL_VERSION, '0.7.0') <= 0)
             {
                 preg_match('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/', $args['content'], $test);
@@ -101,6 +103,7 @@ class ispconfig3_account extends rcube_plugin
     {
         if (!strlen($attrib['id']))
             $attrib['id'] = 'rcmaccountlist';
+
         $sectionavail = array('general'   => array('id' => 'general', 'section' => $this->gettext('acc_general')),
                               'pass'      => array('id' => 'pass', 'section' => $this->gettext('acc_pass')),
                               'fetchmail' => array('id' => 'fetchmail', 'section' => $this->gettext('acc_fetchmail')),
@@ -109,26 +112,28 @@ class ispconfig3_account extends rcube_plugin
                               'filter'    => array('id' => 'filter', 'section' => $this->gettext('acc_filter')),
                               'wblist'    => array('id' => 'wblist', 'section' => $this->gettext('acc_wblist')),
                               'spam'      => array('id' => 'spam', 'section' => $this->gettext('junk')));
+
         $sections = array();
         $array = array('general');
         $plugins = $this->rcmail_inst->config->get('plugins');
         $plugins = array_flip($plugins);
         if (isset($plugins['ispconfig3_pass']))
-            array_push($array, 'pass');
+            $array[] = 'pass';
         if (isset($plugins['ispconfig3_fetchmail']))
-            array_push($array, 'fetchmail');
+            $array[] = 'fetchmail';
         if (isset($plugins['ispconfig3_forward']))
-            array_push($array, 'forward');
+            $array[] = 'forward';
         if (isset($plugins['ispconfig3_autoreply']))
-            array_push($array, 'autoreply');
+            $array[] = 'autoreply';
         if (isset($plugins['ispconfig3_filter']))
-            array_push($array, 'filter');
+            $array[] = 'filter';
         if (isset($plugins['ispconfig3_wblist']))
-            array_push($array, 'wblist');
+            $array[] = 'wblist';
         if (isset($plugins['ispconfig3_spam']))
-            array_push($array, 'spam');
+            $array[] = 'spam';
 
-        $blocks = $attrib['sections'] ? preg_split('/[\s,;]+/', strip_quotes($attrib['sections'])) : $array;
+        $quotes_stripped = str_replace(array("'", '"'), '', $attrib['sections']);
+        $blocks = $attrib['sections'] ? preg_split('/[\s,;]+/', $quotes_stripped) : $array;
         foreach ($blocks as $block)
             $sections[$block] = $sectionavail[$block];
         $out = $this->rcube_inst->table_output($attrib, $sections, array('section'), 'id');
@@ -169,7 +174,7 @@ class ispconfig3_account extends rcube_plugin
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
             $alias = $this->soap->mail_alias_get($session_id, array('destination' => $mail_user[0]['email'], 'type' => 'alias', 'active' => 'y'));
             $this->soap->logout($session_id);
-            $class = ($class == 'odd' ? 'even' : 'odd');
+            $class = 'odd';
             $alias_table->set_row_attribs(array('class' => $class));
             $alias_table->add('', $mail_user[0]['email']);
             for ($i = 0; $i < count($alias); $i++)

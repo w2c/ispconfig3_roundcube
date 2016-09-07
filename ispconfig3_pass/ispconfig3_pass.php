@@ -2,14 +2,14 @@
 class ispconfig3_pass extends rcube_plugin
 {
     public $task = 'settings';
-    private $rcmail_inst = null;
-    private $required_plugins = array('jqueryui', 'ispconfig3_account');
+    private $rcmail_inst;
 
     function init()
     {
         $this->rcmail_inst = rcmail::get_instance();
         $this->load_config();
         $this->add_texts('localization/', true);
+        $this->require_plugin('ispconfig3_account');
 
         $this->register_action('plugin.ispconfig3_pass', array($this, 'init_html'));
         $this->register_action('plugin.ispconfig3_pass.save', array($this, 'save'));
@@ -27,18 +27,18 @@ class ispconfig3_pass extends rcube_plugin
         $this->rcmail_inst->output->send('ispconfig3_pass.pass');
     }
 
-    function load_config()
+    function load_config($fname = 'config.inc.php')
     {
-        $config = $this->home . '/config/config.inc.php';
+        $config = $this->home . '/config/' . $fname;
         if (file_exists($config))
         {
             if (!$this->rcmail_inst->config->load_from_file($config))
-                raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);
+                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__, 'message' => "Failed to load config from $config"), true, false);
         }
         else if (file_exists($config . ".dist"))
         {
             if (!$this->rcmail_inst->config->load_from_file($config . '.dist'))
-                raise_error(array('code' => 527, 'type' => 'php', 'message' => "Failed to load config from $config"), true, false);
+                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__, 'message' => "Failed to load config from $config"), true, false);
         }
     }
 
@@ -55,8 +55,8 @@ class ispconfig3_pass extends rcube_plugin
             $this->rcmail_inst->output->command('display_message', $this->gettext('nopassword'), 'error');
         else
         {
-            $curpwd = rcube_utils::get_input_value('_curpasswd', RCUBE_INPUT_POST);
-            $newpwd = rcube_utils::get_input_value('_newpasswd', RCUBE_INPUT_POST);
+            $curpwd = rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST);
+            $newpwd = rcube_utils::get_input_value('_newpasswd', rcube_utils::INPUT_POST);
             $pwl = $this->rcmail_inst->config->get('password_min_length');
             $checkUpper = $this->rcmail_inst->config->get('password_check_upper');
             $checkLower = $this->rcmail_inst->config->get('password_check_lower');
@@ -168,7 +168,7 @@ class ispconfig3_pass extends rcube_plugin
         $this->rcmail_inst->output->add_script('var pw_min_length =' . $pwl . ';');
         $this->rcmail_inst->output->set_env('framed', true);
 
-        $out .= '<fieldset><legend>' . $this->gettext('password') . '</legend>' . "\n";
+        $out = '<fieldset><legend>' . $this->gettext('password') . '</legend>' . "\n";
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 

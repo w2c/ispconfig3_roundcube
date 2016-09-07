@@ -2,14 +2,14 @@
 class ispconfig3_autoreply extends rcube_plugin
 {
     public $task = 'settings';
-    private $soap = null;
-    private $rcmail_inst = null;
-    private $required_plugins = array('jqueryui', 'ispconfig3_account');
+    private $soap;
+    private $rcmail_inst;
 
     function init()
     {
         $this->rcmail_inst = rcmail::get_instance();
         $this->add_texts('localization/', true);
+        $this->require_plugin('ispconfig3_account');
         $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
                                                  'uri'      => $this->rcmail_inst->config->get('soap_url')));
 
@@ -47,11 +47,11 @@ class ispconfig3_autoreply extends rcube_plugin
 
     function save()
     {
-        $enabled = rcube_utils::get_input_value('_autoreplyenabled', RCUBE_INPUT_POST);
-        $body = rcube_utils::get_input_value('_autoreplybody', RCUBE_INPUT_POST);
-        $subject = rcube_utils::get_input_value('_autoreplysubject', RCUBE_INPUT_POST);
-        $startdate = rcube_utils::get_input_value('_autoreplystarton', RCUBE_INPUT_POST);
-        $enddate = rcube_utils::get_input_value('_autoreplyendby', RCUBE_INPUT_POST);
+        $enabled = rcube_utils::get_input_value('_autoreplyenabled', rcube_utils::INPUT_POST);
+        $body = rcube_utils::get_input_value('_autoreplybody', rcube_utils::INPUT_POST);
+        $subject = rcube_utils::get_input_value('_autoreplysubject', rcube_utils::INPUT_POST);
+        $startdate = rcube_utils::get_input_value('_autoreplystarton', rcube_utils::INPUT_POST);
+        $enddate = rcube_utils::get_input_value('_autoreplyendby', rcube_utils::INPUT_POST);
 
         $server_tz = new DateTimeZone(date_default_timezone_get());
         $server_offset = $server_tz->getOffset(new DateTime);
@@ -130,14 +130,14 @@ class ispconfig3_autoreply extends rcube_plugin
                 $mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
         {
             $dt = new DateTime('@' . time());
-            $dt->setTimeZone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
             $mail_user[0]['autoresponder_start_date'] = $dt->format('Y-m-d H:i');
         }
         else
         {
             $mail_user[0]['autoresponder_start_date'] = strtotime($mail_user[0]['autoresponder_start_date']);
             $dt = new DateTime('@' . $mail_user[0]['autoresponder_start_date']);
-            $dt->setTimeZone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
             $mail_user[0]['autoresponder_start_date'] = $dt->format('Y-m-d H:i');
         }
 
@@ -145,14 +145,14 @@ class ispconfig3_autoreply extends rcube_plugin
                 $mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
         {
             $dt = new DateTime('@' . (time() + 86400));
-            $dt->setTimeZone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
             $mail_user[0]['autoresponder_end_date'] = $dt->format('Y-m-d H:i');
         }
         else
         {
             $mail_user[0]['autoresponder_end_date'] = strtotime($mail_user[0]['autoresponder_end_date']);
             $dt = new DateTime('@' . $mail_user[0]['autoresponder_end_date']);
-            $dt->setTimeZone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
             $mail_user[0]['autoresponder_end_date'] = $dt->format('Y-m-d H:i');
         }
 

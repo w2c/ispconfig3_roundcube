@@ -2,14 +2,14 @@
 class ispconfig3_spam extends rcube_plugin
 {
     public $task = 'settings';
-    private $soap = null;
-    private $rcmail_inst = null;
-    private $required_plugins = array('ispconfig3_account');
+    private $soap;
+    private $rcmail_inst;
 
     function init()
     {
-        $this->add_texts('localization/', true);
         $this->rcmail_inst = rcmail::get_instance();
+        $this->add_texts('localization/', true);
+        $this->require_plugin('ispconfig3_account');
         $this->soap = new SoapClient(null, array('location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
                                                  'uri'      => $this->rcmail_inst->config->get('soap_url')));
 
@@ -36,8 +36,8 @@ class ispconfig3_spam extends rcube_plugin
 
     function save()
     {
-        $policy_id = rcube_utils::get_input_value('_spampolicy_name', RCUBE_INPUT_POST);
-        $move_junk = rcube_utils::get_input_value('_spammove', RCUBE_INPUT_POST);
+        $policy_id = rcube_utils::get_input_value('_spampolicy_name', rcube_utils::INPUT_POST);
+        $move_junk = rcube_utils::get_input_value('_spammove', rcube_utils::INPUT_POST);
 
         if (!$move_junk)
             $move_junk = 'n';
@@ -134,7 +134,7 @@ class ispconfig3_spam extends rcube_plugin
 
         $this->rcmail_inst->output->set_env('framed', true);
 
-        $out .= '<fieldset><legend>' . $this->gettext('junk') . '</legend>' . "\n";
+        $out = '<fieldset><legend>' . $this->gettext('junk') . '</legend>' . "\n";
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
@@ -171,6 +171,7 @@ class ispconfig3_spam extends rcube_plugin
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $policies = $this->soap->mail_policy_get($session_id, array(1 => 1));
+            $class = 'odd';
 
             for ($i = 0; $i < count($policies); $i++)
             {
