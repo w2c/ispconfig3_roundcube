@@ -120,24 +120,27 @@ class ispconfig3_pass extends rcube_plugin
                         ));
                         $session_id = $soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
                         $mail_user = $soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
-
                         $params = $mail_user[0];
 
-                        $startdate = array('year'   => substr($params['autoresponder_start_date'], 0, 4),
-                                           'month'  => substr($params['autoresponder_start_date'], 5, 2),
-                                           'day'    => substr($params['autoresponder_start_date'], 8, 2),
-                                           'hour'   => substr($params['autoresponder_start_date'], 11, 2),
-                                           'minute' => substr($params['autoresponder_start_date'], 14, 2));
+                        $ispconfig_version = $this->soap->server_get_app_version($session_id);
+                        if (version_compare($ispconfig_version['ispc_app_version'], '3.1rc1', '<')) {
+                            $startdate = array('year'   => substr($params['autoresponder_start_date'], 0, 4),
+                                'month'  => substr($params['autoresponder_start_date'], 5, 2),
+                                'day'    => substr($params['autoresponder_start_date'], 8, 2),
+                                'hour'   => substr($params['autoresponder_start_date'], 11, 2),
+                                'minute' => substr($params['autoresponder_start_date'], 14, 2));
 
-                        $enddate = array('year'   => substr($params['autoresponder_end_date'], 0, 4),
-                                         'month'  => substr($params['autoresponder_end_date'], 5, 2),
-                                         'day'    => substr($params['autoresponder_end_date'], 8, 2),
-                                         'hour'   => substr($params['autoresponder_end_date'], 11, 2),
-                                         'minute' => substr($params['autoresponder_end_date'], 14, 2));
+                            $enddate = array('year'   => substr($params['autoresponder_end_date'], 0, 4),
+                                'month'  => substr($params['autoresponder_end_date'], 5, 2),
+                                'day'    => substr($params['autoresponder_end_date'], 8, 2),
+                                'hour'   => substr($params['autoresponder_end_date'], 11, 2),
+                                'minute' => substr($params['autoresponder_end_date'], 14, 2));
+
+                            $params['autoresponder_end_date'] = $enddate;
+                            $params['autoresponder_start_date'] = $startdate;
+                        }
 
                         $params['password'] = $newpwd;
-                        $params['autoresponder_end_date'] = $enddate;
-                        $params['autoresponder_start_date'] = $startdate;
 
                         $uid = $soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
                         $update = $soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);

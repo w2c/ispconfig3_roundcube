@@ -74,18 +74,6 @@ class ispconfig3_autoreply extends rcube_plugin
         if ($enddate < $startdate)
             $enddate = $startdate + 86400;
 
-        $startdate = array('year'   => date("Y", $startdate),
-                           'month'  => date("m", $startdate),
-                           'day'    => date("d", $startdate),
-                           'hour'   => date("H", $startdate),
-                           'minute' => date("i", $startdate));
-
-        $enddate = array('year'   => date("Y", $enddate),
-                         'month'  => date("m", $enddate),
-                         'day'    => date("d", $enddate),
-                         'hour'   => date("H", $enddate),
-                         'minute' => date("i", $enddate));
-
         if (!$enabled)
             $enabled = 'n';
         else
@@ -96,6 +84,25 @@ class ispconfig3_autoreply extends rcube_plugin
             $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
             $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
+
+            $ispconfig_version = $this->soap->server_get_app_version($session_id);
+            if (version_compare($ispconfig_version['ispc_app_version'], '3.1rc1', '<')) {
+                $startdate = array('year'   => date('Y', $startdate),
+                    'month'  => date('m', $startdate),
+                    'day'    => date('d', $startdate),
+                    'hour'   => date('H', $startdate),
+                    'minute' => date('i', $startdate));
+
+                $enddate = array('year'   => date('Y', $enddate),
+                    'month'  => date('m', $enddate),
+                    'day'    => date('d', $enddate),
+                    'hour'   => date('H', $enddate),
+                    'minute' => date('i', $enddate));
+            } else {
+                $datetimeformat = 'Y-m-d H:i:s';
+                $startdate = date($datetimeformat, $startdate);
+                $enddate = date($datetimeformat, $enddate);
+            }
 
             $params = $mail_user[0];
             unset($params['password']);
@@ -130,14 +137,13 @@ class ispconfig3_autoreply extends rcube_plugin
         }
 
         $enabled = $mail_user[0]['autoresponder'];
-
         if ($enabled == 'y')
             $enabled = 1;
         else
             $enabled = 0;
 
-        if (trim($mail_user[0]['autoresponder_start_date']) == false ||
-                $mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
+        if (empty($mail_user[0]['autoresponder_start_date']) ||
+            $mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
         {
             $dt = new DateTime('@' . time());
             $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
@@ -151,8 +157,8 @@ class ispconfig3_autoreply extends rcube_plugin
             $mail_user[0]['autoresponder_start_date'] = $dt->format('Y-m-d H:i');
         }
 
-        if (trim($mail_user[0]['autoresponder_end_date']) == false ||
-                $mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
+        if (empty($mail_user[0]['autoresponder_end_date']) ||
+            $mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
         {
             $dt = new DateTime('@' . (time() + 86400));
             $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));

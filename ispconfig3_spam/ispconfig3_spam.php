@@ -83,20 +83,24 @@ class ispconfig3_spam extends rcube_plugin
             $params = $mail_user[0];
             unset($params['password']);
 
-            $startdate = array('year'   => substr($params['autoresponder_start_date'], 0, 4),
-                               'month'  => substr($params['autoresponder_start_date'], 5, 2),
-                               'day'    => substr($params['autoresponder_start_date'], 8, 2),
-                               'hour'   => substr($params['autoresponder_start_date'], 11, 2),
-                               'minute' => substr($params['autoresponder_start_date'], 14, 2));
+            $ispconfig_version = $this->soap->server_get_app_version($session_id);
+            if (version_compare($ispconfig_version['ispc_app_version'], '3.1rc1', '<')) {
+                $startdate = array('year'   => substr($params['autoresponder_start_date'], 0, 4),
+                    'month'  => substr($params['autoresponder_start_date'], 5, 2),
+                    'day'    => substr($params['autoresponder_start_date'], 8, 2),
+                    'hour'   => substr($params['autoresponder_start_date'], 11, 2),
+                    'minute' => substr($params['autoresponder_start_date'], 14, 2));
 
-            $enddate = array('year'   => substr($params['autoresponder_end_date'], 0, 4),
-                             'month'  => substr($params['autoresponder_end_date'], 5, 2),
-                             'day'    => substr($params['autoresponder_end_date'], 8, 2),
-                             'hour'   => substr($params['autoresponder_end_date'], 11, 2),
-                             'minute' => substr($params['autoresponder_end_date'], 14, 2));
+                $enddate = array('year'   => substr($params['autoresponder_end_date'], 0, 4),
+                    'month'  => substr($params['autoresponder_end_date'], 5, 2),
+                    'day'    => substr($params['autoresponder_end_date'], 8, 2),
+                    'hour'   => substr($params['autoresponder_end_date'], 11, 2),
+                    'minute' => substr($params['autoresponder_end_date'], 14, 2));
 
-            $params['autoresponder_end_date'] = $enddate;
-            $params['autoresponder_start_date'] = $startdate;
+                $params['autoresponder_end_date'] = $enddate;
+                $params['autoresponder_start_date'] = $startdate;
+            }
+
             $params['move_junk'] = $move_junk;
 
             $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
@@ -121,8 +125,8 @@ class ispconfig3_spam extends rcube_plugin
             $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
-            $policy = $this->soap->mail_policy_get($session_id, array(1 => 1));
-            $policy_sel = $this->soap->mail_policy_get($session_id, array("id" => $spam_user[0]['policy_id']));
+            $policy = $this->soap->mail_policy_get($session_id, array());
+            $policy_sel = $this->soap->mail_policy_get($session_id, array('id' => $spam_user[0]['policy_id']));
             $this->soap->logout($session_id);
 
             for ($i = 0; $i < count($policy); $i++)
@@ -180,7 +184,7 @@ class ispconfig3_spam extends rcube_plugin
             $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
-            $policies = $this->soap->mail_policy_get($session_id, array(1 => 1));
+            $policies = $this->soap->mail_policy_get($session_id, array());
             $class = 'odd';
 
             for ($i = 0; $i < count($policies); $i++)

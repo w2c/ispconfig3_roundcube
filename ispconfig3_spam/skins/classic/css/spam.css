@@ -5,7 +5,7 @@
 #spam-cont {
 	border: 1px solid #999999;
 	background-color: #F9F9F9;
-	height: 170px;
+	height: 180px;
 	overflow: auto;
 	width: 690px;
 }
