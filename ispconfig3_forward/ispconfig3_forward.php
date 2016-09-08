@@ -69,7 +69,7 @@ class ispconfig3_forward extends rcube_plugin
                 unset($params['password']);
 
                 $ispconfig_version = $this->soap->server_get_app_version($session_id);
-                if (version_compare($ispconfig_version['ispc_app_version'], '3.1rc1', '<')) {
+                if (version_compare($ispconfig_version['ispc_app_version'], '3.1dev', '<')) {
                     $startdate = array('year'   => substr($params['autoresponder_start_date'], 0, 4),
                         'month'  => substr($params['autoresponder_start_date'], 5, 2),
                         'day'    => substr($params['autoresponder_start_date'], 8, 2),

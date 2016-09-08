@@ -86,7 +86,7 @@ class ispconfig3_autoreply extends rcube_plugin
             $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
             $ispconfig_version = $this->soap->server_get_app_version($session_id);
-            if (version_compare($ispconfig_version['ispc_app_version'], '3.1rc1', '<')) {
+            if (version_compare($ispconfig_version['ispc_app_version'], '3.1dev', '<')) {
                 $startdate = array('year'   => date('Y', $startdate),
                     'month'  => date('m', $startdate),
                     'day'    => date('d', $startdate),
