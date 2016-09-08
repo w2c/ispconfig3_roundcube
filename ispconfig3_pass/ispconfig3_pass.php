@@ -122,7 +122,7 @@ class ispconfig3_pass extends rcube_plugin
                         $mail_user = $soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
                         $params = $mail_user[0];
 
-                        $ispconfig_version = $this->soap->server_get_app_version($session_id);
+                        $ispconfig_version = $soap->server_get_app_version($session_id);
                         if (version_compare($ispconfig_version['ispc_app_version'], '3.1dev', '<')) {
                             $startdate = array('year'   => substr($params['autoresponder_start_date'], 0, 4),
                                 'month'  => substr($params['autoresponder_start_date'], 5, 2),
