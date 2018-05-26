@@ -132,7 +132,11 @@ class ispconfig3_forward extends rcube_plugin
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-        $input_forwardingaddress = new html_inputfield(array('name' => '_forwardingaddress', 'id' => 'forwardingaddress', 'value' => '', 'maxlength' => 320, 'size' => 40));
+        $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
+        $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+        $this->soap->logout($session_id);
+
+        $input_forwardingaddress = new html_inputfield(array('name' => '_forwardingaddress', 'id' => 'forwardingaddress', 'value' => $mail_user[0]['cc'], 'maxlength' => 320, 'size' => 40));
         $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('forwardingaddress')));
         $table->add('', $input_forwardingaddress->show());
 
