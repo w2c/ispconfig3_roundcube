@@ -200,6 +200,26 @@ class ispconfig3_pass extends rcube_plugin
         $table->add('', $input_confpasswd->show());
 
         $out .= $table->show();
+        $out .= '<p>' . $this->gettext('passwordrequirements') . '</p>' . "\n";
+
+        $pwl = $this->rcmail_inst->config->get('password_min_length');
+        $checkUpper = $this->rcmail_inst->config->get('password_check_upper');
+        $checkLower = $this->rcmail_inst->config->get('password_check_lower');
+        $checkSymbol = $this->rcmail_inst->config->get('password_check_symbol');
+        $checkNumber = $this->rcmail_inst->config->get('password_check_number');
+
+        $out .= '<ul>';
+        $out .= '<li>' . str_replace("%d", $pwl, $this->gettext('passwordminlength')) . '</li>';
+        if($checkUpper)
+            $out .= '<li>' . $this->gettext('passwordchecknumber') . '</li>';
+        if($checkLower)
+            $out .= '<li>' . $this->gettext('passwordchecklower') . '</li>';
+        if($checkSymbol)
+            $out .= '<li>' . $this->gettext('passwordcheckupper') . '</li>';
+        if($checkNumber)
+            $out .= '<li>' . $this->gettext('passwordchecksymbol') . '</li>';
+        $out .= '</ul>';
+
         $out .= "</fieldset>\n";
 
         return $out;
