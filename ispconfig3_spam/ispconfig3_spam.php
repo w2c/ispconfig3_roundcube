@@ -2,46 +2,50 @@
 class ispconfig3_spam extends rcube_plugin
 {
     public $task = 'settings';
+    private $rcmail;
     private $soap;
-    private $rcmail_inst;
 
     function init()
     {
-        $this->rcmail_inst = rcmail::get_instance();
-        $this->add_texts('localization/', true);
+        $this->rcmail = rcmail::get_instance();
+        $this->add_texts('localization/');
         $this->require_plugin('ispconfig3_account');
-
-        $this->soap = new SoapClient(null, array(
-            'location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
-            'uri' => $this->rcmail_inst->config->get('soap_url'),
-            'stream_context' => stream_context_create(array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            ))
-        ));
 
         $this->register_action('plugin.ispconfig3_spam', array($this, 'init_html'));
         $this->register_action('plugin.ispconfig3_spam.save', array($this, 'save'));
 
-        $this->api->output->add_handler('spam_form', array($this, 'gen_form'));
-        $this->api->output->add_handler('sectionname_spam', array($this, 'prefs_section_name'));
-        $this->api->output->add_handler('spam_table', array($this, 'gen_table'));
+        if (strpos($this->rcmail->action, 'plugin.ispconfig3_spam') === 0) {
+            $this->api->output->add_handler('spam_form', array($this, 'gen_form'));
+            $this->api->output->add_handler('sectionname_spam', array($this, 'prefs_section_name'));
+            $this->api->output->add_handler('spam_table', array($this, 'gen_table'));
 
-        $this->include_script('spam.js');
+            $this->include_script('spam.js');
+            $this->include_stylesheet($this->local_skin_path() . '/spam.css');
+
+            $this->soap = new SoapClient(null, array(
+                'location' => $this->rcmail->config->get('soap_url') . 'index.php',
+                'uri' => $this->rcmail->config->get('soap_url'),
+                $this->rcmail->config->get('soap_validate_cert') ?:
+                    'stream_context' => stream_context_create(
+                        array('ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ))
+            ));
+        }
     }
 
     function init_html()
     {
-        $this->rcmail_inst->output->set_pagetitle($this->gettext('junk'));
-        $this->rcmail_inst->output->send('ispconfig3_spam.spam');
+        $this->rcmail->output->set_pagetitle($this->gettext('acc_spam'));
+        $this->rcmail->output->send('ispconfig3_spam.spam');
     }
 
     function prefs_section_name()
     {
-        return $this->gettext('junk');
+        return $this->gettext('acc_spam');
     }
 
     function save()
@@ -54,15 +58,13 @@ class ispconfig3_spam extends rcube_plugin
         else
             $move_junk = 'y';
 
-        try
-        {
-            $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
-            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+        try {
+            $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
-            if ($spam_user[0]['id'] == '')
-            {
+            if ($spam_user[0]['id'] == '') {
                 $params = array('server_id' => $mail_user[0]['server_id'],
                                 'priority'  => '5',
                                 'policy_id' => $policy_id,
@@ -72,8 +74,7 @@ class ispconfig3_spam extends rcube_plugin
 
                 $add = $this->soap->mail_spamfilter_user_add($session_id, $uid, $params);
             }
-            else
-            {
+            else {
                 $params = $spam_user[0];
                 $params['policy_id'] = $policy_id;
 
@@ -106,62 +107,68 @@ class ispconfig3_spam extends rcube_plugin
             $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
             $this->soap->logout($session_id);
 
-            $this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-        } catch (SoapFault $e)
-        {
-            $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $this->rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+        }
+        catch (SoapFault $e) {
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
         }
 
         $this->init_html();
     }
 
-    function gen_form()
+    function gen_form($attrib)
     {
         $policy_name = array();
         $policy_id = array();
+        $enabled = 0;
 
-        try
-        {
-            $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
-            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+        $form_id = $attrib['id'] ?: 'form';
+        $out = $this->rcmail->output->request_form(array(
+            'id'      => $form_id,
+            'name'    => $form_id,
+            'method'  => 'post',
+            'task'    => 'settings',
+            'action'  => 'plugin.ispconfig3_spam.save',
+            'noclose' => true
+            ) + $attrib);
+            
+        $out .= '<fieldset><legend>' . $this->gettext('acc_spam') . '</legend>' . "\n";        
+
+        try {
+            $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $policy = $this->soap->mail_policy_get($session_id, array());
             $policy_sel = $this->soap->mail_policy_get($session_id, array('id' => $spam_user[0]['policy_id']));
             $this->soap->logout($session_id);
 
-            for ($i = 0; $i < count($policy); $i++)
-            {
+            for ($i = 0; $i < count($policy); $i++) {
                 $policy_name[] = $policy[$i]['policy_name'];
                 $policy_id[] = $policy[$i]['id'];
             }
-        } catch (SoapFault $e)
-        {
-            $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+
+            $enabled = $mail_user[0]['move_junk'];
+            if ($enabled == 'y')
+                $enabled = 1;
         }
-
-        $enabled = $mail_user[0]['move_junk'];
-
-        if ($enabled == 'y')
-            $enabled = 1;
-        else
-            $enabled = 0;
-
-        $this->rcmail_inst->output->set_env('framed', true);
-
-        $out = '<fieldset><legend>' . $this->gettext('junk') . '</legend>' . "\n";
+        catch (SoapFault $e) {
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+        }
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-        $input_spampolicy_name = new html_select(array('name' => '_spampolicy_name', 'id' => 'spampolicy_name'));
+        $field_id = 'spampolicy_name';
+        $input_spampolicy_name = new html_select(array('name' => '_' . $field_id, 'id' => $field_id));
         $input_spampolicy_name->add($policy_name, $policy_id);
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('policy_name')));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('policy_name'))));
         $table->add('', $input_spampolicy_name->show($policy_sel[0]['policy_name']));
 
-        $input_spammove = new html_checkbox(array('name' => '_spammove', 'id' => 'spammove', 'value' => '1'));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('spammove')));
+        $field_id = 'spammove';
+        $input_spammove = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => '1'));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('spammove'))));
         $table->add('', $input_spammove->show($enabled));
-
         $out .= $table->show();
+
         $out .= "</fieldset>\n";
 
         return $out;
@@ -169,52 +176,42 @@ class ispconfig3_spam extends rcube_plugin
 
     function gen_table($attrib)
     {
-        $this->rcmail_inst->output->set_env('framed', true);
-
         $out = '<fieldset><legend>' . $this->gettext('policy_entries') . '</legend>' . "\n";
 
         $spam_table = new html_table(array('id' => 'spam-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 4));
-        $spam_table->add_header(array('width' => '220px'), $this->gettext('policy_entries'));
+        $spam_table->add_header(array('width' => '220px'), $this->gettext('policy_name'));
         $spam_table->add_header(array('class' => 'value', 'width' => '150px'), $this->gettext('policy_tag'));
         $spam_table->add_header(array('class' => 'value', 'width' => '150px'), $this->gettext('policy_tag2'));
         $spam_table->add_header(array('class' => 'value', 'width' => '130px'), $this->gettext('policy_kill'));
 
-        try
-        {
-            $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
-            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+        try {
+            $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $policies = $this->soap->mail_policy_get($session_id, array());
-            $class = 'odd';
+            $this->soap->logout($session_id);
 
-            for ($i = 0; $i < count($policies); $i++)
-            {
-                $class = ($class == 'odd' ? 'even' : 'odd');
-
-                if ($policies[$i]['id'] == $spam_user[0]['policy_id'])
-                    $class = 'selected';
-
-                $spam_table->set_row_attribs(array('class' => $class));
+            for ($i = 0; $i < count($policies); $i++) {
+                if ($policies[$i]['id'] == $spam_user[0]['policy_id']) {
+                    $spam_table->set_row_attribs(array('class' => 'selected'));
+                }
 
                 $this->_spam_row($spam_table, $policies[$i]['policy_name'], $policies[$i]['spam_tag_level'],
                     $policies[$i]['spam_tag2_level'], $policies[$i]['spam_kill_level'], $attrib);
             }
 
-            $this->soap->logout($session_id);
-        } catch (SoapFault $e)
-        {
-            $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            if (count($policies) == 0) {
+                $spam_table->add(array('colspan' => '4'), rcube::Q($this->gettext('spamnopolicies')));
+                $spam_table->add_row();
+            }
         }
-
-        if (count($policies) == 0)
-        {
-            $spam_table->add(array('colspan' => '4'), rcube_utils::rep_specialchars_output($this->gettext('spamnopolicies')));
-            $spam_table->set_row_attribs(array('class' => 'odd'));
-            $spam_table->add_row();
+        catch (SoapFault $e) {
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
         }
 
         $out .= "<div id=\"spam-cont\">" . $spam_table->show() . "</div>\n";
         $out .= "</fieldset>\n";
+        $out .= '</form>';
 
         return $out;
     }

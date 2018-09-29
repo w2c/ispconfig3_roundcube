@@ -1,0 +1,47 @@
+#acc_info_list {
+    padding-bottom: 5px;
+}
+
+#spam-cont {
+    border: 1px solid #999999;
+    background-color: #F9F9F9;
+    height: 180px;
+    overflow: auto;
+    width: 690px;
+}
+
+body.spam-table {
+    margin: 0px;
+    background-color: #F9F9F9;
+}
+
+#spam-table {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    /* css hack for IE */
+    width: expression('auto');
+}
+
+/* safari hack \*/
+html > body *#spam-table[id$="spam-table"]:not([class="none"]) {
+    table-layout: auto;
+}
+
+/**/
+
+#spam-table td.policy {
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#selected {
+    color: #FFFFFF;
+    background-color: #CC3333;
+}
+
+#spam-table td.value {
+    /*text-align: center;*/
+    vertical-align: middle;
+}

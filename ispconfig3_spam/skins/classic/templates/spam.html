@@ -1,1 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<roundcube:include file="/includes/links.html"/>	<link rel="stylesheet" type="text/css" href="/settings.css"/>	<link type="text/css" href="/this/css/spam.css" rel="stylesheet"/>	<script type="text/javascript" src="/functions.js"></script></head><body class="iframe"><div id="prefs-title" class="boxtitle">	<roundcube:object name="sectionname_spam"/></div><div id="prefs-details">	<form name="spamform"				action="./?_task=settings&_action=plugin.ispconfig3_spam.save&_framed=1"				method="post">		<roundcube:object name="spam_form"/>	</form>	<roundcube:object name="spam_table" class="spam-table" cellspacing="0"										deleteIcon="/this/delete.png"										enableIcon="/this/enabled.png"										disableIcon="/this/disabled.png"/></div><div id="formfooter">	<div class="footerleft">		<roundcube:button command="plugin.ispconfig3_spam.save" type="input"											class="button mainaction" label="save"/>	</div></div></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+    <link rel="stylesheet" type="text/css" href="/settings.css" />
+    <script type="text/javascript" src="/functions.js"></script>
+</head>
+<body class="iframe">
+<div id="prefs-title" class="boxtitle">
+    <roundcube:object name="sectionname_spam" />
+</div>
+<div id="prefs-details">
+    <roundcube:object name="spam_form" id="spam_form" />
+    <roundcube:object name="spam_table" class="spam-table" cellspacing="0" />
+</div>
+<div id="formfooter">
+    <div class="footerleft">
+        <roundcube:button command="plugin.ispconfig3_spam.save" type="input" class="button mainaction" label="save" />
+    </div>
+</div>
+</body>
+</html>
