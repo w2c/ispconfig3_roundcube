@@ -1,12 +1,9 @@
 <?php
-$labels = array();
-$labels['password'] = 'Смяна на парола';
+$labels['password'] = 'Парола';
 $labels['changepasswd'] = 'Промяна на парола';
 $labels['curpasswd'] = 'Въведете текуща парола:';
 $labels['newpasswd'] = 'Въведете нова парола:';
 $labels['confpasswd'] = 'Потвърдете новата парола:';
-
-$messages = array();
 $messages['nopassword'] = 'Въвдете нова парола.';
 $messages['nocurpassword'] = 'Въведете текуща парола.';
 $messages['passwordincorrect'] = 'Текущата парола е грешна.';
@@ -16,4 +13,3 @@ $messages['passwordchecknumber'] = 'Новата парола трябва да 
 $messages['passwordchecklower'] = 'Новата парола трябва да съдържа поне една малка буква.';
 $messages['passwordcheckupper'] = 'Новата парола трябва да съдържа поне една ГОЛЯМА буква.';
 $messages['passwordchecksymbol'] = 'Новата парола трябва да съдържа поне един специ@лен симол.';
-?>

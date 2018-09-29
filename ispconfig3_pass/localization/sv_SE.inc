@@ -1,15 +1,15 @@
 <?php
-$labels = array();
-$labels['password'] = 'L&ouml;senord';
-$labels['changepasswd'] = '&Auml;ndra l&ouml;senord';
-$labels['curpasswd'] = 'Nuvarande l&ouml;senord:';
-$labels['newpasswd'] = 'Nytt l&ouml;senord:';
-$labels['confpasswd'] = 'Bekr&auml;fta l&ouml;senord:';
-
-$messages = array();
-$messages['nopassword'] = 'Ange ett nytt l&ouml;senord.';
-$messages['nocurpassword'] = 'Ange nuvarande l&ouml;senord.';
-$messages['passwordincorrect'] = 'Nuvarande l&ouml;senord &auml;r felaktigt.';
-$messages['passwordinconsistency'] = 'De nya l&ouml;senorden st&auml;mmer inte &ouml;verrens.';
-$messages['passwordminlength'] = 'L&ouml;senordet &auml;r f&ouml;r kort, minst %d tecken kr&auml;vs.';
-?>
+$labels['password'] = 'Lösenord';
+$labels['changepasswd'] = 'Ändra lösenord';
+$labels['curpasswd'] = 'Nuvarande lösenord:';
+$labels['newpasswd'] = 'Nytt lösenord:';
+$labels['confpasswd'] = 'Bekräfta lösenord:';
+$messages['nopassword'] = 'Ange ett nytt lösenord.';
+$messages['nocurpassword'] = 'Ange nuvarande lösenord.';
+$messages['passwordincorrect'] = 'Nuvarande lösenord är felaktigt.';
+$messages['passwordinconsistency'] = 'De nya lösenorden stämmer inte överrens.';
+$messages['passwordminlength'] = 'Lösenordet är för kort, minst %d tecken krävs.';
+$messages['passwordchecknumber'] = 'Lösenordet måste innehålla minst ett nummer.';
+$messages['passwordchecklower'] = 'Lösenordet måste innehålla minst en små bokstav.';
+$messages['passwordcheckupper'] = 'Lösenordet måste innehålla minst en stor bokstav.';
+$messages['passwordchecksymbol'] = 'Lösenordet måste innehålla minst en symbol.';
