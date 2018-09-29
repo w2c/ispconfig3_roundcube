@@ -2,124 +2,113 @@
 class ispconfig3_pass extends rcube_plugin
 {
     public $task = 'settings';
-    private $rcmail_inst;
+    private $rcmail;
 
     function init()
     {
-        $this->rcmail_inst = rcmail::get_instance();
-        $this->load_config();
-        $this->add_texts('localization/', true);
+        $this->rcmail = rcmail::get_instance();
+        $this->add_texts('localization/');
         $this->require_plugin('ispconfig3_account');
+        $this->require_plugin('jqueryui');
 
         $this->register_action('plugin.ispconfig3_pass', array($this, 'init_html'));
         $this->register_action('plugin.ispconfig3_pass.save', array($this, 'save'));
 
-        $this->api->output->add_handler('pass_form', array($this, 'gen_form'));
-        $this->api->output->add_handler('sectionname_pass', array($this, 'prefs_section_name'));
+        if (strpos($this->rcmail->action, 'plugin.ispconfig3_pass') === 0) {
+            $this->load_config('config/config.inc.php.dist');
+            if (file_exists($this->home . '/config/config.inc.php')) {
+                $this->load_config('config/config.inc.php');
+            }
 
-        $this->include_script('pwdmeter.js');
-        $this->include_script('pass.js');
+            $this->api->output->add_handler('pass_form', array($this, 'gen_form'));
+            $this->api->output->add_handler('sectionname_pass', array($this, 'prefs_section_name'));
+
+            $this->include_script('pwdmeter.js');
+            $this->include_script('pass.js');
+            $this->include_stylesheet($this->local_skin_path() . '/pass.css');
+        }
     }
 
     function init_html()
     {
-        $this->rcmail_inst->output->set_pagetitle($this->gettext('password'));
-        $this->rcmail_inst->output->send('ispconfig3_pass.pass');
-    }
-
-    function load_config($fname = 'config.inc.php')
-    {
-        $config = $this->home . '/config/' . $fname;
-        if (file_exists($config))
-        {
-            if (!$this->rcmail_inst->config->load_from_file($config))
-                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__, 'message' => "Failed to load config from $config"), true, false);
-        }
-        else if (file_exists($config . ".dist"))
-        {
-            if (!$this->rcmail_inst->config->load_from_file($config . '.dist'))
-                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__, 'message' => "Failed to load config from $config"), true, false);
-        }
+        $this->rcmail->output->set_pagetitle($this->gettext('changepasswd'));
+        $this->rcmail->output->send('ispconfig3_pass.pass');
     }
 
     function prefs_section_name()
     {
-        return $this->gettext('password');
+        return $this->gettext('changepasswd');
     }
 
     function save()
     {
-        $confirm = $this->rcmail_inst->config->get('password_confirm_current');
+        $confirm = $this->rcmail->config->get('password_confirm_current');
 
         if (($confirm && !isset($_POST['_curpasswd'])) || !isset($_POST['_newpasswd']))
-            $this->rcmail_inst->output->command('display_message', $this->gettext('nopassword'), 'error');
-        else
-        {
+            $this->rcmail->output->command('display_message', $this->gettext('nopassword'), 'error');
+        else {
             $curpwd = rcube_utils::get_input_value('_curpasswd', rcube_utils::INPUT_POST);
             $newpwd = rcube_utils::get_input_value('_newpasswd', rcube_utils::INPUT_POST);
-            $pwl = $this->rcmail_inst->config->get('password_min_length');
-            $checkUpper = $this->rcmail_inst->config->get('password_check_upper');
-            $checkLower = $this->rcmail_inst->config->get('password_check_lower');
-            $checkSymbol = $this->rcmail_inst->config->get('password_check_symbol');
-            $checkNumber = $this->rcmail_inst->config->get('password_check_number');
+            $pwl = $this->rcmail->config->get('password_min_length');
+            $checkUpper = $this->rcmail->config->get('password_check_upper');
+            $checkLower = $this->rcmail->config->get('password_check_lower');
+            $checkSymbol = $this->rcmail->config->get('password_check_symbol');
+            $checkNumber = $this->rcmail->config->get('password_check_number');
             $error = false;
 
-            if (!empty($pwl))
+            if (!empty($pwl)) {
                 $pwl = max(6, $pwl);
-            else
+            }
+            else {
                 $pwl = 6;
+            }
 
-            if ($confirm && $this->rcmail_inst->decrypt($_SESSION['password']) != $curpwd)
-                $this->rcmail_inst->output->command('display_message', $this->gettext('passwordincorrect'), 'error');
-            else
-            {
-                if (strlen($newpwd) < $pwl)
-                {
+            if ($confirm && $this->rcmail->decrypt($_SESSION['password']) != $curpwd) {
+                $this->rcmail->output->command('display_message', $this->gettext('passwordincorrect'), 'error');
+            }
+            else {
+                if (strlen($newpwd) < $pwl) {
                     $error = true;
-                    $this->rcmail_inst->output->command('display_message', str_replace("%d", $pwl, $this->gettext('passwordminlength')), 'error');
+                    $this->rcmail->output->command('display_message', str_replace("%d", $pwl, $this->gettext('passwordminlength')), 'error');
                 }
 
-                if (!$error && $checkNumber && !preg_match("#[0-9]+#", $newpwd))
-                {
+                if (!$error && $checkNumber && !preg_match("#[0-9]+#", $newpwd)) {
                     $error = true;
-                    $this->rcmail_inst->output->command('display_message', $this->gettext('passwordchecknumber'), 'error');
+                    $this->rcmail->output->command('display_message', $this->gettext('passwordchecknumber'), 'error');
                 }
 
-                if (!$error && $checkLower && !preg_match("#[a-z]+#", $newpwd))
-                {
+                if (!$error && $checkLower && !preg_match("#[a-z]+#", $newpwd)) {
                     $error = true;
-                    $this->rcmail_inst->output->command('display_message', $this->gettext('passwordchecklower'), 'error');
+                    $this->rcmail->output->command('display_message', $this->gettext('passwordchecklower'), 'error');
                 }
 
-                if (!$error && $checkUpper && !preg_match("#[A-Z]+#", $newpwd))
-                {
+                if (!$error && $checkUpper && !preg_match("#[A-Z]+#", $newpwd)) {
                     $error = true;
-                    $this->rcmail_inst->output->command('display_message', $this->gettext('passwordcheckupper'), 'error');
+                    $this->rcmail->output->command('display_message', $this->gettext('passwordcheckupper'), 'error');
                 }
 
-                if (!$error && $checkSymbol && !preg_match("#\W+#", $newpwd))
-                {
+                if (!$error && $checkSymbol && !preg_match("#\W+#", $newpwd)) {
                     $error = true;
-                    $this->rcmail_inst->output->command('display_message', $this->gettext('passwordchecksymbol'), 'error');
+                    $this->rcmail->output->command('display_message', $this->gettext('passwordchecksymbol'), 'error');
                 }
 
-                if (!$error)
-                {
-                    try
-                    {
+                if (!$error) {
+                    try {
                         $soap = new SoapClient(null, array(
-                            'location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
-                            'uri' => $this->rcmail_inst->config->get('soap_url'),
-                            'stream_context' => stream_context_create(array(
-                                'ssl' => array(
-                                    'verify_peer' => false,
-                                    'verify_peer_name' => false,
-                                    'allow_self_signed' => true
-                                )
-                            ))
+                            'location' => $this->rcmail->config->get('soap_url') . 'index.php',
+                            'uri' => $this->rcmail->config->get('soap_url'),
+                            $this->rcmail->config->get('soap_validate_cert') ?:
+                                'stream_context' => stream_context_create(
+                                    array('ssl' => array(
+                                        'verify_peer' => false,
+                                        'verify_peer_name' => false,
+                                        'allow_self_signed' => true
+                                    )
+                                ))
                         ));
-                        $session_id = $soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
-                        $mail_user = $soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+
+                        $session_id = $soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+                        $mail_user = $soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
                         $params = $mail_user[0];
 
                         $ispconfig_version = $soap->server_get_app_version($session_id);
@@ -146,61 +135,76 @@ class ispconfig3_pass extends rcube_plugin
                         $update = $soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
                         $soap->logout($session_id);
 
-                        $this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+                        $this->rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
 
-                        $_SESSION['password'] = $this->rcmail_inst->encrypt($newpwd);
+                        $_SESSION['password'] = $this->rcmail->encrypt($newpwd);
 
-                        $this->rcmail_inst->user->data['password'] = $_SESSION['password'];
-                    } catch (SoapFault $e)
-                    {
-                        $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+                        $this->rcmail->user->data['password'] = $_SESSION['password'];
+                    }
+                    catch (SoapFault $e) {
+                        $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
                     }
                 }
             }
         }
+
         $this->init_html();
     }
 
-    function gen_form()
+    function gen_form($attrib)
     {
-        $confirm = $this->rcmail_inst->config->get('password_confirm_current');
-        $pwl = $this->rcmail_inst->config->get('password_min_length');
-
-        if (!empty($pwl))
-            $pwl = max(6, $pwl);
-        else
-            $pwl = 6;
-
-        $this->rcmail_inst->output->add_label('ispconfig3_pass.nopassword',
+        $this->rcmail->output->add_label('ispconfig3_pass.nopassword',
             'ispconfig3_pass.nocurpassword',
             'ispconfig3_pass.passwordinconsistency',
             'ispconfig3_pass.changepasswd',
             'ispconfig3_pass.passwordminlength');
 
-        $this->rcmail_inst->output->add_script('var pw_min_length =' . $pwl . ';');
-        $this->rcmail_inst->output->set_env('framed', true);
+        $confirm = $this->rcmail->config->get('password_confirm_current');
+        $pwl = $this->rcmail->config->get('password_min_length');
 
-        $out = '<fieldset><legend>' . $this->gettext('password') . '</legend>' . "\n";
+        if (!empty($pwl)) {
+            $pwl = max(6, $pwl);
+        }
+        else {
+            $pwl = 6;
+        }
+
+        $this->rcmail->output->add_script('var pw_min_length =' . $pwl . ';');
+
+        $form_id = $attrib['id'] ?: 'form';
+        $out = $this->rcmail->output->request_form(array(
+                'id'      => $form_id,
+                'name'    => $form_id,
+                'method'  => 'post',
+                'task'    => 'settings',
+                'action'  => 'plugin.ispconfig3_pass.save',
+                'noclose' => true
+            ) + $attrib);
+
+        $out .= '<fieldset><legend>' . $this->gettext('password') . '</legend>' . "\n";
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-        if ($confirm)
-        {
-            $input_newpasswd = new html_passwordfield(array('name' => '_curpasswd', 'id' => 'curpasswd', 'size' => 20));
-            $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('curpasswd')));
+        if ($confirm) {
+            $field_id = 'curpasswd';
+            $input_newpasswd = new html_passwordfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 20));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('curpasswd'))));
             $table->add('', $input_newpasswd->show());
         }
 
-        $input_newpasswd = new html_passwordfield(array('name' => '_newpasswd', 'id' => 'newpasswd', 'size' => 20));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('newpasswd')));
-        $table->add('', $input_newpasswd->show() . '<div id="pass-check">');
+        $field_id = 'newpasswd';
+        $input_newpasswd2 = new html_passwordfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 20));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('newpasswd'))));
+        $table->add('', $input_newpasswd2->show() . '<div id="pass-check">');
 
-        $input_confpasswd = new html_passwordfield(array('name' => '_confpasswd', 'id' => 'confpasswd', 'size' => 20));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('confpasswd')));
+        $field_id = 'confpasswd';
+        $input_confpasswd = new html_passwordfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 20));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('confpasswd'))));
         $table->add('', $input_confpasswd->show());
 
         $out .= $table->show();
         $out .= "</fieldset>\n";
+        $out .= '</form>';
 
         return $out;
     }

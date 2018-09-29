@@ -1,0 +1,14 @@
+#pass-check {
+    float: left;
+    width: 150px;
+    /*margin-top: 1px;*/
+    margin-left: 10px;
+}
+
+#newpasswd {
+    float: left;
+}
+
+.ui-widget-header {
+    border: 1px solid #FAFAFA;
+}
