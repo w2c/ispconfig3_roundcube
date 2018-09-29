@@ -1,4 +1,3 @@
 <?php
-$rcmail_config['wblist_limit'] = 15;
-$rcmail_config['wblist_default_policy'] = 5;
-?>
+$config['wblist_limit'] = 15;
+$config['wblist_default_policy'] = 5;

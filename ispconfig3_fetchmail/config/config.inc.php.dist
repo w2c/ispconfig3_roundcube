@@ -1,3 +1,2 @@
 <?php
-$rcmail_config['fetchmail_limit'] = 3;
-?>
+$config['fetchmail_limit'] = 3;

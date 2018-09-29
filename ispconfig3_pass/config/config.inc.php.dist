@@ -1,8 +1,7 @@
 <?php
-$rcmail_config['password_confirm_current'] = TRUE;
-$rcmail_config['password_min_length'] = 6;
-$rcmail_config['password_check_symbol'] = TRUE;
-$rcmail_config['password_check_lower'] = TRUE;
-$rcmail_config['password_check_upper'] = TRUE;
-$rcmail_config['password_check_number'] = TRUE;
-?>
+$config['password_confirm_current'] = true;
+$config['password_min_length'] = 6;
+$config['password_check_symbol'] = true;
+$config['password_check_lower'] = true;
+$config['password_check_upper'] = true;
+$config['password_check_number'] = true;

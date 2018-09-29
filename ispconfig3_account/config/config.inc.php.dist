@@ -1,6 +1,6 @@
 <?php
-$rcmail_config['identity_limit'] = false;
-$rcmail_config['remote_soap_user'] = 'roundcube';
-$rcmail_config['remote_soap_pass'] = 'roundcube';
-$rcmail_config['soap_url'] = 'http://192.177.167.44:8080/remote/';
-?>
+$config['identity_limit'] = false;
+$config['remote_soap_user'] = 'roundcube';
+$config['remote_soap_pass'] = 'roundcube';
+$config['soap_url'] = 'https://192.177.167.44:8080/remote/';
+$config['soap_validate_cert'] = true;
