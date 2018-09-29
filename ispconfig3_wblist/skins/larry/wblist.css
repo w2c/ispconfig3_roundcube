@@ -1,1 +1,36 @@
-#rule-cont {	height: 152px;	overflow: auto;}
+#rule-table a.button.icon {
+    width: 16px;
+    height: 16px;
+    border: 0 none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+#rule-table td.rule {
+    cursor: pointer;
+}
+
+#rule-table a.button.icon.delete {
+    background: url(delete.png) no-repeat;
+}
+
+#rule-table a.button.icon.status-enabled  {
+    background: url(enabled.png) no-repeat;
+    cursor: default;
+}
+
+#rule-table a.button.icon.status-disabled  {
+    background: url(disabled.png) no-repeat;
+    cursor: default;
+}
+
+#rule-table a.button.icon.whitelist  {
+    background: url(whitelist.png) no-repeat;
+    cursor: default;
+}
+
+#rule-table a.button.icon.blacklist  {
+    background: url(blacklist.png) no-repeat;
+    cursor: default;
+}

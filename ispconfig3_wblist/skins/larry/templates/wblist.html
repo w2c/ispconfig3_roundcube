@@ -1,1 +1,22 @@
-<roundcube:object name="doctype" value="html5"/><html><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<roundcube:include file="/includes/links.html"/>	<link rel="stylesheet" type="text/css" href="/this/wblist.css"/></head><body class="iframe"><h1 class="boxtitle">	<roundcube:object name="sectionname_wblist"/></h1><div id="prefs-details" class="boxcontent">	<form name="wblistform" class="propform"				action="./?_task=settings&_action=plugin.ispconfig3_wblist.save&_framed=1"				method="post">		<roundcube:object name="wblist_form" form="form" class="propform"/>		<roundcube:object name="wblist_table" blackIcon="/this/blacklist.png"											whiteIcon="/this/whitelist.png"											deleteIcon="/this/delete.png"											enableIcon="/this/enabled.png"											disableIcon="/this/disabled.png"/>	</form></div><div id="formfooter">	<div class="footerleft formbuttons">		<roundcube:button command="plugin.ispconfig3_wblist.save" type="input"											class="button mainaction" label="save"/>	</div></div><roundcube:include file="/includes/footer.html"/></body></html>
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+</head>
+<body class="iframe">
+<h1 class="boxtitle">
+    <roundcube:object name="sectionname_wblist" />
+</h1>
+<div id="prefs-details" class="boxcontent">
+    <roundcube:object name="wblist_form" id="wblist_form" class="propform" />
+    <roundcube:object name="wblist_table" />
+</div>
+<div id="formfooter">
+    <div class="footerleft formbuttons">
+        <roundcube:button command="plugin.ispconfig3_wblist.save" type="input" class="button mainaction" label="save" />
+    </div>
+</div>
+<roundcube:include file="/includes/footer.html" />
+</body>
+</html>
