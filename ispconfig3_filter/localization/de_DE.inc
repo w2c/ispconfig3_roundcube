@@ -1,25 +1,22 @@
 <?php
-$labels = array();
-$labels['acc_filter'] = 'Mail Filter';
+$labels['acc_filter'] = 'Filterregeln';
 $labels['filtername'] = 'Name';
 $labels['filtersource'] = 'Quelle';
 $labels['filtersubject'] = 'Betreff';
 $labels['filterfrom'] = 'Von';
 $labels['filterto'] = 'Zu';
-$labels['filtercontains'] = 'Beinhaltet';
-$labels['filteris'] = 'Ist';
-$labels['filterbegins'] = 'Beginnt';
-$labels['filterends'] = 'Endet';
+$labels['filtercontains'] = 'beinhaltet';
+$labels['filteris'] = 'ist';
+$labels['filterbegins'] = 'beginnt';
+$labels['filterends'] = 'endet';
 $labels['filteraction'] = 'Aktion';
 $labels['filtermove'] = 'Verschieben';
 $labels['filterdelete'] = 'Löschen';
-$labels['filterenabled'] = 'Aktivieren';
+$labels['filterenabled'] = 'Aktiviert';
+$labels['filterdisabled'] = 'Deaktiviert';
 $labels['filteradd'] = 'Hinzufügen';
-$labels['filternorules'] = 'Es exisitieren keine Regeln';
+$labels['filternorules'] = 'Es existieren keine Regeln';
 $labels['filter_entries'] = 'Regeln';
-
-$messages = array();
 $messages['filterdelconfirm'] = 'Wollen Sie diese Regel wirklich löschen?';
 $messages['filterlimitreached'] = 'Limit erreicht';
-$messages['textempty'] = 'Ein oder mehr Felder sind leer';
-?>
+$messages['textempty'] = 'Eines oder mehrere Felder sind leer';

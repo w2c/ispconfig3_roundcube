@@ -1,6 +1,5 @@
 <?php
-$labels = array();
-$labels['acc_filter'] = 'Filtros de Correo';
+$labels['acc_filter'] = 'Filtros de correo';
 $labels['filtername'] = 'Nombre';
 $labels['filtersource'] = 'Regla';
 $labels['filtersubject'] = 'Asunto';
@@ -14,12 +13,10 @@ $labels['filteraction'] = 'Acción';
 $labels['filtermove'] = 'Mover';
 $labels['filterdelete'] = 'Borrar';
 $labels['filterenabled'] = 'Activo';
+$labels['filterdisabled'] = 'Inactivo';
 $labels['filteradd'] = 'Agregar';
 $labels['filternorules'] = 'No se definió ningún filtro de correo';
 $labels['filter_entries'] = 'Filtros';
-
-$messages = array();
 $messages['filterdelconfirm'] = '¿Está seguro de que quiere borrar este filtro?';
 $messages['filterlimitreached'] = 'No es posible añadir más filtros';
 $messages['textempty'] = 'Es necesario cubrir todos los campos';
-?>

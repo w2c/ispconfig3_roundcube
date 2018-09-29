@@ -1,5 +1,4 @@
 <?php
-$labels = array();
 $labels['acc_filter'] = 'Почтовые фильтры';
 $labels['filtername'] = 'Название';
 $labels['filtersource'] = 'Источник';
@@ -13,13 +12,11 @@ $labels['filterends'] = 'заканчивается на';
 $labels['filteraction'] = 'Действие';
 $labels['filtermove'] = 'переместить';
 $labels['filterdelete'] = 'удалить';
-$labels['filterenabled'] = 'Включить';
+$labels['filterenabled'] = 'Включено';
+$labels['filterdisabled'] = 'Отключено';
 $labels['filteradd'] = 'Добавить';
 $labels['filternorules'] = 'Правил нет';
 $labels['filter_entries'] = 'Почтовые фильтры';
-
-$messages = array();
 $messages['filterdelconfirm'] = 'Вы уверены, чтобы хотите удалить это правило?';
 $messages['filterlimitreached'] = 'Достигнуто ограничение';
 $messages['textempty'] = 'Одно или несколько обязательных полей не заполнены';
-?>

@@ -1,25 +1,22 @@
 <?php
-$labels = array();
 $labels['acc_filter'] = 'Filtri posta';
 $labels['filtername'] = 'Nome';
 $labels['filtersource'] = 'Condizione';
 $labels['filtersubject'] = 'Soggetto';
 $labels['filterfrom'] = 'Mittente';
 $labels['filterto'] = 'Destinatario';
-$labels['filtercontains'] = 'Contiene';
+$labels['filtercontains'] = 'contiene';
 $labels['filteris'] = 'è';
-$labels['filterbegins'] = 'Inizia con';
-$labels['filterends'] = 'Termina con';
+$labels['filterbegins'] = 'inizia con';
+$labels['filterends'] = 'termina con';
 $labels['filteraction'] = 'Azione';
 $labels['filtermove'] = 'Sposta nella cartella';
 $labels['filterdelete'] = 'Cancella';
-$labels['filterenabled'] = 'Abilitato';
+$labels['filterenabled'] = 'Attivo';
+$labels['filterdisabled'] = 'Inattivo';
 $labels['filteradd'] = 'Aggiungi';
 $labels['filternorules'] = 'Non è definita alcuna regola';
 $labels['filter_entries'] = 'Regole definite';
-
-$messages = array();
 $messages['filterdelconfirm'] = 'Confermi la cancellazione di questa regola?';
 $messages['filterlimitreached'] = 'Numero massimo di regole raggiunto';
 $messages['textempty'] = 'Uno o più campi sono vuoti';
-?>

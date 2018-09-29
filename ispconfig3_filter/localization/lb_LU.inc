@@ -1,0 +1,22 @@
+<?php
+$labels['acc_filter'] = 'E-Mail-Filter';
+$labels['filtername'] = 'Numm';
+$labels['filtersource'] = 'Source';
+$labels['filtersubject'] = 'Sujet';
+$labels['filterfrom'] = 'Vun';
+$labels['filterto'] = 'Un';
+$labels['filtercontains'] = 'enthält';
+$labels['filteris'] = 'ass gläich';
+$labels['filterbegins'] = 'fänkt u mat';
+$labels['filterends'] = 'hält op mat';
+$labels['filteraction'] = 'Aktioun';
+$labels['filtermove'] = 'Verréckelen';
+$labels['filterdelete'] = 'Läschen';
+$labels['filterenabled'] = 'Aktivéiert';
+$labels['filterdisabled'] = 'Net aktiv';
+$labels['filteradd'] = 'Dobäisetzen';
+$labels['filternorules'] = 'Et existéiere keng Reegelen';
+$labels['filter_entries'] = 'Reegelen';
+$messages['filterdelconfirm'] = 'Wëlls du dës Reegel wierklech läschen?';
+$messages['filterlimitreached'] = 'Limit erreecht';
+$messages['textempty'] = 'Eent oder méi Felder sinn eidel';
