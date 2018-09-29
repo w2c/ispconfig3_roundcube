@@ -1,1 +1,9 @@
-#rule-cont {	height: 152px;	overflow: auto;}
+#rule-table a.button.delete  {
+    background: url(delete.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    border: 0 none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}

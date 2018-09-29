@@ -1,1 +1,25 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<roundcube:include file="/includes/links.html"/>	<link rel="stylesheet" type="text/css" href="/settings.css"/>	<link rel="stylesheet" type="text/css" href="/this/forward.css"/>	<script type="text/javascript" src="/functions.js"></script></head><body class="iframe"><div id="prefs-title" class="boxtitle">	<roundcube:object name="sectionname_forward"/></div><div id="prefs-details">	<form name="forwardform"				action="./?_task=settings&_action=plugin.ispconfig3_forward.save&_framed=1"				method="post">		<roundcube:object name="forward_form"/>	</form>	<roundcube:object name="forward_table" class="forward-table" cellspacing="0"										deleteIcon="/this/delete.png"/></div><div id="formfooter">	<div class="footerleft">		<roundcube:button command="plugin.ispconfig3_forward.save" type="input"											class="button mainaction" label="save"/>	</div></div></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+    <link rel="stylesheet" type="text/css" href="/settings.css" />
+    <link rel="stylesheet" type="text/css" href="/this/forward.css" />
+    <script type="text/javascript" src="/functions.js"></script>
+</head>
+<body class="iframe">
+<div id="prefs-title" class="boxtitle">
+    <roundcube:object name="sectionname_forward" />
+</div>
+<div id="prefs-details">
+    <roundcube:object name="forward_form" id="forward_form" />
+    <roundcube:object name="forward_table" class="forward-table" cellspacing="0" />
+</div>
+<div id="formfooter">
+    <div class="footerleft">
+        <roundcube:button command="plugin.ispconfig3_forward.save" type="input" class="button mainaction" label="save" />
+    </div>
+</div>
+</body>
+</html>

@@ -1,1 +1,23 @@
-<roundcube:object name="doctype" value="html5"/><html><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<roundcube:include file="/includes/links.html"/>	<link rel="stylesheet" type="text/css" href="/this/forward.css"/></head><body class="iframe"><h1 class="boxtitle">	<roundcube:object name="sectionname_forward"/></h1><div id="prefs-details" class="boxcontent">	<form name="forwardform" class="propform"				action="./?_task=settings&_action=plugin.ispconfig3_forward.save&_framed=1"				method="post">		<roundcube:object name="forward_form" form="form" class="propform"/>		<roundcube:object name="forward_table" deleteIcon="/this/delete.png"/>	</form></div><div id="formfooter">	<div class="footerleft formbuttons">		<roundcube:button command="plugin.ispconfig3_forward.save" type="input"											class="button mainaction" label="save"/>	</div></div><roundcube:include file="/includes/footer.html"/></body></html>
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+    <link rel="stylesheet" type="text/css" href="/this/forward.css" />
+</head>
+<body class="iframe">
+<h1 class="boxtitle">
+    <roundcube:object name="sectionname_forward" />
+</h1>
+<div id="prefs-details" class="boxcontent">
+    <roundcube:object name="forward_form" id="forward_form" class="propform" />
+    <roundcube:object name="forward_table" />
+</div>
+<div id="formfooter">
+    <div class="footerleft formbuttons">
+        <roundcube:button command="plugin.ispconfig3_forward.save" type="input" class="button mainaction" label="save" />
+    </div>
+</div>
+<roundcube:include file="/includes/footer.html" />
+</body>
+</html>
