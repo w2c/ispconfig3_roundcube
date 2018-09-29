@@ -1,15 +1,12 @@
 <?php
-$labels = array();
 $labels['acc_fetchmail'] = 'Fetchmail';
-$labels['fetchmailtyp'] = 'Typ';
-$labels['fetchmailserver'] = 'POP3/IMAP Server';
-$labels['fetchmaildelete'] = 'Delete emails after receiving';
-$labels['fetchmailenabled'] = 'Enable';
+$labels['fetchmailtyp'] = 'Type';
+$labels['fetchmailserver'] = 'POP3/IMAP server';
+$labels['fetchmaildelete'] = 'Delete fetched emails remotely';
+$labels['fetchmailenabled'] = 'Enabled';
+$labels['fetchmaildisabled'] = 'Disabled';
 $labels['nofetch'] = 'No entries available';
 $labels['fetchmail_entries'] = 'Available entries';
-
-$messages = array();
-$messages['fetchmaildelconfirm'] = 'Do you want to delete this entry?';
+$messages['fetchmaildelconfirm'] = 'Are you sure you want to delete this entry?';
 $messages['fetchmaillimitreached'] = 'Limit reached';
 $messages['textempty'] = 'One or more fields are empty';
-?>

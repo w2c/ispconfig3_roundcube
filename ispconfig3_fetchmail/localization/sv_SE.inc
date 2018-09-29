@@ -1,15 +1,12 @@
 <?php
-$labels = array();
 $labels['acc_fetchmail'] = 'Extern mailserver';
 $labels['fetchmailtyp'] = 'Typ';
 $labels['fetchmailserver'] = 'POP3/IMAP-server';
-$labels['fetchmaildelete'] = 'Radera mail p&aring; servern';
+$labels['fetchmaildelete'] = 'Radera mail på servern';
 $labels['fetchmailenabled'] = 'Aktiverad';
+$labels['fetchmaildisabled'] = 'Deaktiverad';
 $labels['nofetch'] = 'Inga servrar konfigurerade';
-$labels['fetchmail_entries'] = 'Tillg&auml;ngliga servrar';
-
-$messages = array();
+$labels['fetchmail_entries'] = 'Tillgängliga servrar';
 $messages['fetchmaildelconfirm'] = 'Vill du radera denna post?';
-$messages['fetchmaillimitreached'] = 'Begr&auml;nsning n&aring;dd';
-$messages['textempty'] = 'Ett eller flera f&auml;lt &auml;r tomma';
-?>
+$messages['fetchmaillimitreached'] = 'Begränsning nådd';
+$messages['textempty'] = 'Ett eller flera fält är tomma';
