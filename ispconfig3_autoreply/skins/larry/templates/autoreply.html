@@ -1,1 +1,21 @@
-<roundcube:object name="doctype" value="html5"/><html><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<roundcube:include file="/includes/links.html"/></head><body class="iframe"><h1 class="boxtitle">	<roundcube:object name="sectionname_autoreply"/></h1><div id="prefs-details" class="boxcontent">	<form name="autoreplyform" class="propform"				action="./?_task=settings&_action=plugin.ispconfig3_autoreply.save&_framed=1"				method="post">		<roundcube:object name="autoreply_form" form="form" class="propform"/>	</form></div><div id="formfooter">	<div class="footerleft formbuttons">		<roundcube:button command="plugin.ispconfig3_autoreply.save" type="input"											class="button mainaction"											label="save"/>	</div></div><roundcube:include file="/includes/footer.html"/></body></html>
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+</head>
+<body class="iframe">
+<h1 class="boxtitle">
+    <roundcube:object name="sectionname_autoreply" />
+</h1>
+<div id="prefs-details" class="boxcontent">
+    <roundcube:object name="autoreply_form" id="autoreply_form" class="propform" />
+</div>
+<div id="formfooter">
+    <div class="footerleft formbuttons">
+        <roundcube:button command="plugin.ispconfig3_autoreply.save" type="input" class="button mainaction" label="save" />
+    </div>
+</div>
+<roundcube:include file="/includes/footer.html" />
+</body>
+</html>

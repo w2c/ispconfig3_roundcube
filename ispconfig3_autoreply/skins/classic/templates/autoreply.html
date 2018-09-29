@@ -1,1 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<roundcube:include file="/includes/links.html"/>	<link rel="stylesheet" type="text/css" href="/settings.css"/>	<script type="text/javascript" src="/functions.js"></script></head><body class="iframe"><div id="prefs-title" class="boxtitle">	<roundcube:object name="sectionname_autoreply"/></div><form name="autoreplyform"			action="./?_task=settings&_action=plugin.ispconfig3_autoreply.save&_framed=1"			method="post">	<div id="prefs-details">		<roundcube:object name="autoreply_form"/>	</div>	<div id="formfooter">		<div class="footerleft">			<roundcube:button command="plugin.ispconfig3_autoreply.save" type="input"												class="button mainaction"												label="save"/>		</div>	</div></form></body></html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+    <link rel="stylesheet" type="text/css" href="/settings.css" />
+    <script type="text/javascript" src="/functions.js"></script>
+</head>
+<body class="iframe">
+<div id="prefs-title" class="boxtitle">
+    <roundcube:object name="sectionname_autoreply" />
+</div>
+<div id="prefs-details">
+    <roundcube:object name="autoreply_form" id="autoreply_form" />
+</div>
+<div id="formfooter">
+    <div class="footerleft">
+        <roundcube:button command="plugin.ispconfig3_autoreply.save" type="input" class="button mainaction" label="save" />
+    </div>
+</div>
+</body>
+</html>

@@ -2,52 +2,51 @@
 class ispconfig3_autoreply extends rcube_plugin
 {
     public $task = 'settings';
+    private $rcmail;
     private $soap;
-    private $rcmail_inst;
 
     function init()
     {
-        $this->rcmail_inst = rcmail::get_instance();
-        $this->add_texts('localization/', true);
+        $this->rcmail = rcmail::get_instance();
+        $this->add_texts('localization/');
         $this->require_plugin('ispconfig3_account');
-
-        $this->soap = new SoapClient(null, array(
-            'location' => $this->rcmail_inst->config->get('soap_url') . 'index.php',
-            'uri' => $this->rcmail_inst->config->get('soap_url'),
-            'stream_context' => stream_context_create(array(
-                'ssl' => array(
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                )
-            ))
-        ));
+        $this->require_plugin('jqueryui');
 
         $this->register_action('plugin.ispconfig3_autoreply', array($this, 'init_html'));
         $this->register_action('plugin.ispconfig3_autoreply.save', array($this, 'save'));
 
-        $this->api->output->add_handler('autoreply_form', array($this, 'gen_form'));
-        $this->api->output->add_handler('sectionname_autoreply', array($this, 'prefs_section_name'));
+        if (strpos($this->rcmail->action, 'plugin.ispconfig3_autoreply') === 0) {
+            $this->api->output->add_handler('autoreply_form', array($this, 'gen_form'));
+            $this->api->output->add_handler('sectionname_autoreply', array($this, 'prefs_section_name'));
 
-        $skin = $this->rcmail_inst->config->get('skin');
+            $this->include_stylesheet('skins/classic/jquery.ui.datetime.css');
+            $this->include_script('skins/classic/jquery.ui.datetime.min.js');
 
-        if (file_exists('skins/' . $skin . '/css/jquery/jquery.ui.datetime.css'))
-            $this->include_stylesheet('skins/' . $skin . '/css/jquery/jquery.ui.datetime.css');
-        else
-            $this->include_stylesheet('skins/classic/css/jquery/jquery.ui.datetime.css');
+            $skin = $this->rcmail->config->get('skin');
+            if (file_exists($this->home . '/skins/' . $skin . '/jquery.ui.datetime.css'))
+                $this->include_stylesheet('skins/' . $skin . '/jquery.ui.datetime.css');
 
-        if (file_exists('skins/' . $skin . '/js/jquery.ui.datetime.min.js'))
-            $this->include_script('skins/' . $skin . '/js/jquery.ui.datetime.min.js');
-        else
-            $this->include_script('skins/classic/js/jquery.ui.datetime.min.js');
+            $this->include_script('autoreply.js');
 
-        $this->include_script('autoreply.js');
+            $this->soap = new SoapClient(null, array(
+                'location' => $this->rcmail->config->get('soap_url') . 'index.php',
+                'uri' => $this->rcmail->config->get('soap_url'),
+                $this->rcmail->config->get('soap_validate_cert') ?:
+                    'stream_context' => stream_context_create(
+                        array('ssl' => array(
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                            'allow_self_signed' => true
+                        )
+                    ))
+            ));
+        }
     }
 
     function init_html()
     {
-        $this->rcmail_inst->output->set_pagetitle($this->gettext('acc_autoreply'));
-        $this->rcmail_inst->output->send('ispconfig3_autoreply.autoreply');
+        $this->rcmail->output->set_pagetitle($this->gettext('acc_autoreply'));
+        $this->rcmail->output->send('ispconfig3_autoreply.autoreply');
     }
 
     function prefs_section_name()
@@ -65,7 +64,7 @@ class ispconfig3_autoreply extends rcube_plugin
 
         $server_tz = new DateTimeZone(date_default_timezone_get());
         $server_offset = $server_tz->getOffset(new DateTime);
-        $user_tz = new DateTimeZone($this->rcmail_inst->config->get('timezone'));
+        $user_tz = new DateTimeZone($this->rcmail->config->get('timezone'));
         $user_offset = $user_tz->getOffset(new DateTime);
 
         $startdate = strtotime($startdate) - ($user_offset - $server_offset);
@@ -79,10 +78,9 @@ class ispconfig3_autoreply extends rcube_plugin
         else
             $enabled = 'y';
 
-        try
-        {
-            $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
-            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+        try {
+            $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
             $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
             $ispconfig_version = $this->soap->server_get_app_version($session_id);
@@ -98,7 +96,8 @@ class ispconfig3_autoreply extends rcube_plugin
                     'day'    => date('d', $enddate),
                     'hour'   => date('H', $enddate),
                     'minute' => date('i', $enddate));
-            } else {
+            }
+            else {
                 $datetimeformat = 'Y-m-d H:i:s';
                 $startdate = date($datetimeformat, $startdate);
                 $enddate = date($datetimeformat, $enddate);
@@ -115,91 +114,101 @@ class ispconfig3_autoreply extends rcube_plugin
             $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
             $this->soap->logout($session_id);
 
-            $this->rcmail_inst->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
-        } catch (SoapFault $e)
-        {
-            $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $this->rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
+        }
+        catch (SoapFault $e) {
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
         }
 
         $this->init_html();
     }
 
-    function gen_form()
+    function gen_form($attrib)
     {
-        try
-        {
-            $session_id = $this->soap->login($this->rcmail_inst->config->get('remote_soap_user'), $this->rcmail_inst->config->get('remote_soap_pass'));
-            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail_inst->user->data['username']));
+        $this->rcmail->output->add_label('ispconfig3_autoreply.textempty');
+
+        $form_id = $attrib['id'] ?: 'form';
+        $out = $this->rcmail->output->request_form(array(
+                'id'      => $form_id,
+                'name'    => $form_id,
+                'method'  => 'post',
+                'task'    => 'settings',
+                'action'  => 'plugin.ispconfig3_autoreply.save',
+                'noclose' => true
+            ) + $attrib);
+
+        $out .= '<fieldset><legend>' . $this->gettext('acc_autoreply') . '</legend>' . "\n";
+
+        $enabled = 0;
+        try {
+            $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
             $this->soap->logout($session_id);
-        } catch (SoapFault $e)
-        {
-            $this->rcmail_inst->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+
+            $enabled = $mail_user[0]['autoresponder'];
+        }
+        catch (SoapFault $e) {
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
         }
 
-        $enabled = $mail_user[0]['autoresponder'];
-        if ($enabled == 'y')
-            $enabled = 1;
-        else
-            $enabled = 0;
+        $enabled = ($enabled == 'y') ? 1 : 0;
 
         if (empty($mail_user[0]['autoresponder_start_date']) ||
-            $mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00')
-        {
+            $mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00') {
             $dt = new DateTime('@' . time());
-            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail->config->get('timezone')));
             $mail_user[0]['autoresponder_start_date'] = $dt->format('Y-m-d H:i');
         }
-        else
-        {
+        else {
             $mail_user[0]['autoresponder_start_date'] = strtotime($mail_user[0]['autoresponder_start_date']);
             $dt = new DateTime('@' . $mail_user[0]['autoresponder_start_date']);
-            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail->config->get('timezone')));
             $mail_user[0]['autoresponder_start_date'] = $dt->format('Y-m-d H:i');
         }
 
         if (empty($mail_user[0]['autoresponder_end_date']) ||
-            $mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00')
-        {
+            $mail_user[0]['autoresponder_end_date'] == '0000-00-00 00:00:00') {
             $dt = new DateTime('@' . (time() + 86400));
-            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail->config->get('timezone')));
             $mail_user[0]['autoresponder_end_date'] = $dt->format('Y-m-d H:i');
         }
-        else
-        {
+        else {
             $mail_user[0]['autoresponder_end_date'] = strtotime($mail_user[0]['autoresponder_end_date']);
             $dt = new DateTime('@' . $mail_user[0]['autoresponder_end_date']);
-            $dt->setTimezone(new DateTimeZone($this->rcmail_inst->config->get('timezone')));
+            $dt->setTimezone(new DateTimeZone($this->rcmail->config->get('timezone')));
             $mail_user[0]['autoresponder_end_date'] = $dt->format('Y-m-d H:i');
         }
-
-        $this->rcmail_inst->output->set_env('framed', true);
-
-        $out = '<fieldset><legend>' . $this->gettext('acc_autoreply') . '</legend>' . "\n";
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
-        $input_autoreplysubject = new html_inputfield(array('name' => '_autoreplysubject', 'id' => 'autoreplysubject', 'size' => 40));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('subject')));
+        $field_id = 'autoreplysubject';
+        $input_autoreplysubject = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 40));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('subject'))));
         $table->add('', $input_autoreplysubject->show($mail_user[0]['autoresponder_subject']));
 
-        $input_autoreplybody = new html_textarea(array('name' => '_autoreplybody', 'id' => 'autoreplybody', 'cols' => 48, 'rows' => 15));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplymessage')));
+        $field_id = 'autoreplybody';
+        $input_autoreplybody = new html_textarea(array('name' => '_' . $field_id, 'id' => $field_id, 'cols' => 48, 'rows' => 15));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('autoreplymessage'))));
         $table->add('', $input_autoreplybody->show($mail_user[0]['autoresponder_text']));
 
-        $input_autoreplystarton = new html_inputfield(array('name' => '_autoreplystarton', 'id' => 'autoreplystarton', 'size' => 20));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplystarton')));
+        $field_id = 'autoreplystarton';
+        $input_autoreplystarton = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 20));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('autoreplystarton'))));
         $table->add('', $input_autoreplystarton->show($mail_user[0]['autoresponder_start_date']));
 
-        $input_autoreplyendby = new html_inputfield(array('name' => '_autoreplyendby', 'id' => 'autoreplyendby', 'size' => 20));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplyendby')));
+        $field_id = 'autoreplyendby';
+        $input_autoreplyendby = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 20));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('autoreplyendby'))));
         $table->add('', $input_autoreplyendby->show($mail_user[0]['autoresponder_end_date']));
 
-        $input_autoreplyenabled = new html_checkbox(array('name' => '_autoreplyenabled', 'id' => 'autoreplyenabled', 'value' => 1));
-        $table->add('title', rcube_utils::rep_specialchars_output($this->gettext('autoreplyenabled')));
+        $field_id = 'autoreplyenabled';
+        $input_autoreplyenabled = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => 1));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('autoreplyenabled'))));
         $table->add('', $input_autoreplyenabled->show($enabled));
 
         $out .= $table->show();
         $out .= "</fieldset>\n";
+        $out .= '</form>';
 
         return $out;
     }
