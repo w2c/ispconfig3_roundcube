@@ -1,16 +1,14 @@
 <?php
-$labels = array();
-$labels['acc_wblist'] = 'Till&aring;t/sp&auml;rra e-post';
+$labels['acc_wblist'] = 'Tillåt/spärra e-postadresser';
 $labels['wblisttype'] = 'Typ';
-$labels['wblistwhitelist'] = 'Till&aring;t';
-$labels['wblistblacklist'] = 'Sp&auml;rra';
+$labels['wblistwhitelist'] = 'Tillåt';
+$labels['wblistblacklist'] = 'Spärra';
 $labels['wblistpriority'] = 'Prioritet';
 $labels['wblistenabled'] = 'Aktiverad';
-$labels['wblistentries'] = 'Tillg&auml;ngliga poster';
-$labels['wblistnorules'] = 'Inga tillg�ngliga poster';
-
-$messages = array();
+$labels['wblistdisabled'] = 'Deaktiverad';
+$labels['wblistentries'] = 'Tillgängliga poster';
+$labels['wblistnorules'] = 'Inga tillgängliga poster';
 $messages['wblistdelconfirm'] = 'Vill du verkligen radera adressen?';
-$messages['wblimitreached'] = 'Begr&auml;nsning n&aring;dd';
-$messages['textempty'] = 'Ett eller flera f&auml;lt &auml;r tomma';
-?>
+$messages['wblimitreached'] = 'Begränsning nådd';
+$messages['textempty'] = 'Ett eller flera fält är tomma';
+$messages['invalidaddress'] = 'Felaktig mailadress';

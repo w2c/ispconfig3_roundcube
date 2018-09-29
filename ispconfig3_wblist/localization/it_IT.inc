@@ -1,16 +1,14 @@
 <?php
-$labels = array();
-$labels['acc_wblist'] = 'Black/White List';
+$labels['acc_wblist'] = 'Lista nera/bianca';
 $labels['wblisttype'] = 'Tipo';
-$labels['wblistwhitelist'] = 'White list (consentito)';
-$labels['wblistblacklist'] = 'Black list (respinto)';
+$labels['wblistwhitelist'] = 'Lista bianca (consentito)';
+$labels['wblistblacklist'] = 'Lista nera (respinto)';
 $labels['wblistpriority'] = 'Priorità';
-$labels['wblistenabled'] = 'Abilitato';
+$labels['wblistenabled'] = 'Attivo';
+$labels['wblistdisabled'] = 'Inattivo';
 $labels['wblistentries'] = 'Elenco indirizzi e-mail';
 $labels['wblistnorules'] = 'Nessun indirizzo in white/black list';
-
-$messages = array();
-$messages['wblistdelconfirm'] = "Sei sicuro di rimuovere\nquesto indirizzo dalla lista?";
+$messages['wblistdelconfirm'] = 'Sei sicuro di rimuovere questo indirizzo dalla lista?';
 $messages['wblimitreached'] = 'Limite raggiunto';
 $messages['textempty'] = 'Uno o più campi sono vuoti';
-?>
+$messages['invalidaddress'] = 'Indirizzo inoltro non valido';

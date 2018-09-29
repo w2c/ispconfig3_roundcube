@@ -1,16 +1,14 @@
 <?php
-$labels = array();
-$labels['acc_wblist'] = 'Lista Negra/Branca';
-$labels['wblisttype'] = 'Tip';
-$labels['wblistwhitelist'] = 'Lista Branca';
-$labels['wblistblacklist'] = 'Lista Negra';
+$labels['acc_wblist'] = 'Lista negra e branca';
+$labels['wblisttype'] = 'Tipo';
+$labels['wblistwhitelist'] = 'Lista branca';
+$labels['wblistblacklist'] = 'Lista negra';
 $labels['wblistpriority'] = 'Prioridade';
 $labels['wblistenabled'] = 'Ativa';
+$labels['wblistdisabled'] = 'Desativada';
 $labels['wblistentries'] = 'Registros disponíveis';
 $labels['wblistnorules'] = 'Sem registros';
-
-$messages = array();
-$messages['wblistdelconfirm'] = 'Está certo de remover este registro?';
+$messages['wblistdelconfirm'] = 'Você confirma a remoção desta conta?';
 $messages['wblimitreached'] = 'Limite atingido';
 $messages['textempty'] = 'Um ou mais campos estão em branco';
-?>
+$messages['invalidaddress'] = 'Endereço de correio inválido';
