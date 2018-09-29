@@ -1,1 +1,46 @@
-#accountlist {	position: absolute;	left: 0px;	top: 0px;	bottom: 0px;	overflow: auto;	border: 1px solid #999999;	/* css hack for IE */	height: expression((parseInt(document.documentElement.clientHeight)-140)+'px');}#account-table {	width: 100%;	table-layout: fixed;	/* css hack for IE */	width: expression(document.getElementById('accountlist').clientWidth);}#account-table tbody td {	cursor: pointer;}#account-table tbody tr.disabled td {	color: #999999;}#account-box {	position: absolute;	top: 0px;	right: 0px;	bottom: 0px;	overflow: hidden;	border: 1px solid #999999;	/* css hack for IE */	width: expression((parseInt(document.documentElement.clientWidth)-40-parseInt(document.getElementById('accountlist').offsetWidth))+'px');	height: expression((parseInt(document.documentElement.clientHeight)-140)+'px');}#account-frame {	border: none;}body.iframe {	min-width: 740px;	width: expression(Math.max(740, document.documentElement.clientWidth)+'px');}
+#accountlist {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    border: 1px solid #999999;
+    /* css hack for IE */
+    height: expression((parseInt(document.documentElement.clientHeight)-140)+'px');
+}
+
+#account-table {
+    width: 100%;
+    table-layout: fixed;
+    /* css hack for IE */
+    width: expression(document.getElementById('accountlist').clientWidth);
+}
+
+#account-table tbody td {
+    cursor: pointer;
+}
+
+#account-table tbody tr.disabled td {
+    color: #999999;
+}
+
+#account-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    border: 1px solid #999999;
+    /* css hack for IE */
+    width: expression((parseInt(document.documentElement.clientWidth)-40-parseInt(document.getElementById('accountlist').offsetWidth))+'px');
+    height: expression((parseInt(document.documentElement.clientHeight)-140)+'px');
+}
+
+#account-frame {
+    border: none;
+}
+
+body.iframe {
+    min-width: 740px;
+    width: expression(Math.max(740, document.documentElement.clientWidth)+'px');
+}

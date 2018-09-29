@@ -1,1 +1,35 @@
-#acc_info_list {	padding-bottom: 5px;}#alias-cont {	border: 1px solid #999999;	background-color: #F9F9F9;	height: 163px;	overflow: auto;	width: 400px;}body.alias-table {	margin: 0px;	background-color: #F9F9F9;}#alias-table {	width: 100%;	display: table;	table-layout: fixed;	/* css hack for IE */	width: expression('auto');}/* safari hack \*/html > body *#alias-table[id$="alias-table"]:not([class="none"]) {	table-layout: auto;}/**/#alias-table td {	text-align: left;	vertical-align: middle;	padding-left: 10px;}
+#acc_info_list {
+    padding-bottom: 5px;
+}
+
+#alias-cont {
+    border: 1px solid #999999;
+    background-color: #F9F9F9;
+    height: 163px;
+    overflow: auto;
+    width: 400px;
+}
+
+body.alias-table {
+    margin: 0;
+    background-color: #F9F9F9;
+}
+
+#alias-table {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    /* css hack for IE */
+    width: expression('auto');
+}
+
+/* safari hack */
+html > body *#alias-table[id$="alias-table"]:not([class="none"]) {
+    table-layout: auto;
+}
+
+#alias-table td {
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 10px;
+}

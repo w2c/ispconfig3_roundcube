@@ -1,1 +1,28 @@
-<roundcube:object name="doctype" value="html5"/><html><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<link rel="stylesheet" type="text/css" href="/this/account.css"/>	<roundcube:include file="/includes/links.html"/></head><body class="noscroll"><roundcube:include file="/includes/header.html"/><div id="mainscreen" class="offset">	<roundcube:if condition="env:task == 'settings'"/>	<roundcube:include file="/includes/settingstabs.html"/>	<roundcube:endif/>	<div id="settings-right">		<div id="accountlist" class="uibox listbox">			<div class="scroller">				<roundcube:object name="accountlist" id="account-table"													class="listing"/>			</div>		</div>		<div id="preferences-box" class="uibox contentbox">			<roundcube:object name="accountframe" id="account-frame" width="100%"												height="96%" frameborder="0"												src="skins/larry/watermark.html"/>			<roundcube:object name="message" id="message" class="statusbar"/>		</div>	</div></div><roundcube:include file="/includes/footer.html"/></body></html>
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+</head>
+<roundcube:if condition="env:extwin" /><body class="noscroll extwin"><roundcube:else /><body class="noscroll"><roundcube:endif />
+
+<roundcube:include file="/includes/header.html" />
+
+<div id="mainscreen" class="offset">
+    <roundcube:include file="/includes/settingstabs.html" />
+
+    <div id="settings-right" role="main">
+        <div id="accountlist" class="uibox listbox" role="navigation">
+            <div class="scroller">
+                <roundcube:object name="accountlist" id="account-table" class="listing" role="listbox" />
+            </div>
+        </div>
+        <div id="preferences-box" class="uibox contentbox">
+            <roundcube:object name="accountframe" id="account-frame" width="100%" height="96%" frameborder="0" src="/watermark.html" />
+            <roundcube:object name="message" id="message" class="statusbar" />
+        </div>
+    </div>
+</div>
+<roundcube:include file="/includes/footer.html" />
+</body>
+</html>
