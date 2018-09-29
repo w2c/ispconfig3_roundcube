@@ -1,0 +1,13 @@
+<roundcube:include file="includes/layout.html" />
+
+<div class="formcontainer scroller">
+    <div class="formcontent">
+        <roundcube:object name="fetchmail_form" id="fetchmail_form" class="propform" />
+        <roundcube:object name="fetchmail_table" />
+    </div>
+    <div class="formbuttons">
+        <roundcube:button command="plugin.ispconfig3_fetchmail.save" class="btn btn-primary submit" label="save" />
+    </div>
+</div>
+
+<roundcube:include file="includes/footer.html" />

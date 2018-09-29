@@ -1,0 +1,17 @@
+.records-table tr.selected td {
+    background-color: #ebf9ff;
+}
+
+#fetch-table td.fetch {
+    cursor: pointer;
+}
+
+#fetch-table a.button.icon.status-enabled:before {
+    content: "\f00c";
+    cursor: default;
+}
+
+#fetch-table a.button.icon.status-disabled:before {
+    content: "\f00d";
+    cursor: default;
+}
