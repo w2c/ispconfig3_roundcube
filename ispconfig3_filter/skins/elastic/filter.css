@@ -1,0 +1,17 @@
+.records-table tr.selected td {
+    background-color: #ebf9ff;
+}
+
+#rule-table td.rule {
+    cursor: pointer;
+}
+
+#rule-table a.button.icon.status-enabled:before {
+    content: "\f00c";
+    cursor: default;
+}
+
+#rule-table a.button.icon.status-disabled:before {
+    content: "\f00d";
+    cursor: default;
+}
