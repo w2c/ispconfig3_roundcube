@@ -1,5 +1,4 @@
 <?php
-$labels = array();
 $labels['acc_acc'] = 'Акаунт';
 $labels['acc_alias'] = 'Свързани имейл адрес(и)';
 $labels['acc_general'] = 'Информация за акаунта';
@@ -13,4 +12,3 @@ $labels['acc_wblist'] = 'Черен/Бял списък';
 $labels['acc_lastlogin'] = 'Последен вход';
 $labels['acc_defaultidentity'] = 'Основна самоличност';
 $labels['acc_noalias'] = 'Няма свързани имейл адрес(и)';
-?>
