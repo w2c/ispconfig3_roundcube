@@ -1,9 +1,9 @@
 <?php
-$labels = array();
-$labels['policy_name'] = 'Politica';
-$labels['spammove'] = 'Mover Correos de Spam al directorio Junk';
-$labels['policy_entries'] = 'Pol&iacute;cas disponibles';
-$labels['policy_tag'] = 'Nivel Encabezado';
-$labels['policy_kill'] = 'Nivel para ser Spam';
-$labels['spamnopolicies'] = 'No hay lol&iacute;ticas disponibles';
-?>
+$labels['acc_spam'] = 'Protección contra el spam';
+$labels['policy_name'] = 'Directiva';
+$labels['spammove'] = 'Mover correos de Spam al directorio Junk';
+$labels['policy_entries'] = 'Directivas disponibles';
+$labels['policy_tag'] = 'Nivel tag';
+$labels['policy_tag2'] = 'Nivel tag2';
+$labels['policy_kill'] = 'Nivel kill';
+$labels['spamnopolicies'] = 'No hay directivas disponibles';

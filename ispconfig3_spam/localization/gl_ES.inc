@@ -1,9 +1,9 @@
 <?php
-$labels = array();
-$labels['policy_name'] = 'Política';
+$labels['acc_spam'] = 'Protección contra spam';
+$labels['policy_name'] = 'Reglas';
 $labels['spammove'] = 'Mover os correos detectados como spam ao cartafol "Correo lixo"';
-$labels['policy_entries'] = 'Políticas disponibles';
-$labels['policy_tag'] = 'Puntuación para marcar como spam';
-$labels['policy_kill'] = 'Puntuación para borrar';
-$labels['spamnopolicies'] = 'Non se definiron políticas';
-?>
+$labels['policy_entries'] = 'Reglas disponibles';
+$labels['policy_tag'] = 'Puntuación tag';
+$labels['policy_tag2'] = 'Puntuación tag2';
+$labels['policy_kill'] = 'Puntuación kill';
+$labels['spamnopolicies'] = 'Non se definiron reglas';
