@@ -1,43 +1,68 @@
 #rule-cont {
-	border: 1px solid #999999;
-	background-color: #F9F9F9;
-	height: 163px;
-	overflow: auto;
-	width: 450px;
+    border: 1px solid #999999;
+    background-color: #F9F9F9;
+    height: 163px;
+    overflow: auto;
+    width: 450px;
 }
 
 body.rule-table {
-	margin: 0px;
-	background-color: #F9F9F9;
+    margin: 0;
+    background-color: #F9F9F9;
 }
 
 #rule-table {
-	width: 100%;
-	display: table;
-	table-layout: fixed;
-	/* css hack for IE */
-	width: expression('auto');
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    /* css hack for IE */
+    width: expression('auto');
 }
 
 /* safari hack \*/
 html > body *#rule-table[id$="rule-table"]:not([class="none"]) {
-	table-layout: auto;
+    table-layout: auto;
 }
 
 /**/
 
 #rule-table td.rule {
-	text-align: left;
-	vertical-align: middle;
-	cursor: pointer;
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 #selected {
-	color: #FFFFFF;
-	background-color: #CC3333;
+    color: #FFFFFF;
+    background-color: #CC3333;
 }
 
 #rule-table td.control {
-	text-align: right;
-	vertical-align: middle;
+    text-align: right;
+    vertical-align: middle;
+}
+
+#rule-table a.button.icon {
+    width: 16px;
+    height: 16px;
+    border: 0 none;
+    padding: 0;
+    margin: 0;
+
+    display: inline-block;
+    text-decoration: none;
+}
+
+#rule-table a.button.icon.delete {
+    background: url(delete.png) no-repeat;
+}
+
+#rule-table a.button.icon.status-enabled  {
+    background: url(enabled.png) no-repeat;
+    cursor: default;
+}
+
+#rule-table a.button.icon.status-disabled  {
+    background: url(disabled.png) no-repeat;
+    cursor: default;
 }
