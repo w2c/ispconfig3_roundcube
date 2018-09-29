@@ -1,2 +1,8 @@
 .idea
 *.iml
+ispconfig3_account/config/config.inc.php
+ispconfig3_autoselect/config/config.inc.php
+ispconfig3_fetchmail/config/config.inc.php
+ispconfig3_filter/config/config.inc.php
+ispconfig3_pass/config/config.inc.php
+ispconfig3_wblist/config/config.inc.php
