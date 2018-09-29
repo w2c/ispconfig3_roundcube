@@ -1,0 +1,22 @@
+<?php
+$labels['acc_filter'] = 'Фільтри пошти';
+$labels['filtername'] = 'Назва';
+$labels['filtersource'] = 'джерело';
+$labels['filtersubject'] = 'Тема';
+$labels['filterfrom'] = 'Від кого';
+$labels['filterto'] = 'Кому';
+$labels['filtercontains'] = 'містить';
+$labels['filteris'] = 'відповідає';
+$labels['filterbegins'] = 'починається на';
+$labels['filterends'] = 'закінчується на';
+$labels['filteraction'] = 'Дія';
+$labels['filtermove'] = 'перемістити';
+$labels['filterdelete'] = 'видалити';
+$labels['filterenabled'] = 'Увімкнено';
+$labels['filterdisabled'] = 'Вимкнено';
+$labels['filteradd'] = 'Додати';
+$labels['filternorules'] = 'Немає записів';
+$labels['filter_entries'] = 'Існуючі записи';
+$messages['filterdelconfirm'] = 'Ви впевнені, що хочете видалити цей запис?';
+$messages['filterlimitreached'] = 'Досягнуто ліміту';
+$messages['textempty'] = 'Одне або декілька полів є порожніми';
