@@ -1,1 +1,26 @@
-#fetch-cont {	height: 152px;	overflow: auto;}
+#fetch-table td.fetch {
+    cursor: pointer;
+}
+
+#fetch-table a.button.icon {
+    width: 16px;
+    height: 16px;
+    border: 0 none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+}
+
+#fetch-table a.button.icon.delete {
+    background: url(delete.png) no-repeat;
+}
+
+#fetch-table a.button.icon.status-enabled  {
+    background: url(enabled.png) no-repeat;
+    cursor: default;
+}
+
+#fetch-table a.button.icon.status-disabled  {
+    background: url(disabled.png) no-repeat;
+    cursor: default;
+}

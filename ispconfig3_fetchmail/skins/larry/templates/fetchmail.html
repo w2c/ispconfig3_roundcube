@@ -1,1 +1,22 @@
-<roundcube:object name="doctype" value="html5"/><html><head>	<title>		<roundcube:object name="pagetitle"/>	</title>	<roundcube:include file="/includes/links.html"/>	<link rel="stylesheet" type="text/css" href="/this/fetchmail.css"/></head><body class="iframe"><h1 class="boxtitle">	<roundcube:object name="sectionname_fetchmail"/></h1><div id="prefs-details" class="boxcontent">	<form name="fetchmailform" class="propform"				action="./?_task=settings&_action=plugin.ispconfig3_fetchmail.save&_framed=1"				method="post">		<roundcube:object name="fetchmail_form" form="form" class="propform"/>		<roundcube:object name="fetchmail_table" deleteIcon="/this/delete.png"											enableIcon="/this/enabled.png"											disableIcon="/this/disabled.png"/>	</form></div><div id="formfooter">	<div class="footerleft formbuttons">		<roundcube:button command="plugin.ispconfig3_fetchmail.save" type="input"											class="button mainaction"											label="save"/>	</div></div><roundcube:include file="/includes/footer.html"/></body></html>
+<roundcube:object name="doctype" value="html5" />
+<html>
+<head>
+    <title><roundcube:object name="pagetitle" /></title>
+    <roundcube:include file="/includes/links.html" />
+</head>
+<body class="iframe">
+<h1 class="boxtitle">
+    <roundcube:object name="sectionname_fetchmail" />
+</h1>
+<div id="prefs-details" class="boxcontent">
+    <roundcube:object name="fetchmail_form" id="fetchmail_form" class="propform" />
+    <roundcube:object name="fetchmail_table" />
+</div>
+<div id="formfooter">
+    <div class="footerleft formbuttons">
+        <roundcube:button command="plugin.ispconfig3_fetchmail.save" type="input" class="button mainaction" label="save" />
+    </div>
+</div>
+<roundcube:include file="/includes/footer.html" />
+</body>
+</html>
