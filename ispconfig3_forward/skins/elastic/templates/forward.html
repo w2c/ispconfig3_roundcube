@@ -1,0 +1,13 @@
+<roundcube:include file="includes/layout.html" />
+
+<div class="formcontainer scroller">
+    <div class="formcontent">
+        <roundcube:object name="forward_form" id="forward_form" class="propform" />
+        <roundcube:object name="forward_table" />
+    </div>
+    <div class="formbuttons">
+        <roundcube:button command="plugin.ispconfig3_forward.save" class="btn btn-primary submit" label="save" />
+    </div>
+</div>
+
+<roundcube:include file="includes/footer.html" />
