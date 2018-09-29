@@ -1,0 +1,19 @@
+#pass-check {
+    float: right;
+    /*height: 100%;*/
+    width: 150px;
+    margin-left: 10px;
+}
+
+#newpasswd {
+    float: left;
+    width: calc(100% - 160px);
+}
+
+.ui-progressbar {
+    height: 2.4rem;
+}
+
+.ui-progressbar .ui-progressbar-value {
+    margin: 0;
+}
