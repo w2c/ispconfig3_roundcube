@@ -16,6 +16,13 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
             //rcmail.account_list.select_row('general');
         }
     }
+
+    // Compat shim for rcmail.confirm_dialog - undefined in Roundcube <= 1.4
+    if (!rcmail.confirm_dialog) {
+        rcmail.confirm_dialog = function(content, button_label, action) {
+            if (confirm(content)) { action(this, rcmail); }
+        }
+    }
 });
 
 rcube_webmail.prototype.plugin_select = function (list) {
