@@ -117,7 +117,7 @@ class ispconfig3_autoreply extends rcube_plugin
             $this->rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $this->gettext($e->getMessage()), 'error');
         }
 
         $this->init_html();
