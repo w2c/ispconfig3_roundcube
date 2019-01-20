@@ -28,7 +28,8 @@ class ispconfig3_account extends rcube_plugin
 
         if (strpos($this->rcmail->action, 'plugin.ispconfig3_account') === 0 ||
             ($this->rcmail->config->get('identity_limit') === true &&
-                strpos($this->rcmail->action, 'edit-identity') === 0)) {
+                (strpos($this->rcmail->action, 'edit-identity') === 0 ||
+                 strpos($this->rcmail->action, 'add-identity') === 0))) {
 
             $this->soap = new SoapClient(null, array(
                 'location' => $this->rcmail->config->get('soap_url') . 'index.php',
@@ -102,14 +103,10 @@ class ispconfig3_account extends rcube_plugin
                 $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
             }
 
-            if (version_compare(RCMAIL_VERSION, '0.7.0') <= 0) {
-                preg_match('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/', $args['content'], $test);
-                $args['content'] = preg_replace('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\" \/>/', $emails->show($test[1]), $args['content']);
-            }
-            else {
-                preg_match('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\">/', $args['content'], $test);
-                $args['content'] = preg_replace('/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\" value=\"(.*)\">/', $emails->show($test[1]), $args['content']);
-            }
+            $email_pattern = '/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\"(?: value=\"(.*)\")?>/';
+            preg_match($email_pattern, $args['content'], $test);
+            $email = isset($test[1]) ? $test[1] : '';
+            $args['content'] = preg_replace($email_pattern, $emails->show($email), $args['content']);
         }
 
         return $args;
