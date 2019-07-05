@@ -3,10 +3,12 @@ class ispconfig3_pass extends rcube_plugin
 {
     public $task = 'settings';
     private $rcmail;
+    private $rc;
 
     function init()
     {
         $this->rcmail = rcmail::get_instance();
+        $this->rc = rcube::get_instance();
         $this->add_texts('localization/');
         $this->require_plugin('ispconfig3_account');
         $this->require_plugin('jqueryui');
@@ -142,7 +144,8 @@ class ispconfig3_pass extends rcube_plugin
                         $this->rcmail->user->data['password'] = $_SESSION['password'];
                     }
                     catch (SoapFault $e) {
-                        $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+                        $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+                        $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
                     }
                 }
             }

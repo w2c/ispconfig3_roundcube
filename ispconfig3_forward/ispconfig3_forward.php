@@ -3,11 +3,13 @@ class ispconfig3_forward extends rcube_plugin
 {
     public $task = 'settings';
     private $rcmail;
+    private $rc;
     private $soap;
 
     function init()
     {
         $this->rcmail = rcmail::get_instance();
+        $this->rc = rcube::get_instance();
         $this->add_texts('localization/');
         $this->require_plugin('ispconfig3_account');
 
@@ -114,7 +116,8 @@ class ispconfig3_forward extends rcube_plugin
             $this->soap->logout($session_id);
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $this->init_html();
@@ -156,7 +159,8 @@ class ispconfig3_forward extends rcube_plugin
             $out .= $table->show();
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $out .= "</fieldset>\n";
@@ -198,7 +202,8 @@ class ispconfig3_forward extends rcube_plugin
             }
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $out .= "<div id=\"rule-cont\">" . $rule_table->show() . "</div>\n";

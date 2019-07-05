@@ -3,11 +3,13 @@ class ispconfig3_autoreply extends rcube_plugin
 {
     public $task = 'settings';
     private $rcmail;
+    private $rc;
     private $soap;
 
     function init()
     {
         $this->rcmail = rcmail::get_instance();
+        $this->rc = rcube::get_instance();
         $this->add_texts('localization/');
         $this->require_plugin('ispconfig3_account');
         $this->require_plugin('jqueryui');
@@ -117,7 +119,8 @@ class ispconfig3_autoreply extends rcube_plugin
             $this->rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $this->init_html();
@@ -148,7 +151,8 @@ class ispconfig3_autoreply extends rcube_plugin
             $enabled = $mail_user[0]['autoresponder'];
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $enabled = ($enabled == 'y') ? 1 : 0;

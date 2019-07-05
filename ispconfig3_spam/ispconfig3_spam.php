@@ -3,11 +3,13 @@ class ispconfig3_spam extends rcube_plugin
 {
     public $task = 'settings';
     private $rcmail;
+    private $rc;
     private $soap;
 
     function init()
     {
         $this->rcmail = rcmail::get_instance();
+        $this->rc = rcube::get_instance();
         $this->add_texts('localization/');
         $this->require_plugin('ispconfig3_account');
 
@@ -110,7 +112,8 @@ class ispconfig3_spam extends rcube_plugin
             $this->rcmail->output->command('display_message', $this->gettext('successfullysaved'), 'confirmation');
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $this->init_html();
@@ -152,7 +155,8 @@ class ispconfig3_spam extends rcube_plugin
                 $enabled = 1;
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
@@ -206,7 +210,8 @@ class ispconfig3_spam extends rcube_plugin
             }
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $out .= "<div id=\"spam-cont\">" . $spam_table->show() . "</div>\n";

@@ -100,7 +100,8 @@ class ispconfig3_account extends rcube_plugin
                 }
             }
             catch (SoapFault $e) {
-                $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+                $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+                $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
             }
 
             $email_pattern = '/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\"(?: value=\"(.*)\")?>/';
@@ -213,7 +214,8 @@ class ispconfig3_account extends rcube_plugin
             }
         }
         catch (SoapFault $e) {
-            $this->rcmail->output->command('display_message', 'Soap Error: ' . $e->getMessage(), 'error');
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $out .= "<div id=\"alias-cont\">" . $alias_table->show() . "</div>\n";
