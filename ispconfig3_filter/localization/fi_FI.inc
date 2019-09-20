@@ -1,0 +1,22 @@
+<?php
+$labels['acc_filter'] = 'Suodatinsäännöt';
+$labels['filtername'] = 'Nimi';
+$labels['filtersource'] = 'Sääntö';
+$labels['filtersubject'] = 'Otsikko';
+$labels['filterfrom'] = 'Lähettäjä';
+$labels['filterto'] = 'Vastaanottaja';
+$labels['filtercontains'] = 'sisältää';
+$labels['filteris'] = 'on';
+$labels['filterbegins'] = 'alkaa';
+$labels['filterends'] = 'päättyy';
+$labels['filteraction'] = 'Sääntö';
+$labels['filtermove'] = 'Siirrä';
+$labels['filterdelete'] = 'Poista';
+$labels['filterenabled'] = 'Käytössä';
+$labels['filterdisabled'] = 'Ei käytössä';
+$labels['filteradd'] = 'Lisää';
+$labels['filternorules'] = 'Ei olemassaolevia sääntöjä';
+$labels['filter_entries'] = 'Säännöt';
+$messages['filterdelconfirm'] = 'Haluatko varmasti poistaa tämän säännön?';
+$messages['filterlimitreached'] = 'Raja saavutettu';
+$messages['textempty'] = 'Yksi tai useampi kenttä on tyhjä';
