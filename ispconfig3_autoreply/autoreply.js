@@ -22,6 +22,6 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
             chainTo: '#autoreplyendby'
         });
 
-        $('input:not(:hidden):first').focus();
+        $('input:not(:hidden)').first().focus();
     }
 });

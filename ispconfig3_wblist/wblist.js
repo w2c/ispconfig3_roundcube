@@ -34,7 +34,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
             }
         });
 
-        $('input:not(:hidden):first').focus();
+        $('input:not(:hidden)').first().focus();
     }
 });
 

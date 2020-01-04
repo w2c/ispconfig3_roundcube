@@ -22,7 +22,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
     }, true);
 
     if (rcmail.env.action.startsWith('plugin.ispconfig3_filter')) {
-        $('input:not(:hidden):first').focus();
+        $('input:not(:hidden)').first().focus();
     }
 });
 
