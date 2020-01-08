@@ -1,0 +1,22 @@
+<?php
+$labels['acc_filter'] = 'Filtrēšanas nosacījumi';
+$labels['filtername'] = 'Vārds';
+$labels['filtersource'] = 'Avots';
+$labels['filtersubject'] = 'Tēma';
+$labels['filterfrom'] = 'No kā';
+$labels['filterto'] = 'Kam';
+$labels['filtercontains'] = 'satur';
+$labels['filteris'] = 'ir';
+$labels['filterbegins'] = 'sākas ar';
+$labels['filterends'] = 'beidzas ar';
+$labels['filteraction'] = 'Darbība';
+$labels['filtermove'] = 'Pārvietot';
+$labels['filterdelete'] = 'Dzēst';
+$labels['filterenabled'] = 'Iespējots';
+$labels['filterdisabled'] = 'Atspējots';
+$labels['filteradd'] = 'Pievienot';
+$labels['filternorules'] = 'Nav filtrēšanas nosacījumu';
+$labels['filter_entries'] = 'Nosacījumi';
+$messages['filterdelconfirm'] = 'Vai tiešām vēlaties dzēst šo nosacījumu?';
+$messages['filterlimitreached'] = 'Ir sasniegts ierobežojums';
+$messages['textempty'] = 'Viens vai vairāki lauki ir tukši';
