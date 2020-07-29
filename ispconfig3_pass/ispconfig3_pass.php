@@ -111,6 +111,11 @@ class ispconfig3_pass extends rcube_plugin
 
                         $session_id = $soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
                         $mail_user = $soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+                        // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+                        if (empty($mail_user)) {
+                            $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+                        }
+
                         $params = $mail_user[0];
 
                         $ispconfig_version = $soap->server_get_app_version($session_id);

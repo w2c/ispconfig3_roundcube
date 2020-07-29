@@ -63,6 +63,11 @@ class ispconfig3_spam extends rcube_plugin
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+            // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+            if (empty($mail_user)) {
+                $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+            }
+
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
@@ -140,6 +145,11 @@ class ispconfig3_spam extends rcube_plugin
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+            // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+            if (empty($mail_user)) {
+                $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+            }
+
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $policy = $this->soap->mail_policy_get($session_id, array());
             $policy_sel = $this->soap->mail_policy_get($session_id, array('id' => $spam_user[0]['policy_id']));
@@ -191,6 +201,11 @@ class ispconfig3_spam extends rcube_plugin
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+            // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+            if (empty($mail_user)) {
+                $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+            }
+
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $policies = $this->soap->mail_policy_get($session_id, array());
             $this->soap->logout($session_id);
