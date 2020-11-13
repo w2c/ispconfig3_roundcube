@@ -7,3 +7,5 @@ $labels['policy_tag'] = 'Tag level';
 $labels['policy_tag2'] = 'Tag2 level';
 $labels['policy_kill'] = 'Kill level';
 $labels['spamnopolicies'] = 'No policies available';
+$labels['purge_junk_days'] = 'Purge Junk automatically after X days';
+$labels['purge_trash_days'] = 'Purge Trash automatically after X days';

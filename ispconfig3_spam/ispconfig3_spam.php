@@ -110,6 +110,8 @@ class ispconfig3_spam extends rcube_plugin
             }
 
             $params['move_junk'] = $move_junk;
+            $params['purge_junk_days'] = rcube_utils::get_input_value('_purge_junk_days', rcube_utils::INPUT_POST);
+            $params['purge_trash_days'] = rcube_utils::get_input_value('_purge_trash_days', rcube_utils::INPUT_POST);
 
             $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
             $this->soap->logout($session_id);
@@ -163,6 +165,9 @@ class ispconfig3_spam extends rcube_plugin
             $enabled = $mail_user[0]['move_junk'];
             if ($enabled == 'y')
                 $enabled = 1;
+
+            $purge_junk_days = $mail_user[0]['purge_junk_days'];
+            $purge_trash_days = $mail_user[0]['purge_trash_days'];
         }
         catch (SoapFault $e) {
             $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
@@ -181,8 +186,18 @@ class ispconfig3_spam extends rcube_plugin
         $input_spammove = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => '1'));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('spammove'))));
         $table->add('', $input_spammove->show($enabled));
-        $out .= $table->show();
 
+        $field_id = 'purge_junk_days';
+        $input_purge_junk_days = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => '10'));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('purge_junk_days'))));
+        $table->add('', $input_purge_junk_days->show($purge_junk_days));
+
+        $field_id = 'purge_trash_days';
+        $input_purge_trash_days = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => '10'));
+        $table->add('title', html::label($field_id, rcube::Q($this->gettext('purge_trash_days'))));
+        $table->add('', $input_purge_trash_days->show($purge_trash_days));
+
+        $out .= $table->show();
         $out .= "</fieldset>\n";
 
         return $out;
