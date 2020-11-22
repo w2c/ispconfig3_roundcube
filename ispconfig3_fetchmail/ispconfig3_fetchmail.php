@@ -64,6 +64,11 @@ class ispconfig3_fetchmail extends rcube_plugin
             try {
                 $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
                 $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+                // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+                if (empty($mail_user)) {
+                    $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+                }
+
                 $mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, $id);
 
                 if ($mail_fetchmail['destination'] == $mail_user[0]['email']) {
@@ -104,6 +109,11 @@ class ispconfig3_fetchmail extends rcube_plugin
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
             $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+            // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+            if (empty($mail_user)) {
+                $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+            }
+
             $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
             if (empty($id)) {
@@ -183,6 +193,11 @@ class ispconfig3_fetchmail extends rcube_plugin
             try {
                 $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
                 $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+                // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+                if (empty($mail_user)) {
+                    $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+                }
+
                 $mail_fetchmail = $this->soap->mail_fetchmail_get($session_id, $id);
                 $this->soap->logout($session_id);
 
