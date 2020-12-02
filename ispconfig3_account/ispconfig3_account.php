@@ -111,7 +111,7 @@ class ispconfig3_account extends rcube_plugin
             $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
-        $email_pattern = '/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\"(?: value=\"(.*)\")?>/';
+        $email_pattern = '/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\"(?: value=\"(.*)\")?>/U';
         preg_match($email_pattern, $args['content'], $test);
         $email = isset($test[1]) ? $test[1] : '';
         $args['content'] = preg_replace($email_pattern, $emails->show($email), $args['content']);
