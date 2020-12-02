@@ -21,7 +21,9 @@ class ispconfig3_account extends rcube_plugin
         $this->register_action('plugin.ispconfig3_account.show', array($this, 'init_html'));
 
         $this->add_hook('settings_actions', array($this, 'settings_actions'));
-        $this->add_hook('template_object_identityform', array($this, 'template_object_identityform'));
+        if ($this->rcmail->config->get('identity_limit') === true) {
+            $this->add_hook('template_object_identityform', array($this, 'template_object_identityform'));
+        }
 
         $this->include_script('account.js');
         $this->include_stylesheet($this->local_skin_path() . '/account.css');
@@ -29,7 +31,8 @@ class ispconfig3_account extends rcube_plugin
         if (strpos($this->rcmail->action, 'plugin.ispconfig3_account') === 0 ||
             ($this->rcmail->config->get('identity_limit') === true &&
                 (strpos($this->rcmail->action, 'edit-identity') === 0 ||
-                 strpos($this->rcmail->action, 'add-identity') === 0))) {
+                 strpos($this->rcmail->action, 'add-identity') === 0 ||
+                 strpos($this->rcmail->action, 'save-identity') === 0))) {
 
             $this->soap = new SoapClient(null, array(
                 'location' => $this->rcmail->config->get('soap_url') . 'index.php',
@@ -86,34 +89,32 @@ class ispconfig3_account extends rcube_plugin
      */
     function template_object_identityform($args)
     {
-        if ($this->rcmail->config->get('identity_limit') === true) {
-            $emails = new html_select(array('name' => '_email', 'id' => 'rcmfd_email', 'class' => 'ff_email'));
-            try {
-                $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
-                $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
-                // Alternatively also search the email field, this can differ from the login field for legacy reasons.
-                if (empty($mail_user)) {
-                    $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
-                }
-
-                $alias = $this->soap->mail_alias_get($session_id, array('destination' => $mail_user[0]['email'], 'type' => 'alias', 'active' => 'y'));
-                $this->soap->logout($session_id);
-
-                $emails->add($mail_user[0]['email'], $mail_user[0]['email']);
-                for ($i = 0; $i < count($alias); $i++) {
-                    $emails->add($alias[$i]['source'], $alias[$i]['source']);
-                }
-            }
-            catch (SoapFault $e) {
-                $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
-                $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
+        $emails = new html_select(array('name' => '_email', 'id' => 'rcmfd_email', 'class' => 'ff_email'));
+        try {
+            $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
+            // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+            if (empty($mail_user)) {
+                $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
             }
 
-            $email_pattern = '/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\"(?: value=\"(.*)\")?>/';
-            preg_match($email_pattern, $args['content'], $test);
-            $email = isset($test[1]) ? $test[1] : '';
-            $args['content'] = preg_replace($email_pattern, $emails->show($email), $args['content']);
+            $alias = $this->soap->mail_alias_get($session_id, array('destination' => $mail_user[0]['email'], 'type' => 'alias', 'active' => 'y'));
+            $this->soap->logout($session_id);
+
+            $emails->add($mail_user[0]['email'], $mail_user[0]['email']);
+            for ($i = 0; $i < count($alias); $i++) {
+                $emails->add($alias[$i]['source'], $alias[$i]['source']);
+            }
         }
+        catch (SoapFault $e) {
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
+        }
+
+        $email_pattern = '/<input type=\"text\" size=\"40\" id=\"rcmfd_email\" name=\"_email\" class=\"ff_email\"(?: value=\"(.*)\")?>/';
+        preg_match($email_pattern, $args['content'], $test);
+        $email = isset($test[1]) ? $test[1] : '';
+        $args['content'] = preg_replace($email_pattern, $emails->show($email), $args['content']);
 
         return $args;
     }
