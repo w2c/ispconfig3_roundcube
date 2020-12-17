@@ -230,6 +230,7 @@ class ispconfig3_spam extends rcube_plugin
         }
 
         $out .= "<div id=\"spam-cont\">" . $spam_table->show() . "</div>\n";
+        $out .= '<br /><span>' . $this->gettext('policy_note') . "</span>\n";
         $out .= "</fieldset>\n";
         $out .= '</form>';
 
