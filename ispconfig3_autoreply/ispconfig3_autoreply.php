@@ -89,25 +89,9 @@ class ispconfig3_autoreply extends rcube_plugin
             }
             $uid = $this->soap->client_get_id($session_id, $mail_user[0]['sys_userid']);
 
-            $ispconfig_version = $this->soap->server_get_app_version($session_id);
-            if (version_compare($ispconfig_version['ispc_app_version'], '3.1dev', '<')) {
-                $startdate = array('year'   => date('Y', $startdate),
-                    'month'  => date('m', $startdate),
-                    'day'    => date('d', $startdate),
-                    'hour'   => date('H', $startdate),
-                    'minute' => date('i', $startdate));
-
-                $enddate = array('year'   => date('Y', $enddate),
-                    'month'  => date('m', $enddate),
-                    'day'    => date('d', $enddate),
-                    'hour'   => date('H', $enddate),
-                    'minute' => date('i', $enddate));
-            }
-            else {
-                $datetimeformat = 'Y-m-d H:i:s';
-                $startdate = date($datetimeformat, $startdate);
-                $enddate = date($datetimeformat, $enddate);
-            }
+            $datetimeformat = 'Y-m-d H:i:s';
+            $startdate = date($datetimeformat, $startdate);
+            $enddate = date($datetimeformat, $enddate);
 
             $params = $mail_user[0];
             unset($params['password']);

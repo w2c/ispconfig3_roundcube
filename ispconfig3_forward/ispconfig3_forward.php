@@ -76,24 +76,6 @@ class ispconfig3_forward extends rcube_plugin
                 $params = $mail_user[0];
                 unset($params['password']);
 
-                $ispconfig_version = $this->soap->server_get_app_version($session_id);
-                if (version_compare($ispconfig_version['ispc_app_version'], '3.1dev', '<')) {
-                    $startdate = array('year'   => substr($params['autoresponder_start_date'], 0, 4),
-                        'month'  => substr($params['autoresponder_start_date'], 5, 2),
-                        'day'    => substr($params['autoresponder_start_date'], 8, 2),
-                        'hour'   => substr($params['autoresponder_start_date'], 11, 2),
-                        'minute' => substr($params['autoresponder_start_date'], 14, 2));
-
-                    $enddate = array('year'   => substr($params['autoresponder_end_date'], 0, 4),
-                        'month'  => substr($params['autoresponder_end_date'], 5, 2),
-                        'day'    => substr($params['autoresponder_end_date'], 8, 2),
-                        'hour'   => substr($params['autoresponder_end_date'], 11, 2),
-                        'minute' => substr($params['autoresponder_end_date'], 14, 2));
-
-                    $params['autoresponder_end_date'] = $enddate;
-                    $params['autoresponder_start_date'] = $startdate;
-                }
-
                 if (empty($params['cc'])) {
                     $forward = $address;
                 }
@@ -224,7 +206,7 @@ class ispconfig3_forward extends rcube_plugin
         $out .= "<div id=\"rule-cont\">" . $rule_table->show() . "</div>\n";
         $out .= "</fieldset>\n";
         $out .= '</form>';
-        
+
         return $out;
     }
 
