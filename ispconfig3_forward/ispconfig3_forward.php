@@ -109,6 +109,7 @@ class ispconfig3_forward extends rcube_plugin
                 }
 
                 $params['cc'] = $forward;
+                $params['forward_in_lda'] = ($type != 'del' ? 'y' : 'n');
 
                 $update = $this->soap->mail_user_update($session_id, $uid, $mail_user[0]['mailuser_id'], $params);
 
