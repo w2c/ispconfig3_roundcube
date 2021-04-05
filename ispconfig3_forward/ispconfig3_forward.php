@@ -158,7 +158,7 @@ class ispconfig3_forward extends rcube_plugin
             $input_forwardingaddress = new html_inputfield(array(
                 'name' => '_' . $field_id,
                 'id' => $field_id,
-                'value' => $mail_user[0]['cc'],
+                'value' => '',
                 'maxlength' => 320,
                 'size' => 40
             ));
@@ -224,7 +224,7 @@ class ispconfig3_forward extends rcube_plugin
         $out .= "<div id=\"rule-cont\">" . $rule_table->show() . "</div>\n";
         $out .= "</fieldset>\n";
         $out .= '</form>';
-        
+
         return $out;
     }
 
