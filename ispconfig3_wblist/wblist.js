@@ -5,7 +5,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
         if (input_email.value == '') {
             parent.rcmail.display_message(rcmail.gettext('ispconfig3_wblist.textempty'), 'error');
         }
-        else if (!rcube_check_email(input_email.value, false)) {
+        else if (!rcube_check_email(input_email.value, false) && !input_email.value.startsWith('@')) {
             parent.rcmail.display_message(rcmail.gettext('ispconfig3_wblist.invalidaddress'), 'error');
             input_email.focus();
         }
