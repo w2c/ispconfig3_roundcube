@@ -187,9 +187,11 @@ class ispconfig3_filter extends rcube_plugin
 
         $id = rcube_utils::get_input_value('_id', rcube_utils::INPUT_GET);
         $enabled = 0;
-        if (!empty($id)) {
-            try {
-                $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+        try {
+            $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
+            $ispconfig_version = $this->soap->server_get_app_version($session_id);
+
+            if (!empty($id)) {
                 $mail_user = $this->soap->mail_user_get($session_id, array('login' => $this->rcmail->user->data['username']));
                 // Alternatively also search the email field, this can differ from the login field for legacy reasons.
                 if (empty($mail_user)) {
@@ -219,10 +221,10 @@ class ispconfig3_filter extends rcube_plugin
 
                 $filter[0]['target'] = mb_convert_encoding($filter[0]['target'], 'UTF7-IMAP', 'UTF-8');
             }
-            catch (SoapFault $e) {
-                $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
-                $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
-            }
+        }
+        catch (SoapFault $e) {
+            $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
+            $this->rcmail->output->command('display_message', 'Soap Error: ' . $error, 'error');
         }
 
         $enabled = ($enabled == 'y') ? 1 : 0;
@@ -244,8 +246,24 @@ class ispconfig3_filter extends rcube_plugin
 
         $field_id = 'filterop';
         $input_filterop = new html_select(array('name' => '_' . $field_id, 'id' => $field_id));
-        $input_filterop->add(array($this->gettext('filtercontains'), $this->gettext('filteris'),
-            $this->gettext('filterbegins'), $this->gettext('filterends')), array('contains', 'is', 'begins', 'ends'));
+
+        $filter_op = [
+            'filtercontains' => 'contains',
+            'filteris' => 'is',
+            'filterbegins' => 'begins',
+            'filterends' => 'ends',
+        ];
+
+        if (version_compare($ispconfig_version['ispc_app_version'], '3.2', '>=')) {
+            $filter_op_extended = [
+                'filterregex' => 'regex',
+                'filterlocalpart' => 'localpart',
+                'filterdomain' => 'domain',
+            ];
+            $filter_op = array_merge($filter_op, $filter_op_extended);
+        }
+
+        $input_filterop->add(array_map([$this, 'gettext'], array_keys($filter_op)), array_values($filter_op));
 
         $field_id = 'filtersearchterm';
         $input_filtersearchterm = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 43));
