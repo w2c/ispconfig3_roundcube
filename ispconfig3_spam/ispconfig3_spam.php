@@ -6,6 +6,19 @@ class ispconfig3_spam extends rcube_plugin
     private $rc;
     private $soap;
 
+    const content_filters = [
+        'amavisd' => [
+            'policy_tag' => 'spam_tag_level',
+            'policy_tag2' => 'spam_tag2_level',
+            'policy_kill' => 'spam_kill_level'
+        ],
+        'rspamd' => [
+            'policy_greylisting' => 'rspamd_spam_greylisting_level',
+            'policy_tag' => 'rspamd_spam_tag_level',
+            'policy_kill' => 'rspamd_spam_kill_level'
+        ]
+    ];
+
     function init()
     {
         $this->rcmail = rcmail::get_instance();
@@ -139,8 +152,8 @@ class ispconfig3_spam extends rcube_plugin
             'action'  => 'plugin.ispconfig3_spam.save',
             'noclose' => true
             ) + $attrib);
-            
-        $out .= '<fieldset><legend>' . $this->gettext('acc_spam') . '</legend>' . "\n";        
+
+        $out .= '<fieldset><legend>' . $this->gettext('acc_spam') . '</legend>' . "\n";
 
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
@@ -151,13 +164,13 @@ class ispconfig3_spam extends rcube_plugin
             }
 
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
-            $policy = $this->soap->mail_policy_get($session_id, array());
+            $policies = $this->soap->mail_policy_get($session_id, array());
             $policy_sel = $this->soap->mail_policy_get($session_id, array('id' => $spam_user[0]['policy_id']));
             $this->soap->logout($session_id);
 
-            for ($i = 0; $i < count($policy); $i++) {
-                $policy_name[] = $policy[$i]['policy_name'];
-                $policy_id[] = $policy[$i]['id'];
+            foreach ($policies as $policy) {
+                $policy_name[] = $policy['policy_name'];
+                $policy_id[] = $policy['id'];
             }
 
             $enabled = $mail_user[0]['move_junk'];
@@ -192,11 +205,8 @@ class ispconfig3_spam extends rcube_plugin
     {
         $out = '<fieldset><legend>' . $this->gettext('policy_entries') . '</legend>' . "\n";
 
-        $spam_table = new html_table(array('id' => 'spam-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 4));
+        $spam_table = new html_table([ 'id' => 'spam-table', 'class' => 'records-table', 'cellspacing' => '0', 'cols' => 4 ]);
         $spam_table->add_header(array('width' => '220px'), $this->gettext('policy_name'));
-        $spam_table->add_header(array('class' => 'value', 'width' => '150px'), $this->gettext('policy_tag'));
-        $spam_table->add_header(array('class' => 'value', 'width' => '150px'), $this->gettext('policy_tag2'));
-        $spam_table->add_header(array('class' => 'value', 'width' => '130px'), $this->gettext('policy_kill'));
 
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
@@ -208,19 +218,32 @@ class ispconfig3_spam extends rcube_plugin
 
             $spam_user = $this->soap->mail_spamfilter_user_get($session_id, array('email' => $mail_user[0]['email']));
             $policies = $this->soap->mail_policy_get($session_id, array());
+            $mail_server_config = $this->soap->server_get($session_id, $mail_user[0]['server_id'], 'mail');
             $this->soap->logout($session_id);
 
-            for ($i = 0; $i < count($policies); $i++) {
-                if ($policies[$i]['id'] == $spam_user[0]['policy_id']) {
-                    $spam_table->set_row_attribs(array('class' => 'selected'));
-                }
-
-                $this->_spam_row($spam_table, $policies[$i]['policy_name'], $policies[$i]['spam_tag_level'],
-                    $policies[$i]['spam_tag2_level'], $policies[$i]['spam_kill_level'], $attrib);
+            $filter = 'amavisd';
+            if (isset($mail_server_config['content_filter']) && $mail_server_config['content_filter'] == 'rspamd') {
+                $filter = 'rspamd';
             }
 
-            if (count($policies) == 0) {
-                $spam_table->add(array('colspan' => '4'), rcube::Q($this->gettext('spamnopolicies')));
+            $policy_titles = array_keys(self::content_filters[$filter]);
+            $policy_fields = array_values(self::content_filters[$filter]);
+
+            $spam_table->add_header([ 'class' => 'value', 'width' => '150px' ], $this->gettext($policy_titles[0]));
+            $spam_table->add_header([ 'class' => 'value', 'width' => '150px' ], $this->gettext($policy_titles[1]));
+            $spam_table->add_header([ 'class' => 'value', 'width' => '130px' ], $this->gettext($policy_titles[2]));
+
+            foreach ($policies as $policy) {
+                if ($policy['id'] == $spam_user[0]['policy_id']) {
+                    $spam_table->set_row_attribs([ 'class' => 'selected' ]);
+                }
+
+                $this->_spam_row($spam_table, $policy['policy_name'], $policy[$policy_fields[0]],
+                        $policy[$policy_fields[1]], $policy[$policy_fields[2]], $attrib);
+            }
+
+            if (empty($policies)) {
+                $spam_table->add([ 'colspan' => '4' ], rcube::Q($this->gettext('spamnopolicies')));
                 $spam_table->add_row();
             }
         }
