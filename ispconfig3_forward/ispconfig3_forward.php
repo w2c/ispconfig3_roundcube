@@ -187,7 +187,7 @@ class ispconfig3_forward extends rcube_plugin
 
         $rule_table = new html_table(array('id'    => 'rule-table',
                                            'class' => 'records-table', 'cellspacing' => '0', 'cols' => 2));
-        $rule_table->add_header(null, $this->gettext('forward_entries'));
+        $rule_table->add_header(null, $this->gettext('forwardingaddress'));
         $rule_table->add_header(array('width' => '16px'), '');
 
         try {

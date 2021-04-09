@@ -280,7 +280,7 @@ class ispconfig3_wblist extends rcube_plugin
 
         $rule_table = new html_table(array('id' => 'rule-table',
                                            'class' => 'records-table', 'cellspacing' => '0', 'cols' => 4));
-        $rule_table->add_header(null, $this->gettext('wblistentries'));
+        $rule_table->add_header(null, $this->gettext('email'));
         $rule_table->add_header(array('width' => '16px'), '');
         $rule_table->add_header(array('width' => '16px'), '');
         $rule_table->add_header(array('width' => '16px'), '');

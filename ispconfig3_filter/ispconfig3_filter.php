@@ -296,7 +296,7 @@ class ispconfig3_filter extends rcube_plugin
 
         $rule_table = new html_table(array('id' => 'rule-table',
                                            'class' => 'records-table', 'cellspacing' => '0', 'cols' => 3));
-        $rule_table->add_header(null, $this->gettext('filter_entries'));
+        $rule_table->add_header(null, $this->gettext('filtername'));
         $rule_table->add_header(array('width' => '16px'), '');
         $rule_table->add_header(array('width' => '16px'), '');
 
