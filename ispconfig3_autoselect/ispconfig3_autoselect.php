@@ -1,4 +1,5 @@
 <?php
+
 class ispconfig3_autoselect extends rcube_plugin
 {
     public $task = 'login|logout';
@@ -17,21 +18,17 @@ class ispconfig3_autoselect extends rcube_plugin
 
         $this->load_con_config();
 
-        $this->add_hook('authenticate', array($this, 'authenticate'));
-        $this->add_hook('template_object_loginform', array($this, 'template_object_loginform'));
+        $this->add_hook('authenticate', [$this, 'authenticate']);
+        $this->add_hook('template_object_loginform', [$this, 'template_object_loginform']);
 
-        $this->soap = new SoapClient(null, array(
+        $this->soap = new SoapClient(null, [
             'location' => $this->rcmail->config->get('soap_url') . 'index.php',
             'uri' => $this->rcmail->config->get('soap_url'),
             $this->rcmail->config->get('soap_validate_cert') ?:
-                'stream_context' => stream_context_create(
-                    array('ssl' => array(
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                        'allow_self_signed' => true
-                    )
-                ))
-        ));
+                'stream_context' => stream_context_create(['ssl' => [
+                'verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true
+            ]])
+        ]);
     }
 
     function load_con_config()
@@ -39,13 +36,13 @@ class ispconfig3_autoselect extends rcube_plugin
         $config = $this->api->dir . 'ispconfig3_account/config/config.inc.php';
         if (file_exists($config)) {
             if (!$this->rcmail->config->load_from_file($config))
-                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $config"), true, false);
+                rcube::raise_error(['code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Failed to load config from $config"], true, false);
         }
         else if (file_exists($config . ".dist")) {
             if (!$this->rcmail->config->load_from_file($config . '.dist'))
-                rcube::raise_error(array('code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__,
-                    'message' => "Failed to load config from $config"), true, false);
+                rcube::raise_error(['code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__,
+                    'message' => "Failed to load config from $config"], true, false);
         }
     }
 
@@ -70,10 +67,10 @@ class ispconfig3_autoselect extends rcube_plugin
 
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
-            $mail_user = $this->soap->mail_user_get($session_id, array('login' => $user));
-            // Alternatively also search the email field, this can differ from the login field for legacy reasons.
+            $mail_user = $this->soap->mail_user_get($session_id, ['login' => $user]);
+            // Alternatively also search the email field, this can differ from the login field for legacy reasons
             if (empty($mail_user)) {
-                $mail_user = $this->soap->mail_user_get($session_id, array('email' => $this->rcmail->user->data['username']));
+                $mail_user = $this->soap->mail_user_get($session_id, ['email' => $this->rcmail->user->data['username']]);
             }
 
             if (count($mail_user) == 1) {
