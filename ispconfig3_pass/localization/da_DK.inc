@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Adgangskode skal indeholde mindst ét tal.';
 $messages['passwordchecklower'] = 'Adgangskode skal indeholde mindst ét stort bogstav.';
 $messages['passwordcheckupper'] = 'Adgangskode skal indeholde mindst ét lille bogstav.';
 $messages['passwordchecksymbol'] = 'Adgangskode skal indeholde mindst ét symbol.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

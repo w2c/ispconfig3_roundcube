@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Wachtwoord moet op zijn minst een nummer bev
 $messages['passwordchecklower'] = 'Wachtwoord moet ten minste één kleine letter bevatten.';
 $messages['passwordcheckupper'] = 'Wachtwoord moet minstens één hoofdletter bevatten.';
 $messages['passwordchecksymbol'] = 'Wachtwoord moet ten minste één symbool bevatten.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

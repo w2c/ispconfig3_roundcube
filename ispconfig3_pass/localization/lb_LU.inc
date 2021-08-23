@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'D\'Passwuert muss mindestens eng Zuel enthal
 $messages['passwordchecklower'] = 'D\'Passwuert muss mindestens ee klenge Buschtaf enthalen.';
 $messages['passwordcheckupper'] = 'D\'Passwuert muss mindestens ee grousse Buschtaf enthalen.';
 $messages['passwordchecksymbol'] = 'D\'Passwuert muss mindestens ee Symbol enthalen.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

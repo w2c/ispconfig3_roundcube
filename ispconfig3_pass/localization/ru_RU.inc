@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Новый пароль должен сод�
 $messages['passwordchecklower'] = 'Новый пароль должен содержать по крайней мере одну маленькую букву.';
 $messages['passwordcheckupper'] = 'Новый пароль должен содержать по крайней мере одну заглавную букву.';
 $messages['passwordchecksymbol'] = 'Новый пароль должен содержать по крайней мере один спец-символ.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

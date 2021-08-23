@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'O contrasinal debe incluír polo menos un n�
 $messages['passwordchecklower'] = 'O contrasinal debe incluír polo menos unha minúscula.';
 $messages['passwordcheckupper'] = 'O contrasinal debe incluír polo menos unha maiúscula.';
 $messages['passwordchecksymbol'] = 'O contrasinal debe incluir polo menos un símbolo.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
