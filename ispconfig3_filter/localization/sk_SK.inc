@@ -1,0 +1,25 @@
+<?php
+$labels['acc_filter'] = 'Mailový filter';
+$labels['filtername'] = 'Názov filtra';
+$labels['filtersource'] = 'Zdroj';
+$labels['filtersubject'] = 'Predmet';
+$labels['filterfrom'] = 'Odosieľateľ';
+$labels['filterto'] = 'Adresát';
+$labels['filtercontains'] = 'obsahuje';
+$labels['filteris'] = 'je';
+$labels['filterbegins'] = 'začína na';
+$labels['filterends'] = 'končí na';
+$labels['filterregex'] = 'zodpovedá regexu';
+$labels['filterlocalpart'] = 's miestnou časťou';
+$labels['filterdomain'] = 's doménou';
+$labels['filteraction'] = 'Akcia';
+$labels['filtermove'] = 'Presunúť do';
+$labels['filterdelete'] = 'Zmazať';
+$labels['filterenabled'] = 'Aktívny';
+$labels['filterdisabled'] = 'Neaktívny';
+$labels['filteradd'] = 'Pridať';
+$labels['filternorules'] = 'Neexistuje žiadne pravidlo';
+$labels['filter_entries'] = 'Nastavené pravidlá';
+$messages['filterdelconfirm'] = 'Ste si istí, že chcete odstrániť toto pravidlo?';
+$messages['filterlimitreached'] = 'Bol dosiahnutý limit počtu pravidiel';
+$messages['textempty'] = 'Jedno alebo viacero polí je prázdnych';
