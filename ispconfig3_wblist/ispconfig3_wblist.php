@@ -241,27 +241,35 @@ class ispconfig3_wblist extends rcube_plugin
 
         $enabled = ($enabled == 'y') ? 1 : 0;
 
-        $hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => $wblist[0]['wblist_id']));
-        $out .= $hidden_id->show();
+        if (!empty($wblist[0]['wblist_id'])) {
+            $hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => $wblist[0]['wblist_id']));
+            $out .= $hidden_id->show();
+        }
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
 
         $field_id = 'wblistemail';
         $input_wblistemail = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 70));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('email'))));
-        $table->add('', $input_wblistemail->show($wblist[0]['email']));
+        if (!empty($wblist[0]['email'])) {
+            $table->add('', $input_wblistemail->show($wblist[0]['email']));
+        }
 
         $field_id = 'wblistwb';
         $input_wblistwb = new html_select(array('name' => '_' . $field_id, 'id' => $field_id));
         $input_wblistwb->add(array($this->gettext('wblistwhitelist'), $this->gettext('wblistblacklist')), array('W', 'B'));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('wblisttype'))));
-        $table->add('', $input_wblistwb->show($type));
+        if (!empty($type)) {
+            $table->add('', $input_wblistwb->show($type));
+        }
 
         $field_id = 'wblistpriority';
         $input_wblistpriority = new html_select(array('name' => '_' . $field_id, 'id' => $field_id));
         $input_wblistpriority->add(array('1', '2', '3', '4', '5', '6', '7', '8', '9', '10'));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('wblistpriority'))));
-        $table->add('', $input_wblistpriority->show($wblist[0]['priority']));
+        if (!empty($wblist[0]['priority'])) {
+            $table->add('', $input_wblistpriority->show($wblist[0]['priority']));
+        }
 
         $field_id = 'wblistenabled';
         $input_wblistenabled = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => '1'));

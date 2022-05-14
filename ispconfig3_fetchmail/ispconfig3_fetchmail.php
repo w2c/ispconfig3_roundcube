@@ -226,7 +226,7 @@ class ispconfig3_fetchmail extends rcube_plugin
         $delete = ($delete == 'y') ? 1 : 0;
         $enabled = ($enabled == 'y') ? 1 : 0;
 
-        $hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => $mail_fetchmail['mailget_id']));
+        $hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => ($mail_fetchmail['mailget_id'] ?? '')));
         $out .= $hidden_id->show();
 
         $table = new html_table(array('cols' => 2, 'class' => 'propform'));
@@ -235,23 +235,27 @@ class ispconfig3_fetchmail extends rcube_plugin
         $input_fetchmailtyp = new html_select(array('name' => '_' . $field_id, 'id' => $field_id));
         $input_fetchmailtyp->add(array('POP3', 'IMAP', 'POP3 SSL', 'IMAP SSL'), array('pop3', 'imap', 'pop3ssl', 'imapssl'));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('fetchmailtyp'))));
-        $table->add('', $input_fetchmailtyp->show($mail_fetchmail['type']));
-
+        if (!empty($mail_fetchmail['type'])) {
+            $table->add('', $input_fetchmailtyp->show($mail_fetchmail['type']));
+        }
         $field_id = 'fetchmailserver';
         $input_fetchmailserver = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'maxlength' => 320, 'size' => 40));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('fetchmailserver'))));
-        $table->add('', $input_fetchmailserver->show($mail_fetchmail['source_server']));
-
+        if (!empty($mail_fetchmail['source_server'])) {
+            $table->add('', $input_fetchmailserver->show($mail_fetchmail['source_server']));
+        }
         $field_id = 'fetchmailuser';
         $input_fetchmailuser = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'maxlength' => 320, 'size' => 40));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('username'))));
-        $table->add('', $input_fetchmailuser->show($mail_fetchmail['source_username']));
-
+        if (!empty($mail_fetchmail['source_username'])) {
+            $table->add('', $input_fetchmailuser->show($mail_fetchmail['source_username']));
+        }
         $field_id = 'fetchmailpass';
         $input_fetchmailpass = new html_passwordfield(array('name' => '_' . $field_id, 'id' => $field_id, 'maxlength' => 320, 'size' => 40, 'autocomplete' => 'off'));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('password'))));
-        $table->add('', $input_fetchmailpass->show($mail_fetchmail['source_password']));
-
+        if (!empty($mail_fetchmail['source_password'])) {
+            $table->add('', $input_fetchmailpass->show($mail_fetchmail['source_password']));
+        }
         $field_id = 'fetchmaildelete';
         $input_fetchmaildelete = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => '1'));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('fetchmaildelete'))));

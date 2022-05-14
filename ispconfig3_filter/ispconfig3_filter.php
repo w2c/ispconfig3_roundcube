@@ -229,7 +229,7 @@ class ispconfig3_filter extends rcube_plugin
 
         $enabled = ($enabled == 'y') ? 1 : 0;
 
-        $hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => $filter[0]['filter_id']));
+        $hidden_id = new html_hiddenfield(array('name' => '_id', 'value' => ($filter[0]['filter_id'] ?? '')));
         $out .= $hidden_id->show();
 
         $table = new html_table(array('cols' => 2, 'class' => 'compact-table'));
@@ -237,8 +237,9 @@ class ispconfig3_filter extends rcube_plugin
         $field_id = 'filtername';
         $input_filtername = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 70));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('filtername'))));
-        $table->add('', $input_filtername->show($filter[0]['rulename']));
-
+        if (!empty($filter[0]['rulename'])) {
+            $table->add('', $input_filtername->show($filter[0]['rulename']));
+        }
         $field_id = 'filtersource';
         $input_filtersource = new html_select(array('name' => '_' . $field_id, 'id' => $field_id));
         $input_filtersource->add(array($this->gettext('filtersubject'), $this->gettext('filterfrom'),
@@ -268,8 +269,9 @@ class ispconfig3_filter extends rcube_plugin
         $field_id = 'filtersearchterm';
         $input_filtersearchterm = new html_inputfield(array('name' => '_' . $field_id, 'id' => $field_id, 'size' => 43));
         $table->add('title', html::label('filtersource', rcube::Q($this->gettext('filtersource'))));
-        $table->add('', $input_filtersource->show($filter[0]['source']) . $input_filterop->show($filter[0]['op']) . $input_filtersearchterm->show($filter[0]['searchterm']));
-
+        if (!empty($filter[0])) {
+            $table->add('', $input_filtersource->show($filter[0]['source']) . $input_filterop->show($filter[0]['op']) . $input_filtersearchterm->show($filter[0]['searchterm']));
+        }
         $field_id = 'filteraction';
         $input_filteraction = new html_select(array('name' => '_' . $field_id, 'id' => $field_id));
         $input_filteraction->add(array($this->gettext('filtermove'), $this->gettext('filterdelete')), array('move', 'delete'));
@@ -277,8 +279,9 @@ class ispconfig3_filter extends rcube_plugin
         $field_id = 'filtertarget';
         $input_filtertarget = $this->rcmail->folder_selector(array('name' => '_' . $field_id, 'id' => $field_id));
         $table->add('title', html::label('filteraction', rcube::Q($this->gettext('filteraction'))));
-        $table->add('', $input_filteraction->show($filter[0]['action']) . $input_filtertarget->show($filter[0]['target']));
-
+        if (!empty($filter[0])) {
+            $table->add('', $input_filteraction->show($filter[0]['action']) . $input_filtertarget->show($filter[0]['target']));
+        }
         $field_id = 'filterenabled';
         $input_filterenabled = new html_checkbox(array('name' => '_' . $field_id, 'id' => $field_id, 'value' => '1'));
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('filterenabled'))));
