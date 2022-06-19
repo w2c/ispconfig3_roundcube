@@ -314,7 +314,7 @@ class ispconfig3_filter extends rcube_plugin
                 }
 
                 $rule_table->set_row_attribs($row_attribs);
-                $this->_rule_row($rule_table, $filter_value['rulename'], $filter_value['active'], $filter_value['filter_id'], $attrib);
+                $this->_rule_row($rule_table, $filter_value['rulename'], $filter_value['active'], $filter_value['filter_id']);
             }
 
             if (empty($filter)) {
@@ -334,7 +334,7 @@ class ispconfig3_filter extends rcube_plugin
         return $out;
     }
 
-    private function _rule_row($rule_table, $name, $active, $id, $attrib)
+    private function _rule_row($rule_table, $name, $active, $id)
     {
         $rule_table->add(['class' => 'rule', 'onclick' => 'filter_edit(' . $id . ');'], $name);
 
@@ -359,7 +359,5 @@ class ispconfig3_filter extends rcube_plugin
             'title' => 'delete'
         ]);
         $rule_table->add(['class' => 'control'], $del_button);
-
-        return $rule_table;
     }
 }

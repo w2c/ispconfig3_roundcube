@@ -35,14 +35,16 @@ class ispconfig3_autoselect extends rcube_plugin
     {
         $config = $this->api->dir . 'ispconfig3_account/config/config.inc.php';
         if (file_exists($config)) {
-            if (!$this->rcmail->config->load_from_file($config))
+            if (!$this->rcmail->config->load_from_file($config)) {
                 rcube::raise_error(['code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Failed to load config from $config"], true, false);
+            }
         }
         else if (file_exists($config . ".dist")) {
-            if (!$this->rcmail->config->load_from_file($config . '.dist'))
+            if (!$this->rcmail->config->load_from_file($config . '.dist')) {
                 rcube::raise_error(['code' => 527, 'type' => 'php', 'file' => __FILE__, 'line' => __LINE__,
                     'message' => "Failed to load config from $config"], true, false);
+            }
         }
     }
 
@@ -55,8 +57,9 @@ class ispconfig3_autoselect extends rcube_plugin
 
     function authenticate($args)
     {
-        if (isset($_POST['_user'], $_POST['_pass']))
+        if (isset($_POST['_user'], $_POST['_pass'])) {
             $args['host'] = $this->getHost(rcube_utils::get_input_value('_user', rcube_utils::INPUT_POST));
+        }
 
         return $args;
     }
