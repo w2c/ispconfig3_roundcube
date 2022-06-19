@@ -11,4 +11,3 @@ $labels['acc_wblist'] = 'Kara/Beyaz Liste';
 $labels['acc_lastlogin'] = 'Son Giriş Zamanı';
 $labels['acc_defaultidentity'] = 'Varsayılan Kimlik';
 $labels['acc_noalias'] = 'Bağlı E-Posta adres(ler)i bulunamadı';
-?>

@@ -1,5 +1,4 @@
 <?php
-$labels = array();
 $labels['acc_filter'] = 'Posta Filtresi';
 $labels['filtername'] = 'İsim';
 $labels['filtersource'] = 'Kaynak';
@@ -17,9 +16,6 @@ $labels['filterenabled'] = 'Aktif';
 $labels['filteradd'] = 'Ekle';
 $labels['filternorules'] = 'Hiçbir kural yok';
 $labels['filter_entries'] = 'Kurallar';
-
-$messages = array();
 $messages['filterdelconfirm'] = 'Bu kuralı silmek istediğinize emin misiniz?';
 $messages['filterlimitreached'] = 'Limit aşıldı';
 $messages['textempty'] = 'Bir veya daha fazla alan boş';
-?>

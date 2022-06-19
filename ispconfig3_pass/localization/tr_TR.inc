@@ -1,12 +1,9 @@
 <?php
-$labels = array();
 $labels['password'] = 'Parola';
 $labels['changepasswd'] = 'Parolayı Değiştir';
 $labels['curpasswd'] = 'Geçerli Parola:';
 $labels['newpasswd'] = 'Yeni Parola:';
 $labels['confpasswd'] = 'Yeni Parola Onay:';
-
-$messages = array();
 $messages['nopassword'] = 'Lütfen yeni parolanızı giriniz.';
 $messages['nocurpassword'] = 'Lütfen geçerli parolanızı giriniz.';
 $messages['passwordincorrect'] = 'Geçerli parolanız yanlış.';
@@ -16,4 +13,3 @@ $messages['passwordchecknumber'] = 'Parola en az bir numara içermelidir.';
 $messages['passwordchecklower'] = 'Parola en az bir küçük harf içermelidir.';
 $messages['passwordcheckupper'] = 'Parola en az bir büyük harf içermelidir.';
 $messages['passwordchecksymbol'] = 'Parola en az bir sembol içermelidir.';
-?>
