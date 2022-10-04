@@ -15,3 +15,4 @@ $messages['passwordcheckupper'] = 'Hasło musi zawierać co najmniej jedną wiel
 $messages['passwordchecksymbol'] = 'Hasło musi zawierać co najmniej jeden znak specjalny (jak . , - + ).';
 $messages['internalerror'] = 'Błąd bazy danych serwera. To może być niebezpieczne dla innych użytkowników. Proszę się skontaktować z administratorem systemu.';
 $messages['errorsaving'] = 'Nie można zapisać hasła w bazie danych. Proszę się skontaktować z administratorem systemu.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

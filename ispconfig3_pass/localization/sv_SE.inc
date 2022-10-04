@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Lösenordet måste innehålla minst ett numm
 $messages['passwordchecklower'] = 'Lösenordet måste innehålla minst en små bokstav.';
 $messages['passwordcheckupper'] = 'Lösenordet måste innehålla minst en stor bokstav.';
 $messages['passwordchecksymbol'] = 'Lösenordet måste innehålla minst en symbol.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

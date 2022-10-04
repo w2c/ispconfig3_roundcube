@@ -5,3 +5,4 @@ $config['password_check_symbol'] = true;
 $config['password_check_lower'] = true;
 $config['password_check_upper'] = true;
 $config['password_check_number'] = true;
+$config['password_check_isascii'] = true;

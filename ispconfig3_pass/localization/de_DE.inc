@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Das Passwort muss mindestens eine Zahl entha
 $messages['passwordchecklower'] = 'Das Passwort muss mindestens einen Kleinbuchstaben enthalten.';
 $messages['passwordcheckupper'] = 'Das Passwort muss mindestens einen Großbuchstaben enthalten.';
 $messages['passwordchecksymbol'] = 'Das Passwort muss mindestens ein Symbol enthalten.';
+$messages['passwordcheckisascii'] = 'Bitte verwenden Sie keine Umlaute im Passwort. Dies kann zu Problemen mit Ihrem E-Mail-Programm führen.';

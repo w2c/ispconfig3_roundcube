@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Heslo musí obsahovat alespoň jedno číslo
 $messages['passwordchecklower'] = 'Heslo musí obsahovat alespoň jedno malé písmeno.';
 $messages['passwordcheckupper'] = 'Heslo musí obsahovat alespoň jedno velké písmeno.';
 $messages['passwordchecksymbol'] = 'Heslo musí obsahovat alespoň jeden symbol.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

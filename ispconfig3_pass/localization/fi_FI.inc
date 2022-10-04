@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Salasanassa täytyy olla vähintään yksi n
 $messages['passwordchecklower'] = 'Salasanassa täytyy olla vähintään yksi pieni kirjain';
 $messages['passwordcheckupper'] = 'Salasanassa täytyy olla vähintään yksi iso kirjain';
 $messages['passwordchecksymbol'] = 'Salasanassa täytyy olla vähintään yksi erikoismerkki';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'A jelszónak legalább egy számot kell tart
 $messages['passwordchecklower'] = 'A jelszónak legalább egy kisbetűt kell tartalmaznia.';
 $messages['passwordcheckupper'] = 'A jelszónak legalább egy nagybetűt kell tartalmaznia.';
 $messages['passwordchecksymbol'] = 'A jelszónak legalább egy szimbólumot kell tartalmaznia.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

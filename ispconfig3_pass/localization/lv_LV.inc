@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Parolei jāsatur vismaz viens cipars.';
 $messages['passwordchecklower'] = 'Parolei jāsatur vismaz viens mazais latīņu alfabēta burts.';
 $messages['passwordcheckupper'] = 'Parolei jāsatur vismaz viens lielais latīņu alfabēta burts.';
 $messages['passwordchecksymbol'] = 'Parolei jāsatur vismaz viens speciālais simbols.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

@@ -57,6 +57,7 @@ class ispconfig3_pass extends rcube_plugin
             $checkLower = $this->rcmail->config->get('password_check_lower');
             $checkSymbol = $this->rcmail->config->get('password_check_symbol');
             $checkNumber = $this->rcmail->config->get('password_check_number');
+            $checkIsAscii = $this->rcmail->config->get('password_check_isascii');
             $error = false;
 
             if (!empty($pwl)) {
@@ -93,6 +94,11 @@ class ispconfig3_pass extends rcube_plugin
                 if (!$error && $checkSymbol && !preg_match("#\W+#", $newpwd)) {
                     $error = true;
                     $this->rcmail->output->command('display_message', $this->gettext('passwordchecksymbol'), 'error');
+                }
+
+                if (!$error && $checkIsAscii && preg_match("/[^\x20-\x7F]/", $newpwd)) {
+                    $error = true;
+                    $this->rcmail->output->command('display_message', $this->gettext('passwordcheckisascii'), 'error');
                 }
 
                 if (!$error) {

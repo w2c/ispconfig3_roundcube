@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Пароль повинен містити �
 $messages['passwordchecklower'] = 'Пароль повинен містити принаймні одну малу літеру.';
 $messages['passwordcheckupper'] = 'Пароль повинен містити принаймні одну велику літеру.';
 $messages['passwordchecksymbol'] = 'Пароль повинен містити принаймні один символ.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';

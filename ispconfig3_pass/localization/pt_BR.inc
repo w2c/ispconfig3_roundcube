@@ -13,3 +13,4 @@ $messages['passwordchecknumber'] = 'Senha tem que incluir pelo menos um número.
 $messages['passwordchecklower'] = 'Senha deve incluir pelo menos uma minúscula.';
 $messages['passwordcheckupper'] = 'Senha deve incluir pelo menos uma maiúscula.';
 $messages['passwordchecksymbol'] = 'Senha deve incluir pelo menos um símbolo.';
+$messages['passwordcheckisascii'] = 'Please do not use special unicode characters for your password. This could lead to problems with your mail client.';
