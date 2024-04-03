@@ -3,6 +3,7 @@ $labels['acc_spam'] = 'Aizsardzība pret surogātpastu';
 $labels['policy_name'] = 'Surogātpastu politika';
 $labels['spammove'] = 'Pārvietot surogātpastu uz nevēlamo e-pastu mapi';
 $labels['policy_entries'] = 'Pieejamā surogātpastu politika';
+$labels['policy_greylisting'] = 'Greylisting līmenis';
 $labels['policy_tag'] = 'Pirmais līmenis';
 $labels['policy_tag2'] = 'Otrais līmenis';
 $labels['policy_kill'] = 'Bloķēšanas līmenis';

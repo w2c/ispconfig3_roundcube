@@ -8,17 +8,21 @@
     <script type="text/javascript" src="/functions.js"></script>
 </head>
 <body class="iframe">
+
 <div id="prefs-title" class="boxtitle">
     <roundcube:object name="sectionname_spam" />
 </div>
-<div id="prefs-details">
+
+<div id="prefs-details" class="boxcontent">
     <roundcube:object name="spam_form" id="spam_form" />
     <roundcube:object name="spam_table" class="spam-table" cellspacing="0" />
 </div>
+
 <div id="formfooter">
     <div class="footerleft">
         <roundcube:button command="plugin.ispconfig3_spam.save" type="input" class="button mainaction" label="save" />
     </div>
 </div>
+
 </body>
 </html>

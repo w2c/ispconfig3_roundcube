@@ -5,7 +5,9 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
         if (input_email.value == '') {
             parent.rcmail.display_message(rcmail.gettext('ispconfig3_wblist.textempty'), 'error');
         }
-        else if (!rcube_check_email(input_email.value, false)) {
+        // Test for user@example.com or @example.com syntax
+        else if (!rcube_check_email(input_email.value, false) &&
+            !rcube_check_email('example' + input_email.value, false)) {
             parent.rcmail.display_message(rcmail.gettext('ispconfig3_wblist.invalidaddress'), 'error');
             input_email.focus();
         }
@@ -34,7 +36,7 @@ window.rcmail && rcmail.addEventListener('init', function (evt) {
             }
         });
 
-        $('input:not(:hidden):first').focus();
+        $('input:not(:hidden)').first().focus();
     }
 });
 

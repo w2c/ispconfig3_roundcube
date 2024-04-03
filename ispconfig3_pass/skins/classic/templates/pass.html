@@ -8,16 +8,20 @@
     <script type="text/javascript" src="/functions.js"></script>
 </head>
 <body class="iframe">
+
 <div id="prefs-title" class="boxtitle">
     <roundcube:object name="sectionname_pass" />
 </div>
-    <div id="prefs-details">
-        <roundcube:object name="pass_form" id="pass_form" />
+
+<div id="prefs-details" class="boxcontent">
+    <roundcube:object name="pass_form" id="pass_form" />
+</div>
+
+<div id="formfooter">
+    <div class="footerleft">
+        <roundcube:button command="plugin.ispconfig3_pass.save" type="input" class="button mainaction" label="save" />
     </div>
-    <div id="formfooter">
-        <div class="footerleft">
-            <roundcube:button command="plugin.ispconfig3_pass.save" type="input" class="button mainaction" label="save" />
-        </div>
-    </div>
+</div>
+
 </body>
 </html>

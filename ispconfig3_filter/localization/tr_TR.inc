@@ -1,0 +1,21 @@
+<?php
+$labels['acc_filter'] = 'Posta Filtresi';
+$labels['filtername'] = 'İsim';
+$labels['filtersource'] = 'Kaynak';
+$labels['filtersubject'] = 'Konu';
+$labels['filterfrom'] = 'Kimden';
+$labels['filterto'] = 'Kime';
+$labels['filtercontains'] = 'İçerir';
+$labels['filteris'] = 'Eşittir';
+$labels['filterbegins'] = 'Başlar';
+$labels['filterends'] = 'Biter';
+$labels['filteraction'] = 'Eylem';
+$labels['filtermove'] = 'Taşı';
+$labels['filterdelete'] = 'Sil';
+$labels['filterenabled'] = 'Aktif';
+$labels['filteradd'] = 'Ekle';
+$labels['filternorules'] = 'Hiçbir kural yok';
+$labels['filter_entries'] = 'Kurallar';
+$messages['filterdelconfirm'] = 'Bu kuralı silmek istediğinize emin misiniz?';
+$messages['filterlimitreached'] = 'Limit aşıldı';
+$messages['textempty'] = 'Bir veya daha fazla alan boş';
