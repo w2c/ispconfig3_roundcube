@@ -73,7 +73,7 @@ class ispconfig3_autoselect extends rcube_plugin
             $mail_user = $this->soap->mail_user_get($session_id, ['login' => $user]);
             // Alternatively also search the email field, this can differ from the login field for legacy reasons
             if (empty($mail_user)) {
-                $mail_user = $this->soap->mail_user_get($session_id, ['email' => $this->rcmail->user->data['username']]);
+                $mail_user = $this->soap->mail_user_get($session_id, ['email' => $user]);
             }
 
             if (count($mail_user) == 1) {
