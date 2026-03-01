@@ -31,7 +31,7 @@ class ispconfig3_identity extends rcube_plugin
                 ]])
         ]);
 
-$this->add_hook('login_after', [$this, 'set_identity']);
+        $this->add_hook('login_after', [$this, 'set_identity']);
     }
 
     private function remoteGetUser()
@@ -44,7 +44,7 @@ $this->add_hook('login_after', [$this, 'set_identity']);
             if (empty($this->mail_user)) {
                 $this->mail_user = $this->soap->mail_user_get($session_id, ['email' => $this->rcmail->user->data['username']]);
             }
-
+            
             $this->soap->logout($session_id);
         }
         catch (SoapFault $e) {
@@ -54,21 +54,21 @@ $this->add_hook('login_after', [$this, 'set_identity']);
     }
 
     /* 
-    // Funciton to set the identitiy that matches the e-mail address
+    *  Funciton to set the identitiy that matches the e-mail address
     */
     function set_identity()
     {
         $this->remoteGetUser();
 
-        $identities = $this->rc->user->list_identities();
-        // Loop through identities to find the one corrisponding to the mailbox email
-        foreach ($identities as $identity) {
-            // Identitiy found
-            if ($identity['email'] == $this->rcmail->user->data['username'] && $this->mail_user[0]['email'] === $this->rcmail->user->data['username']) {
-                // The below by default will set once at initial login, this allows users to then change later
-                // If setting force_name_update to true will update to match ISPConfig every login
-                if ($identity['name'] == "" || ($this->rcmail->config->get('force_name_update') && $identity['name'] != $this->mail_user[0]['name'])) {
-                    $update = ["name" => $this->mail_user[0]['name']];
+            $identities = $this->rc->user->list_identities();
+            // Loop through identities to find the one corrisponding to the mailbox email
+            foreach ($identities as $identity) {
+                // Identitiy found
+                if ($identity['email'] == $this->rcmail->user->data['username'] && $this->mail_user[0]['email'] === $this->rcmail->user->data['username']) {
+                    // The below by default will set once at initial login, this allows users to then change later
+                    // If setting force_name_update to true will update to match ISPConfig every login
+                    if ($identity['name'] == "" || ($this->rcmail->config->get('force_name_update') && $identity['name'] != $this->mail_user[0]['name'])) {
+                        $update = ["name" => $this->mail_user[0]['name']];
                     $this->rc->user->update_identity($identity['identity_id'],$update);
                 }
             }
