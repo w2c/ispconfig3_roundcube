@@ -46,6 +46,8 @@ class ispconfig3_identity extends rcube_plugin
             }
             
             $this->soap->logout($session_id);
+            // Still not set a user, return false
+            (empty($this->mail_user)) ? return false : return true;
         }
         catch (SoapFault $e) {
             $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
@@ -58,8 +60,7 @@ class ispconfig3_identity extends rcube_plugin
     */
     function set_identity()
     {
-        $this->remoteGetUser();
-
+        if ($this->remoteGetUser()) {
             $identities = $this->rc->user->list_identities();
             // Loop through identities to find the one corrisponding to the mailbox email
             foreach ($identities as $identity) {
@@ -69,7 +70,8 @@ class ispconfig3_identity extends rcube_plugin
                     // If setting force_name_update to true will update to match ISPConfig every login
                     if ($identity['name'] == "" || ($this->rcmail->config->get('force_name_update') && $identity['name'] != $this->mail_user[0]['name'])) {
                         $update = ["name" => $this->mail_user[0]['name']];
-                    $this->rc->user->update_identity($identity['identity_id'],$update);
+                        $this->rc->user->update_identity($identity['identity_id'], $update);
+                    }
                 }
             }
         }
