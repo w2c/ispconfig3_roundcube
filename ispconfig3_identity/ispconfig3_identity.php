@@ -47,7 +47,7 @@ class ispconfig3_identity extends rcube_plugin
             
             $this->soap->logout($session_id);
             // Still not set a user, return false
-            (empty($this->mail_user)) ? return false : return true;
+            return (empty($this->mail_user)) ? false : true;
         }
         catch (SoapFault $e) {
             $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
