@@ -1,0 +1,5 @@
+<?php
+// Set the below to true to update on first login
+// Setting $config['identities_level'] = 4 in your overall 
+// roundcube config will prohibt users updating this
+$config['force_name_update'] = false;
