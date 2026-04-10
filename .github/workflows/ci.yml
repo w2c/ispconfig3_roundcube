@@ -1,6 +1,9 @@
-name: tests
+name: CI
 
 on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: read
 
 jobs:
   lint:
@@ -8,18 +11,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.0', '7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0
         with:
           php-version: ${{ matrix.php }}
           ini-values: error_reporting=-1, display_errors=On, zend.assertions=1
           coverage: none
-          tools: cs2pr, phpcs
 
       - name: Lint PHP files
         run: find . -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
