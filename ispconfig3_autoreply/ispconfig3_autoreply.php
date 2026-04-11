@@ -57,7 +57,8 @@ class ispconfig3_autoreply extends rcube_plugin
     function save()
     {
         $enabled = rcube_utils::get_input_value('_autoreplyenabled', rcube_utils::INPUT_POST);
-        $body = rcube_utils::get_input_value('_autoreplybody', rcube_utils::INPUT_POST);
+        $htmlenabled = rcube_utils::get_input_value('_htmlenabled', rcube_utils::INPUT_POST);
+        $body = rcube_utils::get_input_value('_autoreplybody', rcube_utils::INPUT_POST,true);
         $subject = rcube_utils::get_input_value('_autoreplysubject', rcube_utils::INPUT_POST);
         $startdate = rcube_utils::get_input_value('_autoreplystarton', rcube_utils::INPUT_POST);
         $enddate = rcube_utils::get_input_value('_autoreplyendby', rcube_utils::INPUT_POST);
@@ -75,6 +76,7 @@ class ispconfig3_autoreply extends rcube_plugin
         }
 
         $enabled = (!$enabled) ? 'n' : 'y';
+        $htmlenabled = (!$htmlenabled) ? 'n' : 'y';
 
         try {
             $session_id = $this->soap->login($this->rcmail->config->get('remote_soap_user'), $this->rcmail->config->get('remote_soap_pass'));
@@ -112,6 +114,7 @@ class ispconfig3_autoreply extends rcube_plugin
             $params = $mail_user[0];
             unset($params['password']);
             $params['autoresponder'] = $enabled;
+            $params['autoresponder_html'] = $htmlenabled;
             $params['autoresponder_text'] = $body;
             $params['autoresponder_subject'] = $subject;
             $params['autoresponder_start_date'] = $startdate;
@@ -158,6 +161,7 @@ class ispconfig3_autoreply extends rcube_plugin
             $this->soap->logout($session_id);
 
             $enabled = $mail_user[0]['autoresponder'];
+            $htmlenabled = $mail_user[0]['autoresponder_html'];
         }
         catch (SoapFault $e) {
             $error = $this->rc->text_exists($e->getMessage(), $this->ID) ? $this->gettext($e->getMessage()) : $e->getMessage();
@@ -165,6 +169,8 @@ class ispconfig3_autoreply extends rcube_plugin
         }
 
         $enabled = ($enabled == 'y') ? 1 : 0;
+        $htmlenabled = ($htmlenabled == 'y') ? 1 : 0;
+        if($htmlenabled == 1) $this->include_script('../../program/js/tinymce/tinymce.min.js');
 
         if (empty($mail_user[0]['autoresponder_start_date']) ||
             $mail_user[0]['autoresponder_start_date'] == '0000-00-00 00:00:00') {
@@ -215,8 +221,15 @@ class ispconfig3_autoreply extends rcube_plugin
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('autoreplyenabled'))));
         $table->add('', $input_autoreplyenabled->show($enabled));
 
+        $field_id = 'htmlenabled';
+        $input_htmlenabled = new html_checkbox(array('name' =>  '_' . $field_id, 'id' => $field_id, 'value' => 1, onchange => "triggerSave()"));
+        $table->add('title', html::label($field_id, 'HTML'));
+        $table->add('', $input_htmlenabled->show($htmlenabled));
+
         $out .= $table->show();
         $out .= "</fieldset>\n";
+        $out .= "<script>function triggerSave(){ $('#rcmbtnfrm100').click(); }</script>\n";
+        if($htmlenabled == 1) $out .= "<script>tinymce.init({ selector: 'textarea#autoreplybody', menubar: false });</script>\n";
         $out .= '</form>';
 
         return $out;
