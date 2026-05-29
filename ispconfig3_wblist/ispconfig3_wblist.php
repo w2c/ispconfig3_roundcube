@@ -263,7 +263,10 @@ class ispconfig3_wblist extends rcube_plugin
 
         $field_id = 'wblistpriority';
         $input_wblistpriority = new html_select(['name' => '_' . $field_id, 'id' => $field_id]);
-        $input_wblistpriority->add(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+        $input_wblistpriority->add(
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        );
         $table->add('title', html::label($field_id, rcube::Q($this->gettext('wblistpriority'))));
         $table->add('', $input_wblistpriority->show($wblist[0]['priority'] ?? ''));
 
